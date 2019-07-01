@@ -1,6 +1,10 @@
 package cft.shift.manasyan.barter.models;
 
+import java.util.UUID;
+
 public class Offer {
+    private final String id = UUID.randomUUID().toString();
+
     private Person seller;
     private Person buyer;
     private Product offeredProduct;

@@ -1,18 +1,29 @@
 package cft.shift.manasyan.barter.models;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
+import java.util.LinkedList;
 import java.util.List;
 
 public class Person {
     private String name;
-    @Autowired
     private Backpack backpack;
-    private List<Product> offeredProducts;
+
+    //TODO mb it ll be better to wrap it into class
+    private List<Product> offeredProducts = new LinkedList<>();
 
     public Person(String name) {
         this.name = name;
-        this.offeredProducts = offeredProducts;
+        this.backpack = new Backpack();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public List<Product> getOfferedProducts() {
+        return offeredProducts;
+    }
+
+    public void addOfferedProduct(Product product){
+
+    }
 }

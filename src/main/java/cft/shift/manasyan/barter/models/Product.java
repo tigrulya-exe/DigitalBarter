@@ -3,20 +3,34 @@ package cft.shift.manasyan.barter.models;
 import java.util.UUID;
 
 public class Product {
-    // int for comparison speed
-    private final int typeId;
 
-    private final String globalId;
-    private String name;
-    private String pictureURL;
-
-    public Product(){
-        this.typeId = 1;
-        this.globalId = UUID.randomUUID().toString();
+    public enum ProductType{
+        FOOD,
+        FURNITURE,
+        CLOTHES,
+        TECHNIQUE,
+        // TODO: make types non discrete (just String)
     }
 
-    public int getTypeId() {
-        return typeId;
+    private ProductType type;
+
+    private final String globalId = UUID.randomUUID().toString();
+
+    private String name;
+
+    private String condition;
+
+    private String pictureURL;
+
+    public Product(ProductType type, String name, String condition) {
+        this.type = type;
+        this.name = name;
+        this.condition = condition;
+        // и заглушку какую нить для фотачки
+    }
+
+    public ProductType getType() {
+        return type;
     }
 
     public String getGlobalId() {
@@ -30,4 +44,9 @@ public class Product {
     public String getPictureURL() {
         return pictureURL;
     }
+
+    public String getCondition() {
+        return condition;
+    }
 }
+
