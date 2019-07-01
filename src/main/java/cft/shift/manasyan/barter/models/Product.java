@@ -5,7 +5,7 @@ import java.util.UUID;
 public class Product {
     // int for comparison speed
     private final int typeId;
-    
+
     private final String globalId;
     private String name;
     private String pictureURL;
