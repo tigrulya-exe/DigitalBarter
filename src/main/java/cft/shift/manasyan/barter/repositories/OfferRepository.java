@@ -12,6 +12,4 @@ public interface OfferRepository {
     void closeOffer(Offer offer);
 
     List<Offer> getOffers();
-
-
 }
