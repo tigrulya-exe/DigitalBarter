@@ -2,10 +2,13 @@ package cft.shift.manasyan.barter.models;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public class Person {
     private String name;
     private Backpack backpack;
+
+    private String uid = UUID.randomUUID().toString();
 
     //TODO mb it ll be better to wrap it into class
     private List<Product> offeredProducts = new LinkedList<>();
@@ -29,5 +32,9 @@ public class Person {
 
     public void putInBackpack(Product product){
         backpack.addProduct(product);
+    }
+
+    public String getUid(){
+        return uid;
     }
 }

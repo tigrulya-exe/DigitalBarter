@@ -3,11 +3,12 @@ package cft.shift.manasyan.barter.models;
 public class OfferResponse {
     private Person responseHolder;
     private Product responseProduct;
-    private boolean isActive;
+    private String id;
 
     public OfferResponse(Person responseHolder, Product responseProduct) {
         this.responseHolder = responseHolder;
         this.responseProduct = responseProduct;
+        this.id = responseHolder.getUid();
     }
 
     public Person getResponseHolder() {
@@ -18,9 +19,11 @@ public class OfferResponse {
         return responseProduct;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public void discard(){
         responseHolder.putInBackpack(responseProduct);
     }
-
-
 }

@@ -3,7 +3,7 @@ package cft.shift.manasyan.barter.models;
 public interface Offer {
     String getId();
 
-    void closeOffer();
+    void closeOffer(String responseId);
 
     Person getOfferHolder();
 
