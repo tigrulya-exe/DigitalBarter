@@ -24,6 +24,10 @@ public class Person {
     }
 
     public void addOfferedProduct(Product product){
+        offeredProducts.add(product);
+    }
 
+    public void putInBackpack(Product product){
+        backpack.addProduct(product);
     }
 }

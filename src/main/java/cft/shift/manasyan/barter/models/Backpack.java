@@ -17,6 +17,10 @@ public class Backpack {
         this.products = products;
     }
 
+    public void addProduct(Product product){
+        products.add(product);
+    }
+
     public boolean deleteProduct(Product product){
         return products.remove(product);
     }
