@@ -27,14 +27,15 @@ public class OfferGet implements Offer {
 
     @Override
     public String getId() {
-        return null;
+        return id;
     }
 
     @Override
     public void closeOffer(String responseId) {
-        for(Iterator<OfferResponse> iter = responses.iterator(); iter.hasNext();)
+        for(OfferResponse resp : responses)
         {
-
+            if(resp.getId() == responseId)
+                resp
         }
     }
 
