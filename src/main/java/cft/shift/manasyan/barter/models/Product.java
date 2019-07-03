@@ -15,8 +15,7 @@ public class Product {
 
     private ProductType type;
 
-    private final String globalId = UUID.randomUUID().toString();
-
+    private final String id = UUID.randomUUID().toString();
     private String name;
 
     //TODO put in context
@@ -24,19 +23,20 @@ public class Product {
 
     private URL pictureURL;
 
-    public Product(ProductType type, String name, String condition) {
+    public Product(ProductType type, String name, String condition, URL picURL) {
         this.type = type;
         this.name = name;
         this.condition = condition;
         // и заглушку какую нить для фотачки
+        this.pictureURL = picURL;
     }
 
     public ProductType getType() {
         return type;
     }
 
-    public String getGlobalId() {
-        return globalId;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -50,5 +50,9 @@ public class Product {
     public String getCondition() {
         return condition;
     }
+    public void setType(ProductType newtype){type = newtype;}
+    public void setName(String newname){name = newname;}
+    public void setCondition(String newcond){condition = newcond;}
+    public void setPictureURL(URL newpic){pictureURL = newpic;}
 }
 

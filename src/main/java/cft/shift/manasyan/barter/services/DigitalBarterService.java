@@ -1,8 +1,6 @@
 package cft.shift.manasyan.barter.services;
 
-import cft.shift.manasyan.barter.models.Offer;
-import cft.shift.manasyan.barter.models.OfferResponse;
-import cft.shift.manasyan.barter.models.Person;
+import cft.shift.manasyan.barter.models.*;
 import cft.shift.manasyan.barter.repositories.BarterOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,14 +24,6 @@ public class DigitalBarterService {
         this.persons = new HashMap<>();
     }
 
-    public void addDesire(Offer desire){
-        desiresRepository.addOffer(desire);
-    }
-
-    public void addSuggest(Offer suggest){
-         suggestionsRepository.addOffer(suggest);
-    }
-
     public List<Offer> getDesires() {
         return desiresRepository.getOffers();
     }
@@ -50,24 +40,76 @@ public class DigitalBarterService {
         return persons.get(userId);
     }
 
-    public Offer getDesire(String offerId){
-        return desiresRepository.getOffer(offerId);
+    public void acceptDesire(String offerId, String responseId){
+        acceptOffer(offerId, responseId, desiresRepository);
     }
 
-    public Offer getSuggestion(String offerId){
-        return suggestionsRepository.getOffer(offerId);
+    public void acceptSuggestion(String offerId, String responseId){
+        acceptOffer(offerId, responseId, suggestionsRepository);
     }
 
-    public void closeDesire(String offerId, String responseId){
-        closeOffer(offerId, responseId, desiresRepository);
+    public  Offer createSuggestion(String userId, String productId){
+        Offer suggestion = createOffer(userId, productId);
+        //TODO сделать покрасивше
+        suggestion.getOfferHolder().getUserOffers().addSuggestion(suggestion);
+        suggestionsRepository.addOffer(suggestion);
+        return suggestion;
     }
 
-    public void closeSuggest(String offerId, String responseId){
-        closeOffer(offerId, responseId, suggestionsRepository);
+    public Offer createDesire(String userId, String productId) {
+        Offer desire = createOffer(userId, productId);
+        //TODO сделать покрасивше
+        desire.getOfferHolder().getUserOffers().addDesire(desire);
+        desiresRepository.addOffer(desire);
+        return desire;
     }
 
-    private void closeOffer(String offerId, String responseId, BarterOfferRepository barterOfferRepository){
+    public Person createUser(String userName){
+        Person user = new Person(userName);
+        addUser(user);
+        return user;
+    }
+
+    public void addUser(Person person){
+        persons.put(person.getUid(),person);
+    }
+
+    public void handleSuggestResponseEvent(String offerId, String userId, String productId){
+        Person owner = persons.get(userId) ;
+        Offer suggestion = suggestionsRepository.getOffer(offerId);
+        Product product = owner.getBackpack().getProduct(productId);
+        suggestion.registerOfferResponse(owner, product);
+    }
+
+    //TODO check!!
+    public void handleDesireResponseEvent(String offerId, String userId){
+        Person owner = persons.get(userId);
+        Offer desire = desiresRepository.getOffer(offerId);
+        Product product = desire.getOfferProduct();
+        desire.registerOfferResponse(owner , product);
+    }
+
+    public void putProductInBackpack(String userId, Product product){
+        Backpack backpack =  persons.get(userId).getBackpack();
+        backpack.putProduct(product);
+    }
+
+    private Offer createOffer(String userId, String productId){
+        Person person = persons.get(userId);
+        Product product = person.getBackpack().getProduct(productId);
+        return new Offer(product, person);
+    }
+
+    private void acceptOffer(String offerId, String responseId, BarterOfferRepository barterOfferRepository){
         Offer offer = barterOfferRepository.getOffer(offerId);
-//        OfferResponse offerResponse =
+        OfferResponse offerResponse = offer.getOfferResponse(responseId);
+        barterOfferRepository.closeOffer(offerId);
+
+        Person offerHolder = offer.getOfferHolder();
+        Person responseHolder = offerResponse.getResponseHolder();
+
+        offerHolder.getBackpack().putProduct(offerResponse.getResponseProduct());
+        responseHolder.getBackpack().putProduct(offer.getOfferProduct());
     }
+
 }

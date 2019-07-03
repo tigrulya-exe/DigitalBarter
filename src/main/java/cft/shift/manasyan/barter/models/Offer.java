@@ -21,7 +21,7 @@ public class Offer {
         {
             System.out.println("Bad data in Offer constructor");
         }
-        id = own.getUid() + prod.getGlobalId();/*unique id - concatenation person id and product id */
+        id = own.getUid() + prod.getId();/*unique id - concatenation person id and product id */
     }
 
 
@@ -36,7 +36,7 @@ public class Offer {
             String key = entry.getKey();
             OfferResponse resp = entry.getValue();
             if(key.equals(responseId))/*accept response with argument id*/
-                resp.accept();
+                resp.accept(owner, ownerProduct);
             else
                 resp.discard();
             responses.remove(key);/*delete response after accepting or discarding*/
@@ -49,7 +49,7 @@ public class Offer {
     }
 
 
-    public Product getOfferHolderProduct() {
+    public Product getOfferProduct() {
         return ownerProduct;
     }
 
@@ -66,5 +66,9 @@ public class Offer {
         }
         OfferResponse newResponse = new OfferResponse(answerer, answererProduct);
         responses.put(newResponse.getId(), newResponse);/*add new response to list of responses of this offer*/
+    }
+
+    public OfferResponse getOfferResponse(String responseId){
+        return responses.get(responseId);
     }
 }

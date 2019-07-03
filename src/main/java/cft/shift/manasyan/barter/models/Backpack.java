@@ -17,7 +17,7 @@ public class Backpack {
     }
 
     public void addProduct(Product product){
-        products.put(product.getGlobalId() , product);
+        products.put(product.getId() , product);
     }
 
     public void deleteProduct(String productId){
@@ -29,7 +29,7 @@ public class Backpack {
     }
 
     public void putProduct(Product product){
-        products.put(product.getGlobalId(), product);
+        products.put(product.getId(), product);
     }
 
     public Product getProduct(String productId){

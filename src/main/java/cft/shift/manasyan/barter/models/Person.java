@@ -10,8 +10,7 @@ public class Person {
 
     private String uid = UUID.randomUUID().toString();
 
-    //TODO mb it ll be better to wrap it into class
-    private List<Product> offeredProducts = new LinkedList<>();
+    private UserOffers userOffers;
 
     public Person(String name) {
         this.name = name;
@@ -22,16 +21,8 @@ public class Person {
         return name;
     }
 
-    public List<Product> getOfferedProducts() {
-        return offeredProducts;
-    }
-
-    public void addOfferedProduct(Product product){
-        offeredProducts.add(product);
-    }
-
-    public void putInBackpack(Product product){
-        backpack.addProduct(product);
+    public UserOffers getUserOffers() {
+        return userOffers;
     }
 
     public String getUid(){

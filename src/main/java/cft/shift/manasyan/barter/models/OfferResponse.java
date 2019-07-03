@@ -4,7 +4,7 @@ public class OfferResponse {
     private Person responseHolder;
     private Product responseProduct;
     private String id;
-
+    /*One offer can have only one response by one person. Thus response id is equal to holder id.*/
     public OfferResponse(Person responseHolder, Product responseProduct) {
         this.responseHolder = responseHolder;
         this.responseProduct = responseProduct;
@@ -23,9 +23,14 @@ public class OfferResponse {
         return id;
     }
 
-    public void accept(){};
+    public void accept(Person offerOwner, Product offerOwnerProduct)
+    {
+        offerOwner.getBackpack().addProduct(responseProduct);
+        responseProduct = null;
+        responseHolder.getBackpack().addProduct(offerOwnerProduct);
+    }
 
     public void discard(){
-        responseHolder.putInBackpack(responseProduct);
+        responseHolder.getBackpack().addProduct(responseProduct);
     }
 }
