@@ -6,10 +6,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OfferRepository<T extends Offer> {
-    void addOffer(T offer);
+public interface OfferRepository{
+    void addOffer(Offer offer);
 
-    void closeOffer(T offer);
+    void closeOffer(String offerId);
 
-    List<T> getOffers();
+    List<Offer> getOffers();
+
+    Offer getOffer(String offerId);
 }

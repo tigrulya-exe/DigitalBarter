@@ -7,20 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DigitalBarterService {
-    private BarterOfferRepository<Offer> desiresRepository;
-    private BarterOfferRepository<Offer> suggestsRepository;
+    private BarterOfferRepository desiresRepository;
+    private BarterOfferRepository suggestsRepository;
 
-    private List<Person> persons;
+    private Map<String, Person> persons;
 
     @Autowired
-    public DigitalBarterService(BarterOfferRepository<Offer> desiresRepository, BarterOfferRepository<Offer> suggestsRepository) {
+    public DigitalBarterService(BarterOfferRepository desiresRepository, BarterOfferRepository suggestsRepository) {
         this.desiresRepository = desiresRepository;
         this.suggestsRepository = suggestsRepository;
-        this.persons = new ArrayList<>();
+        this.persons = new HashMap<>();
     }
 
     public void addDesire(Offer desire){
@@ -40,10 +42,14 @@ public class DigitalBarterService {
     }
 
     public List<Person> getPersons() {
-        return persons;
+        return new ArrayList<>(persons.values());
     }
 
-    public Person getPerson(String name){
-        return null;
+    public Person getPerson(String userId){
+        return persons.get(userId);
+    }
+
+    public Offer getDesire(String offerId){
+        return desiresRepository.getOffer(offerId);
     }
 }

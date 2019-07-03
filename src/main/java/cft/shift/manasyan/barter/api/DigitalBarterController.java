@@ -1,6 +1,9 @@
 package cft.shift.manasyan.barter.api;
 
+import cft.shift.manasyan.barter.models.Backpack;
 import cft.shift.manasyan.barter.models.Offer;
+import cft.shift.manasyan.barter.models.Person;
+import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.services.DigitalBarterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +20,7 @@ public class DigitalBarterController {
 
     @GetMapping(BARTER_PATH + "desires")
     public ResponseEntity<List<Offer>> getDesires(
-            @RequestHeader("userName") String userName
-    ){
+            @RequestHeader("userName") String userName){
         return ResponseEntity.ok(digitalBarterService.getDesires());
     }
 
@@ -31,5 +33,16 @@ public class DigitalBarterController {
     public ResponseEntity<Backpack> getBackpack(@PathVariable String userName){
         return null;
     }
+
+    @PostMapping (BARTER_PATH + "/desireResponseEvent/{offerId}")
+    public ResponseEntity<?> handleDesireResponseEvent(@PathVariable String offerId,
+                                                       @RequestHeader("userId") String userId) {
+        Person owner = digitalBarterService.getPerson(userId);
+        Offer desire = digitalBarterService.getDesire(offerId);
+        Product product = desire.getOfferHolderProduct();
+        desire.registerOfferResponse(owner , product);
+        return ResponseEntity.ok().build();
+    }
+
 
 }
