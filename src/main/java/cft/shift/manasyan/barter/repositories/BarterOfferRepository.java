@@ -8,31 +8,31 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class BarterOfferRepository implements OfferRepository {
-    private List<Offer> offers;
+public class BarterOfferRepository<T extends Offer> implements OfferRepository<T> {
+    private List<T> offers;
 
     private BarterOfferRepository(){
         this.offers = new LinkedList<>();
     }
 
-    private BarterOfferRepository(List<Offer> offers){
+    private BarterOfferRepository(List<T> offers){
         this.offers = offers;
     }
 
     @Override
-    public void addOffer(Offer offer) {
+    public void addOffer(T offer) {
         offers.add(offer);
     }
 
     @Override
-    public void closeOffer(Offer offer) {
+    public void closeOffer(T offer) {
         if (!offers.remove(offer)){
             throw new NotFoundException();
         }
     }
 
     @Override
-    public List<Offer> getOffers() {
-        return null;
+    public List<T> getOffers() {
+        return offers;
     }
 }

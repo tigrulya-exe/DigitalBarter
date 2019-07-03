@@ -1,21 +1,22 @@
 package cft.shift.manasyan.barter.services;
 
-import cft.shift.manasyan.barter.models.Offer;
 import cft.shift.manasyan.barter.models.OfferGet;
 import cft.shift.manasyan.barter.models.OfferGive;
 import cft.shift.manasyan.barter.repositories.BarterOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DigitalBarterService {
-    private BarterOfferRepository desiresRepository;
-    private BarterOfferRepository suggestsReposirtory;
+    private BarterOfferRepository<OfferGet> desiresRepository;
+    private BarterOfferRepository<OfferGive> suggestsRepository;
 
     @Autowired
-    public DigitalBarterService(BarterOfferRepository desiresRepository, BarterOfferRepository suggestsReposirtory) {
+    public DigitalBarterService(BarterOfferRepository<OfferGet> desiresRepository, BarterOfferRepository<OfferGive> suggestsRepository) {
         this.desiresRepository = desiresRepository;
-        this.suggestsReposirtory = suggestsReposirtory;
+        this.suggestsRepository = suggestsRepository;
     }
 
     public void addDesire(OfferGet desire){
@@ -23,6 +24,14 @@ public class DigitalBarterService {
     }
 
     public void addSuggest(OfferGive suggest){
-         suggestsReposirtory.addOffer(suggest);
+         suggestsRepository.addOffer(suggest);
+    }
+
+    public List<OfferGet> getDesires() {
+        return desiresRepository.getOffers();
+    }
+
+    public List<OfferGive> getSuggests() {
+        return suggestsRepository.getOffers();
     }
 }
