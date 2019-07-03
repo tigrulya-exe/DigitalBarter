@@ -21,7 +21,7 @@ public class Offer {
         {
             System.out.println("Bad data in Offer constructor");
         }
-        id = own.getUid() + prod.getGlobalId();/*unique id - concatenation person id and product id */
+        id = own.getUid() + prod.getId();/*unique id - concatenation person id and product id */
     }
 
 

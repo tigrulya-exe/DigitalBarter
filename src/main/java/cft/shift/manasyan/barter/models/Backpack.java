@@ -26,6 +26,14 @@ public class Backpack {
     }
 
     public void deleteProduct(Product product){
+        try {
+            if (product == null)
+                throw new Exception();
+        }
+        catch(Exception e)
+        {
+            System.out.println("deleteProduct incorrect argument");
+        }
         products.remove(product.getId());
     }
 

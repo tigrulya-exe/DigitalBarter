@@ -25,12 +25,12 @@ public class OfferResponse {
 
     public void accept(Person offerOwner, Product offerOwnerProduct)
     {
-        offerOwner.putInBackpack(responseProduct);
+        offerOwner.getBackpack().addProduct(responseProduct);
         responseProduct = null;
-        responseHolder.putInBackpack(offerOwnerProduct);
+        responseHolder.getBackpack().addProduct(offerOwnerProduct);
     }
 
     public void discard(){
-        responseHolder.putInBackpack(responseProduct);
+        responseHolder.getBackpack().addProduct(responseProduct);
     }
 }

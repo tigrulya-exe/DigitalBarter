@@ -16,7 +16,6 @@ public class Product {
     private ProductType type;
 
     private final String id = UUID.randomUUID().toString();
-
     private String name;
 
     //TODO put in context
@@ -51,5 +50,9 @@ public class Product {
     public String getCondition() {
         return condition;
     }
+    public void setType(ProductType newtype){type = newtype;}
+    public void setName(String newname){name = newname;}
+    public void setCondition(String newcond){condition = newcond;}
+    public void setPictureURL(URL newpic){pictureURL = newpic;}
 }
 

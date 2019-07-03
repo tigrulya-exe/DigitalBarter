@@ -33,10 +33,6 @@ public class Person {
         offeredProducts.add(product);
     }
 
-    public void putInBackpack(Product product){
-        backpack.addProduct(product);
-    }
-
     public String getUid(){
         return uid;
     }
