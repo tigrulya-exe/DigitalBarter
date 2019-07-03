@@ -1,12 +1,13 @@
 package cft.shift.manasyan.barter.models;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 /*class of type "I want it" */
 public class OfferGet implements Offer {
     private Product ownerProduct = null;
     private Person owner = null;
-    private List<OfferResponse> responses = null;
+    private HashMap<String, OfferResponse> responses = null;
     private String id = null;
 
     public OfferGet(Product prod, Person own)
@@ -32,10 +33,15 @@ public class OfferGet implements Offer {
 
     @Override
     public void closeOffer(String responseId) {
-        for(OfferResponse resp : responses)
+        for(HashMap.Entry<String, OfferResponse> entry : responses.entrySet())
         {
-            if(resp.getId() == responseId)
-                resp
+            String key = entry.getKey();
+            OfferResponse resp = entry.getValue();
+            if(key.equals(responseId))/*accept response with argument id*/
+                resp.accept();
+            else
+                resp.discard();
+            responses.remove(key);/*delete response after accepting or discarding*/
         }
     }
 
