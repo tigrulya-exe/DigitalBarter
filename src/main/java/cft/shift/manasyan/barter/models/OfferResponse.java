@@ -23,6 +23,8 @@ public class OfferResponse {
         return id;
     }
 
+    public void accept(){};
+
     public void discard(){
         responseHolder.putInBackpack(responseProduct);
     }

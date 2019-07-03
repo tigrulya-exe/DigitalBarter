@@ -1,5 +1,6 @@
 package cft.shift.manasyan.barter.models;
 
+import java.net.URL;
 import java.util.UUID;
 
 public class Product {
@@ -21,7 +22,7 @@ public class Product {
     //TODO put in context
     private String condition;
 
-    private String pictureURL;
+    private URL pictureURL;
 
     public Product(ProductType type, String name, String condition) {
         this.type = type;
@@ -42,7 +43,7 @@ public class Product {
         return name;
     }
 
-    public String getPictureURL() {
+    public URL getPictureURL() {
         return pictureURL;
     }
 
