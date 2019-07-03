@@ -36,7 +36,7 @@ public class Offer {
             String key = entry.getKey();
             OfferResponse resp = entry.getValue();
             if(key.equals(responseId))/*accept response with argument id*/
-                resp.accept();
+                resp.accept(owner, ownerProduct);
             else
                 resp.discard();
             responses.remove(key);/*delete response after accepting or discarding*/

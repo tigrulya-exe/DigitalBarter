@@ -17,7 +17,10 @@ public class Person {
         this.name = name;
         this.backpack = new Backpack();
     }
-
+    public Backpack getBackpack()
+    {
+        return backpack;
+    }
     public String getName() {
         return name;
     }
