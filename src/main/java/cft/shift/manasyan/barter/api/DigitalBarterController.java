@@ -19,8 +19,7 @@ public class DigitalBarterController {
     private DigitalBarterService digitalBarterService;
 
     @GetMapping(BARTER_PATH + "desires")
-    public ResponseEntity<List<Offer>> getDesires(
-            @RequestHeader("userName") String userName){
+    public ResponseEntity<List<Offer>> getDesires(){
         return ResponseEntity.ok(digitalBarterService.getDesires());
     }
 
@@ -29,20 +28,34 @@ public class DigitalBarterController {
         return ResponseEntity.ok(digitalBarterService.getSuggests());
     }
 
-    @GetMapping(BARTER_PATH + "/backpack/{userId}")
-    public ResponseEntity<Backpack> getBackpack(@PathVariable String userName){
-        return null;
+    @GetMapping(BARTER_PATH + "/{userId}/backpack")
+    public ResponseEntity<Backpack> getBackpack(@PathVariable String userId){
+        Backpack backpack =  digitalBarterService.getPerson(userId).getBackpack();
+        return ResponseEntity.ok(backpack);
     }
 
-    @PostMapping (BARTER_PATH + "/desireResponseEvent/{offerId}")
-    public ResponseEntity<?> handleDesireResponseEvent(@PathVariable String offerId,
-                                                       @RequestHeader("userId") String userId) {
+    @PostMapping (BARTER_PATH + "/{offerId}/desireResponseEvent")
+    public ResponseEntity<?> handleDesireResponseEvent(
+            @PathVariable String offerId,
+            @RequestHeader("userId") String userId) {
         Person owner = digitalBarterService.getPerson(userId);
         Offer desire = digitalBarterService.getDesire(offerId);
         Product product = desire.getOfferHolderProduct();
         desire.registerOfferResponse(owner , product);
+
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping (BARTER_PATH + "/{offerId}/desireResponseEvent")
+    public ResponseEntity<?> handleSuggestResponseEvent(
+            @PathVariable String offerId,
+            @RequestHeader("userId") String userId,
+            @RequestHeader("productId") String productId){
+        Person owner = digitalBarterService.getPerson(userId);
+        Offer suggestion = digitalBarterService.getSuggestion(offerId);
+        Product product = owner.getBackpack().getProduct(productId);
+        suggestion.registerOfferResponse(owner, product);
 
+        return ResponseEntity.ok().build();
+    }
 }

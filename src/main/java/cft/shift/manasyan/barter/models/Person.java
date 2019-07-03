@@ -37,4 +37,8 @@ public class Person {
     public String getUid(){
         return uid;
     }
+
+    public Backpack getBackpack(){
+        return backpack;
+    }
 }

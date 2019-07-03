@@ -14,14 +14,14 @@ import java.util.Map;
 @Service
 public class DigitalBarterService {
     private BarterOfferRepository desiresRepository;
-    private BarterOfferRepository suggestsRepository;
+    private BarterOfferRepository suggestionsRepository;
 
     private Map<String, Person> persons;
 
     @Autowired
-    public DigitalBarterService(BarterOfferRepository desiresRepository, BarterOfferRepository suggestsRepository) {
+    public DigitalBarterService(BarterOfferRepository desiresRepository, BarterOfferRepository suggestionsRepository) {
         this.desiresRepository = desiresRepository;
-        this.suggestsRepository = suggestsRepository;
+        this.suggestionsRepository = suggestionsRepository;
         this.persons = new HashMap<>();
     }
 
@@ -30,7 +30,7 @@ public class DigitalBarterService {
     }
 
     public void addSuggest(Offer suggest){
-         suggestsRepository.addOffer(suggest);
+         suggestionsRepository.addOffer(suggest);
     }
 
     public List<Offer> getDesires() {
@@ -38,7 +38,7 @@ public class DigitalBarterService {
     }
 
     public List<Offer> getSuggests() {
-        return suggestsRepository.getOffers();
+        return suggestionsRepository.getOffers();
     }
 
     public List<Person> getPersons() {
@@ -51,5 +51,9 @@ public class DigitalBarterService {
 
     public Offer getDesire(String offerId){
         return desiresRepository.getOffer(offerId);
+    }
+
+    public Offer getSuggestion(String offerId){
+        return suggestionsRepository.getOffer(offerId);
     }
 }

@@ -2,30 +2,35 @@ package cft.shift.manasyan.barter.models;
 
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class Backpack {
-    private List<Product> products;
+    private Map<String, Product> products;
 
     public Backpack(){
-        this.products = new LinkedList<>();
+        this.products = new HashMap<>();
     }
 
-    public Backpack(List<Product> products){
+    public Backpack(Map<String, Product> products){
         this.products = products;
     }
 
     public void addProduct(Product product){
-        products.add(product);
+        products.put(product.getGlobalId() , product);
     }
 
-    public boolean deleteProduct(Product product){
-        return products.remove(product);
+    public void deleteProduct(String productId){
+        products.remove(productId);
     }
 
     public List<Product> getProducts() {
-        return products;
+        return new ArrayList<>(products.values()) ;
+    }
+
+    public Product getProduct(String productId){
+        Product product = products.get(productId);
+        deleteProduct(productId);
+        return product;
     }
 }
