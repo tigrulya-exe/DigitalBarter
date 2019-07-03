@@ -18,6 +18,7 @@ public class Product {
 
     private String name;
 
+    //TODO put in context
     private String condition;
 
     private String pictureURL;

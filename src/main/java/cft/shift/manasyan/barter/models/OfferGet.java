@@ -32,11 +32,7 @@ public class OfferGet implements Offer {
 
     @Override
     public void closeOffer(String responseId) {
-        for(OfferResponse resp : responses)
-        {
-            if(resp.getId() == responseId)
-                resp
-        }
+
     }
 
     @Override
