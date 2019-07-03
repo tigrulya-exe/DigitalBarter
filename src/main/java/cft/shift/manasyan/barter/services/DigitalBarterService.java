@@ -1,6 +1,7 @@
 package cft.shift.manasyan.barter.services;
 
 import cft.shift.manasyan.barter.models.Offer;
+import cft.shift.manasyan.barter.models.OfferResponse;
 import cft.shift.manasyan.barter.models.Person;
 import cft.shift.manasyan.barter.repositories.BarterOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,18 @@ public class DigitalBarterService {
 
     public Offer getSuggestion(String offerId){
         return suggestionsRepository.getOffer(offerId);
+    }
+
+    public void closeDesire(String offerId, String responseId){
+        closeOffer(offerId, responseId, desiresRepository);
+    }
+
+    public void closeSuggest(String offerId, String responseId){
+        closeOffer(offerId, responseId, suggestionsRepository);
+    }
+
+    private void closeOffer(String offerId, String responseId, BarterOfferRepository barterOfferRepository){
+        Offer offer = barterOfferRepository.getOffer(offerId);
+//        OfferResponse offerResponse =
     }
 }

@@ -28,6 +28,10 @@ public class Backpack {
         return new ArrayList<>(products.values()) ;
     }
 
+    public void putProduct(Product product){
+        products.put(product.getGlobalId(), product);
+    }
+
     public Product getProduct(String productId){
         Product product = products.get(productId);
         deleteProduct(productId);

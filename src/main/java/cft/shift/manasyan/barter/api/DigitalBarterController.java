@@ -34,7 +34,7 @@ public class DigitalBarterController {
         return ResponseEntity.ok(backpack);
     }
 
-    @PostMapping (BARTER_PATH + "/{offerId}/desireResponseEvent")
+    @PostMapping (BARTER_PATH + "/{offerId}/desireResponse")
     public ResponseEntity<?> handleDesireResponseEvent(
             @PathVariable String offerId,
             @RequestHeader("userId") String userId) {
@@ -46,7 +46,7 @@ public class DigitalBarterController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping (BARTER_PATH + "/{offerId}/desireResponseEvent")
+    @PostMapping (BARTER_PATH + "/{offerId}/suggestResponse")
     public ResponseEntity<?> handleSuggestResponseEvent(
             @PathVariable String offerId,
             @RequestHeader("userId") String userId,
@@ -57,5 +57,27 @@ public class DigitalBarterController {
         suggestion.registerOfferResponse(owner, product);
 
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping (BARTER_PATH + "/{userId}/backpack")
+    public ResponseEntity<Product> putProductInBackpack(
+            @PathVariable String userId,
+            @RequestBody Product product){
+        Backpack backpack =  digitalBarterService.getPerson(userId).getBackpack();
+        backpack.putProduct(product);
+
+        return ResponseEntity.ok(product);
+    }
+
+    @PostMapping (BARTER_PATH + "/{offerId}/closeDesire")
+    public ResponseEntity<?> closeOffer(
+            @PathVariable String offerId,
+            @RequestHeader("responseId") String responseId){
+        return null;
+    }
+
+    @PostMapping (BARTER_PATH + "/{offerId}/closeSuggest")
+    public ResponseEntity<?> closeOffer(@PathVariable String offerId){
+        return null;
     }
 }
