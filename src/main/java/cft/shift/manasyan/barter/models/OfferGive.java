@@ -22,7 +22,7 @@ public class OfferGive implements Offer{
     }
 
     @Override
-    public void registerOfferResponse() {
+    public void registerOfferResponse(Person answerer, Product answererProduct) {
 
     }
 }

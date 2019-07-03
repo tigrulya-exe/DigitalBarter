@@ -9,5 +9,5 @@ public interface Offer {
 
     Product getOfferHolderProduct();
 
-    void registerOfferResponse();
+    void registerOfferResponse(Person answerer, Product answererProduct);
 }

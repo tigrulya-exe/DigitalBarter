@@ -7,7 +7,7 @@ import java.util.List;
 public class OfferGet implements Offer {
     private Product ownerProduct = null;
     private Person owner = null;
-    private HashMap<String, OfferResponse> responses = null;
+    private HashMap<String, OfferResponse> responses = null;/*list of responses to current offer*/
     private String id = null;
 
     public OfferGet(Product prod, Person own)
@@ -47,16 +47,26 @@ public class OfferGet implements Offer {
 
     @Override
     public Person getOfferHolder() {
-        return null;
+        return owner;
     }
 
     @Override
     public Product getOfferHolderProduct() {
-        return null;
+        return ownerProduct;
     }
 
     @Override
-    public void registerOfferResponse() {
-
+    public void registerOfferResponse(Person answerer, Product answererProduct)
+    {
+        try{
+        if(answerer == null || answererProduct == null)
+            throw new Exception();
+        }
+        catch(Exception e)
+        {
+            System.out.println("registerOfferResponse had incorrect data");
+        }
+        OfferResponse newResponse = new OfferResponse(answerer, answererProduct);
+        responses.put(newResponse.getId(), newResponse);/*add new response to list of responses of this offer*/
     }
 }
