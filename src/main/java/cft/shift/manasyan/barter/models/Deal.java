@@ -1,5 +1,7 @@
 package cft.shift.manasyan.barter.models;
 
+import cft.shift.manasyan.barter.models.dtos.OfferDTO;
+
 import java.util.HashMap;
 /*class of offer. It could be "I want it" or "I want to change it for something"*/
 public class Deal {
@@ -7,7 +9,7 @@ public class Deal {
     private User dealHolder = null;
     private HashMap<String, DealResponse> responses = null;/*list of responses to current offer*/
     private String id = null;
-
+    private String description = null;
     public enum DealType {
         DESIRE,
         OFFER
@@ -15,11 +17,13 @@ public class Deal {
 
     private DealType type;
 
-    public Deal(Product prod, User own, DealType type)
+    public Deal(Product prod, User own, DealType type, String description)
     {
         this.type = type;
-        this.dealProduct = prod;
         this.dealHolder = own;
+        dealHolder.getBackpack().deleteProduct(prod.getId());
+        this.dealProduct = prod;
+        this.description = description;
 
         try/*checking of correction of data*/
         {
@@ -31,6 +35,14 @@ public class Deal {
             System.out.println("Bad data in Deal constructor");
         }
         id = own.getUid() + prod.getId();/*unique id - concatenation person id and dealProduct id */
+    }
+    public Deal(OfferDTO root, User user)
+    {
+        this.dealProduct = user.getBackpack().getProduct(root.getProductId());
+        this.dealHolder = user;
+        this.description = root.getDescription();
+        this.type = DealType.OFFER;
+        this.id = user.getUid() + dealProduct.getId();
     }
 
     public DealType getType() {
@@ -54,6 +66,9 @@ public class Deal {
         }
     }
 
+    public String getDescription() {
+        return description;
+    }
 
     public User getDealHolder() {
         return dealHolder;
