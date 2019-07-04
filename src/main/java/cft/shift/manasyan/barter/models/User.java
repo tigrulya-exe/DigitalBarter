@@ -1,18 +1,16 @@
 package cft.shift.manasyan.barter.models;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
-public class Person {
+public class User {
     private String name;
     private Backpack backpack;
 
     private String uid = UUID.randomUUID().toString();
 
-    private UserOffers userOffers;
+    private UserDeals userDeals;
 
-    public Person(String name) {
+    public User(String name) {
         this.name = name;
         this.backpack = new Backpack();
     }
@@ -21,8 +19,8 @@ public class Person {
         return name;
     }
 
-    public UserOffers getUserOffers() {
-        return userOffers;
+    public UserDeals getUserDeals() {
+        return userDeals;
     }
 
     public String getUid(){

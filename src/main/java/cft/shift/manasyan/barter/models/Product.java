@@ -16,6 +16,7 @@ public class Product {
     private ProductType type;
 
     private final String id = UUID.randomUUID().toString();
+
     private String name;
 
     //TODO put in context

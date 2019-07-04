@@ -1,17 +1,17 @@
 package cft.shift.manasyan.barter.models;
 
-public class OfferResponse {
-    private Person responseHolder;
+public class DealResponse {
+    private User responseHolder;
     private Product responseProduct;
     private String id;
-    /*One offer can have only one response by one person. Thus response id is equal to holder id.*/
-    public OfferResponse(Person responseHolder, Product responseProduct) {
+    /*One deal can have only one response by one person. Thus response id is equal to holder id.*/
+    public DealResponse(User responseHolder, Product responseProduct) {
         this.responseHolder = responseHolder;
         this.responseProduct = responseProduct;
         this.id = responseHolder.getUid();
     }
 
-    public Person getResponseHolder() {
+    public User getResponseHolder() {
         return responseHolder;
     }
 
@@ -23,11 +23,11 @@ public class OfferResponse {
         return id;
     }
 
-    public void accept(Person offerOwner, Product offerOwnerProduct)
+    public void accept(User dealOwner, Product dealOwnerProduct)
     {
-        offerOwner.getBackpack().addProduct(responseProduct);
+        dealOwner.getBackpack().addProduct(responseProduct);
         responseProduct = null;
-        responseHolder.getBackpack().addProduct(offerOwnerProduct);
+        responseHolder.getBackpack().addProduct(dealOwnerProduct);
     }
 
     public void discard(){

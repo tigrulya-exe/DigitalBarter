@@ -1,8 +1,8 @@
 package cft.shift.manasyan.barter.api;
 
 import cft.shift.manasyan.barter.models.Backpack;
-import cft.shift.manasyan.barter.models.Offer;
-import cft.shift.manasyan.barter.models.Person;
+import cft.shift.manasyan.barter.models.Deal;
+import cft.shift.manasyan.barter.models.User;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.services.DigitalBarterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,45 +27,45 @@ public class DigitalBarterController {
     private DigitalBarterService digitalBarterService;
 
     @GetMapping(BARTER_PATH + "/desires")
-    public ResponseEntity<List<Offer>> getDesires(){
+    public ResponseEntity<List<Deal>> getDesires(){
         return ResponseEntity.ok(digitalBarterService.getDesires());
     }
 
     @GetMapping(BARTER_PATH + "/suggestions")
-    public ResponseEntity<List<Offer>> getSuggests(){
+    public ResponseEntity<List<Deal>> getSuggests(){
         return ResponseEntity.ok(digitalBarterService.getSuggests());
     }
 
     @GetMapping(BARTER_PATH + "/{userId}/backpack")
-    public ResponseEntity<Backpack> getBackpack(@PathVariable String userId){
+    public ResponseEntity<List<Product>> getBackpack(@PathVariable String userId){
 
         Backpack backpack =  digitalBarterService.getPerson(userId).getBackpack();
-        return ResponseEntity.ok(backpack);
+        return ResponseEntity.ok(backpack.getProducts());
     }
 
     @PostMapping (BARTER_PATH + "/login")
     public ResponseEntity<LoginHelper> registerUser(@RequestHeader("userName") String userName){
 
-        Person user = digitalBarterService.createUser(userName);
+        User user = digitalBarterService.createUser(userName);
         return ResponseEntity.ok(new LoginHelper(user.getUid()));
     }
 
-    @PostMapping (BARTER_PATH + "/{offerId}/desireResponse")
+    @PostMapping (BARTER_PATH + "/{dealId}/desireResponse")
     public ResponseEntity<?> handleDesireResponseEvent(
-            @PathVariable String offerId,
+            @PathVariable String dealId,
             @RequestHeader("userId") String userId) {
 
-        digitalBarterService.handleDesireResponseEvent(offerId,userId);
+        digitalBarterService.handleDesireResponseEvent(dealId,userId);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping (BARTER_PATH + "/{offerId}/suggestResponse")
+    @PostMapping (BARTER_PATH + "/{dealId}/suggestResponse")
     public ResponseEntity<?> handleSuggestResponseEvent(
-            @PathVariable String offerId,
+            @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
-        digitalBarterService.handleSuggestResponseEvent(offerId,userId,productId);
+        digitalBarterService.handleSuggestResponseEvent(dealId,userId,productId);
         return ResponseEntity.ok().build();
     }
 
@@ -78,40 +78,40 @@ public class DigitalBarterController {
         return ResponseEntity.ok(product);
     }
 
-    @PostMapping (BARTER_PATH + "/{offerId}/acceptDesire")
+    @PostMapping (BARTER_PATH + "/{dealId}/acceptDesire")
     public ResponseEntity<?> acceptDesire(
-            @PathVariable String offerId,
+            @PathVariable String dealId,
             @RequestHeader("responseId") String responseId){
 
-        digitalBarterService.acceptDesire(offerId,responseId);
+        digitalBarterService.acceptDesire(dealId,responseId);
         return ResponseEntity.ok().build();
     }
 
     //TODO check!!
-    @PostMapping (BARTER_PATH + "/{offerId}/acceptSuggest")
+    @PostMapping (BARTER_PATH + "/{dealId}/acceptSuggest")
     public ResponseEntity<?> acceptSuggest(
-            @PathVariable String offerId,
+            @PathVariable String dealId,
             @RequestHeader("responseId") String responseId){
 
-        digitalBarterService.acceptSuggestion(offerId,responseId);
+        digitalBarterService.acceptSuggestion(dealId,responseId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping (BARTER_PATH + "/desires")
-    public ResponseEntity<Offer> createDesire(
+    public ResponseEntity<Deal> createDesire(
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
-        Offer desire =  digitalBarterService.createDesire(userId, productId);
+        Deal desire =  digitalBarterService.createDesire(userId, productId);
         return ResponseEntity.ok(desire);
     }
 
     @PostMapping (BARTER_PATH + "/suggestions")
-    public ResponseEntity<Offer> createSuggestion(
+    public ResponseEntity<Deal> createSuggestion(
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
-        Offer suggestion =  digitalBarterService.createSuggestion(userId, productId);
+        Deal suggestion =  digitalBarterService.createSuggestion(userId, productId);
         return ResponseEntity.ok(suggestion);
     }
 
