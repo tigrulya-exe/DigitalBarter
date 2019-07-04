@@ -11,6 +11,13 @@ public class DesireResponse extends DealResponse  {
         this.desiredProductResponse = desiredProductResponse;
     }
 
+    @Override
+    public void accept(User dealOwner, Product dealOwnerProduct)
+    {
+        dealOwner.getBackpack().addProduct(getResponseProduct());
+        getResponseHolder().getBackpack().addProduct(desiredProductResponse);
+    }
+
     public Product getDesiredProductResponse() {
         return desiredProductResponse;
     }

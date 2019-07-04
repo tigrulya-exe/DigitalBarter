@@ -95,7 +95,7 @@ public class Deal {
     }
 
 
-    public void registerDealResponse(User answerer, Product answererProduct)
+    public String registerDealResponse(User answerer, Product answererProduct)
     {
         try{
             if(answerer == null || answererProduct == null)
@@ -104,11 +104,14 @@ public class Deal {
         catch(Exception e)
         {
             System.out.println("registerDealResponse had incorrect data");
-            return;
+            return null;
         }
 
-        DealResponse newResponse = new DealResponse(answerer, answererProduct);
+        // TODO DIVIDE DEAL INTO DESIRE AND OFFER
+        // tmp solution
+        DealResponse newResponse = (type == DealType.DESIRE) ? new DesireResponse(answerer, answererProduct) : new DealResponse(answerer, answererProduct);
         responses.put(newResponse.getId(), newResponse);/*add new response to list of dtos of this offer*/
+        return newResponse.getId();
     }
 
     public DealResponse getDealResponse(String responseId){

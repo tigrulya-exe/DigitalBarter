@@ -44,23 +44,23 @@ public class DigitalBarterController {
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/desireResponse")
-    public ResponseEntity<?> handleDesireResponseEvent(
+    public ResponseEntity<ReactionDTO> handleDesireResponse(
             @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
-        digitalBarterService.handleDesireResponseEvent(dealId,userId,productId);
-        return ResponseEntity.ok().build();
+        String responseId = digitalBarterService.handleDesireResponse(dealId,userId,productId);
+        return ResponseEntity.ok(new ReactionDTO(responseId));
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/offerResponse")
-    public ResponseEntity<ReactionDTO> handleOfferResponseEvent(
+    public ResponseEntity<ReactionDTO> handleOfferResponse(
             @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
-        digitalBarterService.handleOfferResponseEvent(dealId,userId,productId);
-        return ResponseEntity.ok().build();
+        String responseId =  digitalBarterService.handleOfferResponse(dealId,userId,productId);
+        return ResponseEntity.ok(new ReactionDTO(responseId));
     }
 
     @PostMapping (BARTER_PATH + "/{userId}/backpack")
@@ -108,5 +108,14 @@ public class DigitalBarterController {
         return ResponseEntity.ok(new DealTO(offer));
     }
 
+    @PostMapping (BARTER_PATH + "/{dealId}/{responseId}/desireResponse")
+    public ResponseEntity<?> handleSecondDesireResponse(
+            @RequestHeader("productId") String productId,
+            @PathVariable String dealId,
+            @PathVariable String responseId){
+
+        digitalBarterService.handleSecondDesireResponse(dealId,responseId,productId);
+        return ResponseEntity.ok().build();
+    }
     //TODO handlers for desire/offer detailed view
 }

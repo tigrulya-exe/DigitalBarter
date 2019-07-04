@@ -5,7 +5,6 @@ import cft.shift.manasyan.barter.models.dtos.DesireDTO;
 import cft.shift.manasyan.barter.models.dtos.OfferDTO;
 import cft.shift.manasyan.barter.models.dtos.ProductDTO;
 import cft.shift.manasyan.barter.repositories.BarterDealRepository;
-import cft.shift.manasyan.barter.repositories.BarterUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -78,17 +77,24 @@ public class DigitalBarterService {
         users.put(user.getUid(), user);
     }
 
-    public void handleOfferResponseEvent(String dealId, String userId, String productId){
-        handleResponseEvent(dealId,userId,productId,offersRepository);
+    public String handleOfferResponse(String dealId, String userId, String productId){
+        return handleResponse(dealId,userId,productId,offersRepository);
     }
 
-    //TODO check!!
-    public void handleDesireResponseEvent(String dealId, String userId,String productId){
-        handleResponseEvent(dealId,userId,productId,desiresRepository);
+
+    public String handleDesireResponse(String dealId, String userId, String productId){
+        return handleResponse(dealId,userId,productId,desiresRepository);
     }
 
     public Product putProductInBackpack(String userId, ProductDTO productDTO){
         return putProductInBackpack(userId,new Product(productDTO));
+    }
+
+    public void handleSecondDesireResponse(String dealId, String responseId, String productId){
+        Deal deal = desiresRepository.getDeal(dealId);
+        DesireResponse response = (DesireResponse) deal.getDealResponse(responseId);
+        Product product = deal.getDealHolder().getBackpack().getProduct(productId);
+        response.setDesiredProductResponse(product);
     }
 
     public Product putProductInBackpack(String userId, Product product){
@@ -98,11 +104,12 @@ public class DigitalBarterService {
         return product;
     }
 
-    private void handleResponseEvent(String dealId, String userId,String productId, BarterDealRepository repository){
+    private String handleResponse(String dealId, String userId, String productId, BarterDealRepository repository){
         User owner = users.get(userId);
         Deal desire = repository.getDeal(dealId);
         Product product = desire.getDealProduct();
-        desire.registerDealResponse(owner , product);
+
+        return desire.registerDealResponse(owner , product);
     }
 
     private void acceptDeal(String dealId, String responseId, BarterDealRepository barterDealRepository){
