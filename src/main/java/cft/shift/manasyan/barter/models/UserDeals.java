@@ -5,29 +5,29 @@ import java.util.List;
 
 public class UserDeals {
     private List<Deal> desires = new LinkedList<>();
-    private List<Deal> suggestions = new LinkedList<>();
+    private List<Deal> offers = new LinkedList<>();
 
     public List<Deal> getDesires() {
         return desires;
     }
 
-    public List<Deal> getSuggestions() {
-        return suggestions;
+    public List<Deal> getOffers() {
+        return offers;
     }
 
     public void addDesire(Deal desire){
         desires.add(desire);
     }
 
-    public void addSuggestion(Deal suggestion){
-        suggestions.add(suggestion);
+    public void addOffer(Deal offer){
+        offers.add(offer);
     }
 
     public void deleteDesire(Deal desire){
         desires.remove(desire);
     }
 
-    public void deleteSuggestion(Deal suggestion){
-        suggestions.remove(suggestion);
+    public void deleteOffer(Deal offer){
+        offers.remove(offer);
     }
 }

@@ -6,9 +6,9 @@ import cft.shift.manasyan.barter.models.Product;
 import java.net.URL;
 
 public class ProductService {
-    public Product createProduct(User owner, Product.ProductType type, String name, String condition, URL picURL)
+    public Product createProduct(User owner, Product.ProductType type, String name, URL picURL)
     {
-        Product prod = new Product(type, name, condition, picURL);
+        Product prod = new Product(type, name, picURL);
         owner.getBackpack().addProduct(prod);
         return prod;
     }

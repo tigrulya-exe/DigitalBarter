@@ -1,5 +1,6 @@
 package cft.shift.manasyan.barter.models;
 
+import cft.shift.manasyan.barter.models.dtos.DesireDTO;
 import cft.shift.manasyan.barter.models.dtos.OfferDTO;
 
 import java.util.HashMap;
@@ -36,15 +37,29 @@ public class Deal {
         }
         id = own.getUid() + prod.getId();/*unique id - concatenation person id and dealProduct id */
     }
-    public Deal(OfferDTO root, User user)
+
+    public Deal(OfferDTO offerDTO, User user)
     {
-        this.dealProduct = user.getBackpack().getProduct(root.getProductId());
+        this.dealProduct = user.getBackpack().getProduct(offerDTO.getProductId());
         this.dealHolder = user;
-        this.description = root.getDescription();
+        this.description = offerDTO.getDescription();
         this.type = DealType.OFFER;
         this.id = user.getUid() + dealProduct.getId();
+
+        dealHolder.getUserDeals().addOffer(this);
     }
-    /*TODO create DesireDTO constructor*/
+
+    public Deal(DesireDTO desireDTO, User user)
+    {
+        this.dealProduct = new Product(desireDTO.getProduct());
+        this.dealHolder = user;
+        this.description = desireDTO.getDescription();
+        this.type = DealType.DESIRE;
+        this.id = user.getUid() + dealProduct.getId();
+
+        dealHolder.getUserDeals().addDesire(this);
+    }
+
     public DealType getType() {
         return type;
     }
@@ -57,11 +72,11 @@ public class Deal {
         for(HashMap.Entry<String, DealResponse> entry : responses.entrySet())
         {
             String key = entry.getKey();
-            DealResponse resp = entry.getValue();
+            DealResponse response = entry.getValue();
             if(key.equals(responseId))/*accept response with argument id*/
-                resp.accept(dealHolder, dealProduct);
+                response.accept(dealHolder, dealProduct);
             else
-                resp.discard();
+                response.discard();
             responses.remove(key);/*delete response after accepting or discarding*/
         }
     }
@@ -91,6 +106,7 @@ public class Deal {
             System.out.println("registerDealResponse had incorrect data");
             return;
         }
+
         DealResponse newResponse = new DealResponse(answerer, answererProduct);
         responses.put(newResponse.getId(), newResponse);/*add new response to list of dtos of this offer*/
     }
