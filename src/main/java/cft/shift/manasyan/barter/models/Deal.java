@@ -44,7 +44,7 @@ public class Deal {
         this.type = DealType.OFFER;
         this.id = user.getUid() + dealProduct.getId();
     }
-
+    /*TODO create DesireDTO constructor*/
     public DealType getType() {
         return type;
     }

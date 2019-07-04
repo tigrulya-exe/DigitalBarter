@@ -101,13 +101,13 @@ public class DigitalBarterService {
     private Deal createDealOffer(String userId, String productId){
         User user = persons.get(userId);
         Product product = user.getBackpack().getProduct(productId);
-        return new Deal(product, user, Deal.DealType.OFFER);
+        return new Deal(product, user, Deal.DealType.OFFER);/*TODO add description*/
     }
 
     private Deal createDealDesire(String userId, String productId){
         User user = persons.get(userId);
         Product product = user.getBackpack().getProduct(productId);
-        return new Deal(product, user, Deal.DealType.DESIRE);
+        return new Deal(product, user, Deal.DealType.DESIRE);/*TODO add description*/
     }
 
     private void acceptDeal(String dealId, String responseId, BarterDealRepository barterDealRepository){
