@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Deal {
     private Product dealProduct = null;
     private User dealHolder = null;
-    private HashMap<String, DealResponse> responses = null;/*list of dtos to current offer*/
+    private HashMap<String, DealResponse> responses = null;/*list of responses to current offer*/
     private String id = null;
 
     public enum DealType {

@@ -49,7 +49,7 @@ public class DigitalBarterService {
     }
 
     public Deal createSuggestion(String userId, String productId){
-        Deal suggestion = createDeal(userId, productId);
+        Deal suggestion = createDealOffer(userId, productId);
 
         //TODO сделать покрасивше
         suggestion.getDealHolder().getUserDeals().addSuggestion(suggestion);
@@ -59,7 +59,7 @@ public class DigitalBarterService {
     }
 
     public Deal createDesire(String userId, String productId) {
-        Deal desire = createDeal(userId, productId);
+        Deal desire = createDealDesire(userId, productId);
 
         //TODO сделать покрасивше
         desire.getDealHolder().getUserDeals().addDesire(desire);
@@ -98,10 +98,16 @@ public class DigitalBarterService {
         backpack.putProduct(product);
     }
 
-    private Deal createDeal(String userId, String productId){
+    private Deal createDealOffer(String userId, String productId){
         User user = persons.get(userId);
         Product product = user.getBackpack().getProduct(productId);
-        return new Deal(product, user);
+        return new Deal(product, user, Deal.DealType.OFFER);
+    }
+
+    private Deal createDealDesire(String userId, String productId){
+        User user = persons.get(userId);
+        Product product = user.getBackpack().getProduct(productId);
+        return new Deal(product, user, Deal.DealType.DESIRE);
     }
 
     private void acceptDeal(String dealId, String responseId, BarterDealRepository barterDealRepository){
