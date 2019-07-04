@@ -2,7 +2,6 @@ package cft.shift.manasyan.barter.models;
 
 import cft.shift.manasyan.barter.models.dtos.ProductDTO;
 
-import java.net.URL;
 import java.util.UUID;
 
 public class Product {
@@ -15,7 +14,6 @@ public class Product {
         // TODO: make types non discrete (just String)
     }
 
-
     private ProductType type;
 
     private final String id = UUID.randomUUID().toString();
@@ -24,22 +22,25 @@ public class Product {
 
     private String pictureURL;
 
-    public Product(ProductType type, String name, String picURL) {
+    public Product(ProductType type, String name, String pictureURL) {
         this.type = type;
         this.name = name;
-        // и заглушку какую нить для фотачки
-        this.pictureURL = picURL;
+        this.pictureURL = pictureURL;
     }
 
     public Product (ProductDTO root)/*construct product by ProductDTO*/
     {
-        this.pictureURL = root.getPicURL();
+        this.pictureURL = root.getPictureUrl();
         this.name = root.getName();
         this.type = ProductType.valueOf(root.getType());
     }
 
     public ProductType getType() {
         return type;
+    }
+
+    public void setType(ProductType type) {
+        this.type = type;
     }
 
     public String getId() {
@@ -50,12 +51,16 @@ public class Product {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPictureURL() {
         return pictureURL;
     }
 
-    public void setType(ProductType newtype){type = newtype;}
-    public void setName(String newname){name = newname;}
-    public void setPictureURL(String newpic){pictureURL = newpic;}
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
 }
 

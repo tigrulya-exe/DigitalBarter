@@ -20,13 +20,14 @@ public class DigitalBarterController {
     private DigitalBarterService digitalBarterService;
 
     @GetMapping(BARTER_PATH + "/desires")
-    public ResponseEntity<List<Deal>> getDesires(){
-        return ResponseEntity.ok(digitalBarterService.getDesires());
+    public ResponseEntity<List<DealTO>> getDesires(){
+        return ResponseEntity.ok(digitalBarterService.getDesireDTOs());
     }
 
     @GetMapping(BARTER_PATH + "/offers")
-    public ResponseEntity<List<Deal>> getOffers(){
-        return ResponseEntity.ok(digitalBarterService.getOffers());
+    public ResponseEntity<List<DealTO>> getOffers(){
+        digitalBarterService.getOfferDTOs();
+        return ResponseEntity.ok(digitalBarterService.getOfferDTOs());
     }
 
     @GetMapping(BARTER_PATH + "/{userId}/backpack")

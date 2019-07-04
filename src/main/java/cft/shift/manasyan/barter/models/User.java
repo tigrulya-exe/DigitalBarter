@@ -13,6 +13,7 @@ public class User {
     public User(String name) {
         this.name = name;
         this.backpack = new Backpack();
+        this.userDeals = new UserDeals();
     }
 
     public String getName() {

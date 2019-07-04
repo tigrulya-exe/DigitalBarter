@@ -6,6 +6,9 @@ public class OfferDTO {
     private String description;
     private String productId;
 
+    public OfferDTO() {
+    }
+
     public OfferDTO(String description, String productId) {
         this.description = description;
         this.productId = productId;
@@ -17,5 +20,13 @@ public class OfferDTO {
 
     public String getProductId() {
         return productId;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }

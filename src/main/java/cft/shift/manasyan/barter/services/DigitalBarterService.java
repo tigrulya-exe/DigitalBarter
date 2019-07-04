@@ -1,13 +1,16 @@
 package cft.shift.manasyan.barter.services;
 
 import cft.shift.manasyan.barter.models.*;
+import cft.shift.manasyan.barter.models.dtos.DealTO;
 import cft.shift.manasyan.barter.models.dtos.DesireDTO;
 import cft.shift.manasyan.barter.models.dtos.OfferDTO;
 import cft.shift.manasyan.barter.models.dtos.ProductDTO;
 import cft.shift.manasyan.barter.repositories.BarterDealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,15 +18,19 @@ import java.util.Map;
 
 @Service
 public class DigitalBarterService {
+
+    @Autowired
+    @Qualifier(value = "desires")
     private BarterDealRepository desiresRepository;
+
+    @Autowired
+    @Qualifier(value = "offers")
     private BarterDealRepository offersRepository;
 
     private Map<String, User> users;
 
     @Autowired
-    public DigitalBarterService(BarterDealRepository desiresRepository, BarterDealRepository offersRepository) {
-        this.desiresRepository = desiresRepository;
-        this.offersRepository = offersRepository;
+    public DigitalBarterService() {
         this.users = new HashMap<>();
     }
 
@@ -104,6 +111,25 @@ public class DigitalBarterService {
         return product;
     }
 
+
+    public List<DealTO> getOfferDTOs() {
+        return getDTOs(offersRepository);
+    }
+
+    public List<DealTO> getDesireDTOs() {
+        return getDTOs(desiresRepository);
+    }
+
+    private List<DealTO> getDTOs(BarterDealRepository repository){
+        List<DealTO> desireDTOS = new ArrayList<>();
+
+        for(Deal desire : repository.getDeals()){
+            desireDTOS.add(new DealTO(desire));
+        }
+
+        return desireDTOS;
+    }
+
     private String handleResponse(String dealId, String userId, String productId, BarterDealRepository repository){
         User owner = users.get(userId);
         Deal desire = repository.getDeal(dealId);
@@ -117,5 +143,4 @@ public class DigitalBarterService {
         barterDealRepository.closeDeal(dealId);
         deal.closeDeal(responseId);
     }
-
 }

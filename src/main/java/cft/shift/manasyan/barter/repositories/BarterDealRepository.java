@@ -6,12 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository
+//@Repository
 public class BarterDealRepository implements DealRepository {
 
     private Map<String, Deal> deals;
 
-    private BarterDealRepository(){
+    public BarterDealRepository(){
         this.deals = new HashMap<>();
     }
 

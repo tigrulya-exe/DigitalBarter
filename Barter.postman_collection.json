@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "84fc38c5-bc7b-4f2a-b28e-fbaf87721cdc",
+		"name": "Barter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get desires",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/desires",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"desires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get offers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/offers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userName",
+						"value": "Petya",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post offer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "2d226850-b748-4d64-abdb-9ba5020c34a6",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"productId\":\"91beb669-fefb-43c2-b3d8-54b3b7052847\",\"description\":\"as\"}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/offers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product to backpack",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"type\":\"FOOD\",\r\n\"name\":\"Малина\",\r\n\"pictureUrl\":\"server/img/001.png\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/74771d28-23dd-448b-89e1-c887a5e5928c/backpack",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"74771d28-23dd-448b-89e1-c887a5e5928c",
+						"backpack"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get backpack",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}
