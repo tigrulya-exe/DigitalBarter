@@ -1,5 +1,7 @@
 package cft.shift.manasyan.barter.models.dtos;
 
+import cft.shift.manasyan.barter.models.Product;
+
 public class ProductDTO {
     private String name;
     private String pictureUrl;
@@ -11,6 +13,13 @@ public class ProductDTO {
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.type = type;
+    }
+
+    public ProductDTO(Product product)
+    {
+        name = product.getName();
+        pictureUrl = product.getPictureURL();
+        type = product.getProductTypeString();
     }
 
     public String getName() {

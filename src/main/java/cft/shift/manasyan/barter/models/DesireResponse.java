@@ -1,6 +1,6 @@
 package cft.shift.manasyan.barter.models;
 
-public class DesireResponse extends DealResponse  {
+public class DesireResponse extends OfferResponse {
     private Product desiredProductResponse;
 
     public DesireResponse(User responseHolder, Product desiredProduct) {

@@ -38,6 +38,7 @@ public class Product {
     public ProductType getType() {
         return type;
     }
+    public String getProductTypeString(){return type.toString();}//TODO test it. Does it really return name of type?
 
     public void setType(ProductType type) {
         this.type = type;
