@@ -3,47 +3,23 @@ package cft.shift.manasyan.barter.models;
 import cft.shift.manasyan.barter.models.dtos.DesireDTO;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Desire extends Deal {
-    private HashMap<String, DesireResponse> responses = null;/*list of responses to current offer*/
     public Desire(DesireDTO desireDTO, User user)
     {
-            super(desireDTO, user);
-    }
-    public Desire(Product prod, User own, String description)
-    {
-        super(prod, own, description);
-    }
-    public DesireResponse getDesireResponse(String responsId)
-    {
-        return responses.get(responsId);
-    }
-    public void closeDesire(String responseId) {
-        for(HashMap.Entry<String, DesireResponse> entry : responses.entrySet())
-        {
-            String key = entry.getKey();
-            OfferResponse response = entry.getValue();
-            if(key.equals(responseId))/*accept response with argument id*/
-                response.accept(super.getDealHolder(), super.getDealProduct());
-            else
-                response.discard();
-            responses.remove(key);/*delete response after accepting or discarding*/
-        }
+        super(new Product(desireDTO.getProduct()), user, desireDTO.getDescription());
+        getDealHolder().getUserDeals().addDesire(this);
     }
 
-    public String registerDesireResponse(User answerer, Product answererProduct) {
-        try{
-            if(answerer == null || answererProduct == null)
-                throw new Exception();
-        }
-        catch(Exception e)
-        {
-            System.out.println("registerDealResponse had incorrect data");
-            return null;
-        }
-
-        DesireResponse newResponse = new DesireResponse(answerer, answererProduct);
-        responses.put(newResponse.getId(), newResponse);/*add new response to list of dtos of this offer*/
-        return newResponse.getId();
+    @Override
+    public  DesireResponse getDealResponse(String responseId){
+        return (DesireResponse) getResponses().get(responseId);
     }
+
+    @Override
+    protected DesireResponse createDealResponse(User user, Product product) {
+        return new DesireResponse(user,product);
+    }
+
 }

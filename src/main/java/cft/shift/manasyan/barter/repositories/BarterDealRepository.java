@@ -2,25 +2,24 @@ package cft.shift.manasyan.barter.repositories;
 
 import cft.shift.manasyan.barter.exceptions.NotFoundException;
 import cft.shift.manasyan.barter.models.Deal;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 //@Repository
-public class BarterDealRepository implements DealRepository {
+public class BarterDealRepository<T extends Deal> implements DealRepository<T> {
 
-    private Map<String, Deal> deals;
+    private Map<String, T> deals;
 
     public BarterDealRepository(){
         this.deals = new HashMap<>();
     }
 
-    private BarterDealRepository(Map<String, Deal> deals){
+    private BarterDealRepository(Map<String, T> deals){
         this.deals = deals;
     }
 
     @Override
-    public void addDeal(Deal deal) {
+    public void addDeal(T deal) {
         deals.put(deal.getId(), deal);
         System.out.println("dealId = [" + deal.getId() + "] was added");
     }
@@ -34,12 +33,12 @@ public class BarterDealRepository implements DealRepository {
     }
 
     @Override
-    public List<Deal> getDeals() {
+    public List<T> getDeals() {
         return new ArrayList<>(deals.values());
     }
 
     @Override
-    public Deal getDeal(String dealId) {
+    public T getDeal(String dealId) {
         return deals.get(dealId);
     }
 

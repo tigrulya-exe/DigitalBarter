@@ -6,13 +6,10 @@ import cft.shift.manasyan.barter.models.dtos.DesireDTO;
 import cft.shift.manasyan.barter.models.dtos.OfferDTO;
 import cft.shift.manasyan.barter.models.dtos.ProductDTO;
 import cft.shift.manasyan.barter.repositories.BarterDealRepository;
-import cft.shift.manasyan.barter.repositories.BarterDesireRepository;
-import cft.shift.manasyan.barter.repositories.BarterOfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,11 +20,11 @@ public class DigitalBarterService {
 
     @Autowired
     @Qualifier(value = "desires")
-    private BarterDesireRepository desiresRepository;
+    private BarterDealRepository<Desire> desiresRepository;
 
     @Autowired
     @Qualifier(value = "offers")
-    private BarterOfferRepository offersRepository;
+    private BarterDealRepository<Offer> offersRepository;
 
     private Map<String, User> users;
 
@@ -37,11 +34,11 @@ public class DigitalBarterService {
     }
 
     public List<Desire> getDesires() {
-        return desiresRepository.getDesires();
+        return desiresRepository.getDeals();
     }
 
     public List<Offer> getOffers() {
-        return offersRepository.getOffers();
+        return offersRepository.getDeals();
     }
 
     public List<User> getUsers() {
@@ -53,21 +50,21 @@ public class DigitalBarterService {
     }
 
     public void acceptDesire(String dealId, String responseId){
-        Desire desire = barterDesireRepository.getDesire(desireId);
-        barterDesireRepository.closeDesire(desireId);
-        desire.closeDesire(responseId);
+        Desire desire = desiresRepository.getDeal(dealId);
+        desiresRepository.closeDeal(dealId);
+        desire.closeDeal(responseId);
     }
 
     public void acceptOffer(String dealId, String responseId){
-        Offer offer = barterOfferRepository.getOffer(offerId);
-        barterOfferRepository.closeOffer(offerId);
-        offer.closeOffer(responseId);
+        Offer offer = offersRepository.getDeal(dealId);
+        offersRepository.closeDeal(dealId);
+        offer.closeDeal(responseId);
     }
 
     public Deal createOffer(String userId, OfferDTO offerDTO){
         User user = users.get(userId);
         Offer offer = new Offer(offerDTO, user);
-        offersRepository.addOffer(offer);
+        offersRepository.addDeal(offer);
 
         return offer;
     }
@@ -75,7 +72,7 @@ public class DigitalBarterService {
     public Desire createDesire(String userId, DesireDTO desireDTO) {
         User user = users.get(userId);
         Desire desire = new Desire(desireDTO,user);
-        desiresRepository.addDesire(desire);
+        desiresRepository.addDeal(desire);
 
         return desire;
     }
@@ -104,8 +101,8 @@ public class DigitalBarterService {
     }
 
     public void handleSecondDesireResponse(String desireId, String responseId, String productId){
-        Desire desire = desiresRepository.getDesire(desireId);
-        DesireResponse response = (DesireResponse) desire.getDesireResponse(responseId);
+        Desire desire = desiresRepository.getDeal(desireId);
+        DesireResponse response = desire.getDealResponse(responseId);
         Product product = desire.getDealHolder().getBackpack().getProduct(productId);
         response.setDesiredProductResponse(product);
     }
@@ -125,7 +122,7 @@ public class DigitalBarterService {
         return getDTOs(desiresRepository);
     }
 
-    private List<DealTO> getDTOs(BarterDealRepository repository){
+    private List<DealTO> getDTOs(BarterDealRepository<?> repository){
         List<DealTO> desireDTOS = new ArrayList<>();
 
         for(Deal desire : repository.getDeals()){
@@ -134,32 +131,12 @@ public class DigitalBarterService {
         return desireDTOS;
     }
 
-//    private String handleResponse(String dealId, String userId, String productId, BarterDealRepository repository){
-//        User owner = users.get(userId);
-//        Deal desire = repository.getDeal(dealId);
-//        Product product = desire.getDealProduct();
-//
-//        return desire.registerDealResponse(owner , product);
-//    }
-//
-    private String handleResponse(String offerId, String userId, String productId, BarterOfferRepository repository){
-        User owner = users.get(userId);
-        Offer offer = repository.getOffer(offerId);
-        Product product = offer.getDealProduct();
+    private String handleResponse(String offerId, String userId, String productId, BarterDealRepository<?> repository){
+        User responder = users.get(userId);
+        Deal deal = repository.getDeal(offerId);
+        Product product = responder.getBackpack().getProduct(productId);
 
-        return offer.registerOfferResponse(owner , product);
+        return deal.registerResponse(responder , product);
     }
 
-    private String handleResponse(String desireId, String userId, String productId, BarterDesireRepository repository){
-        User owner = users.get(userId);
-        Desire desire = repository.getDesire(desireId);
-        Product product = desire.getDealProduct();
-        return desire.registerDesireResponse(owner , product);
-    }
-
-//    private void acceptDeal(String dealId, String responseId, BarterDealRepository barterDealRepository){
-//        Deal deal = barterDealRepository.getDeal(dealId);
-//        barterDealRepository.closeDeal(dealId);
-//        deal.closeDeal(responseId);
-//    }
 }
