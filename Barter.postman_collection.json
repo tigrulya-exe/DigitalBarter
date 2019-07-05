@@ -6,6 +6,154 @@
 	},
 	"item": [
 		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f8a6c52e-0716-4075-875b-7c1cb9eaa5f9",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"userId\", jsonData.userId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userName",
+						"value": "Vova",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product to backpack",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"type\":\"FOOD\",\r\n\"name\":\"Малина\",\r\n\"pictureUrl\":\"server/img/001.png\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/74771d28-23dd-448b-89e1-c887a5e5928c/backpack",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"74771d28-23dd-448b-89e1-c887a5e5928c",
+						"backpack"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get backpack",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/daaecdce-a0f3-473d-845f-2483fae430a3/backpack",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"daaecdce-a0f3-473d-845f-2483fae430a3",
+						"backpack"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post offer",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "495f50f8-bdf7-4ea7-9f99-1367ef2f8af0",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "{{userId}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"productId\": \"1f715338-64ab-4b45-b85c-f59a4ed1ce1f\",\n    \"description\": \"as\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/offers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get desires",
 			"request": {
 				"method": "GET",
@@ -50,13 +198,75 @@
 			"response": []
 		},
 		{
-			"name": "Login",
+			"name": "Add desire",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "{{userId}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"product\": {\n        \"type\": \"FOOD\",\n        \"name\": \"homyachok\",\n        \"pictureUrl\": \"https://cdn.trinixy.ru/pics5/20180420/thousand_words_03.jpg\"\n    },\n    \"description\": \"ОТДАМ <JHO И ГАРАЖ ЗА МАЛИНУ ЕСЛИ НЕ ГЕЙ СОГЛАШАЙСЯ\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/desires",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"desires"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OfferResponse",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f8a6c52e-0716-4075-875b-7c1cb9eaa5f9",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"userId\", jsonData.userId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "userName",
-						"value": "Petya",
+						"value": "Vova",
 						"type": "text"
 					}
 				],
@@ -78,79 +288,7 @@
 			"response": []
 		},
 		{
-			"name": "Post offer",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "userId",
-						"value": "2d226850-b748-4d64-abdb-9ba5020c34a6",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"productId\":\"91beb669-fefb-43c2-b3d8-54b3b7052847\",\"description\":\"as\"}"
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/v001/barter/offers",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v001",
-						"barter",
-						"offers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add product to backpack",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n\"type\":\"FOOD\",\r\n\"name\":\"Малина\",\r\n\"pictureUrl\":\"server/img/001.png\"\r\n}"
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/v001/barter/74771d28-23dd-448b-89e1-c887a5e5928c/backpack",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v001",
-						"barter",
-						"74771d28-23dd-448b-89e1-c887a5e5928c",
-						"backpack"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get backpack",
+			"name": "AcceptOffer",
 			"request": {
 				"method": "GET",
 				"header": [],
