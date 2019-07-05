@@ -21,7 +21,8 @@ public abstract class Deal {
         dealHolder.getBackpack().deleteProduct(prod.getId());
         this.dealProduct = prod;
         this.description = description;
-        id = prod.getId();/*unique id - concatenation person id and dealProduct id */
+        this.id = prod.getId();/*unique id - concatenation person id and dealProduct id */
+        this.responses = new HashMap<>();
     }
 
     public String getId() {

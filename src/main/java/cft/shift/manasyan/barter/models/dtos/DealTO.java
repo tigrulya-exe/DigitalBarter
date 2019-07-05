@@ -9,7 +9,6 @@ public class DealTO {
     private String name;
     private String description;
     private Product product;
-    private String id;
 
     public DealTO(){};
 

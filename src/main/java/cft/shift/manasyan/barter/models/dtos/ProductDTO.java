@@ -19,7 +19,7 @@ public class ProductDTO {
     {
         name = product.getName();
         pictureUrl = product.getPictureURL();
-        type = product.getProductTypeString();
+        type = product.getType().toString();
     }
 
     public String getName() {
@@ -45,4 +45,6 @@ public class ProductDTO {
     public void setType(String type) {
         this.type = type;
     }
+
+
 }
