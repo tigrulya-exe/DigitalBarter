@@ -1,5 +1,7 @@
 package cft.shift.manasyan.barter.models.dtos;
 
+import cft.shift.manasyan.barter.models.Desire;
+
 public class DesireDTO {
     private String description;
     private ProductDTO product;
@@ -11,7 +13,11 @@ public class DesireDTO {
         this.description = description;
         this.product = product;
     }
-
+    public DesireDTO(Desire desire)
+    {
+        description = desire.getDescription();
+        product = new ProductDTO(desire.getDealProduct());
+    }
     public String getDescription() {
         return description;
     }
