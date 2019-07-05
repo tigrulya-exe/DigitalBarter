@@ -1,4 +1,4 @@
-package cft.shift.manasyan.barter.models;
+package cft.shift.manasyan.barter.models.user;
 
 import java.util.UUID;
 

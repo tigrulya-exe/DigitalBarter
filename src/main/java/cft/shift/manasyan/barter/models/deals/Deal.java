@@ -1,7 +1,8 @@
-package cft.shift.manasyan.barter.models;
+package cft.shift.manasyan.barter.models.deals;
 
-import cft.shift.manasyan.barter.models.dtos.DesireDTO;
-import cft.shift.manasyan.barter.models.dtos.OfferDTO;
+import cft.shift.manasyan.barter.models.responses.DealResponse;
+import cft.shift.manasyan.barter.models.Product;
+import cft.shift.manasyan.barter.models.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +14,7 @@ public abstract class Deal {
     private String id = null;
     private String description = null;
 
-    private Map<String, OfferResponse> responses;
+    private Map<String, DealResponse> responses;
 
     public Deal(Product prod, User own, String description)
     {
@@ -41,15 +42,15 @@ public abstract class Deal {
         return dealProduct;
     }
 
-    public  OfferResponse getDealResponse(String responseId){
+    public DealResponse getDealResponse(String responseId){
         return responses.get(responseId);
     }
 
-    public Map<String, OfferResponse> getResponses() {
+    public Map<String, DealResponse> getResponses() {
         return responses;
     }
 
-    protected abstract OfferResponse createDealResponse(User user, Product product);
+    protected abstract DealResponse createDealResponse(User user, Product product);
 
 
     public String registerResponse(User answerer, Product answererProduct) {
@@ -63,16 +64,16 @@ public abstract class Deal {
             return null;
         }
 
-        OfferResponse newResponse = createDealResponse(answerer,answererProduct);
+        DealResponse newResponse = createDealResponse(answerer,answererProduct);
         responses.put(newResponse.getId(), newResponse);/*add new response to list of dtos of this offer*/
         return newResponse.getId();
     }
 
     public void closeDeal(String responseId) {
-        for(Map.Entry<String, OfferResponse> entry : responses.entrySet())
+        for(Map.Entry<String, DealResponse> entry : responses.entrySet())
         {
             String key = entry.getKey();
-            OfferResponse response = entry.getValue();
+            DealResponse response = entry.getValue();
             if(key.equals(responseId))/*accept response with argument id*/
                 response.accept(dealHolder, dealProduct);
             else

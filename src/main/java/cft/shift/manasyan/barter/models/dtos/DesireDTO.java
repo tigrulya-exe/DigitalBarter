@@ -1,6 +1,6 @@
 package cft.shift.manasyan.barter.models.dtos;
 
-import cft.shift.manasyan.barter.models.Desire;
+import cft.shift.manasyan.barter.models.deals.Desire;
 
 public class DesireDTO {
     private String description;

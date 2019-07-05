@@ -1,8 +1,8 @@
 package cft.shift.manasyan.barter.api;
 
-import cft.shift.manasyan.barter.models.Backpack;
-import cft.shift.manasyan.barter.models.Deal;
-import cft.shift.manasyan.barter.models.User;
+import cft.shift.manasyan.barter.models.user.Backpack;
+import cft.shift.manasyan.barter.models.deals.Deal;
+import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.dtos.*;
 import cft.shift.manasyan.barter.services.DigitalBarterService;

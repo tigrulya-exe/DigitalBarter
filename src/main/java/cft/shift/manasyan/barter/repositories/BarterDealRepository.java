@@ -1,7 +1,7 @@
 package cft.shift.manasyan.barter.repositories;
 
 import cft.shift.manasyan.barter.exceptions.NotFoundException;
-import cft.shift.manasyan.barter.models.Deal;
+import cft.shift.manasyan.barter.models.deals.Deal;
 
 import java.util.*;
 

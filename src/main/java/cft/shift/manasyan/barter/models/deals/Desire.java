@@ -1,9 +1,9 @@
-package cft.shift.manasyan.barter.models;
+package cft.shift.manasyan.barter.models.deals;
 
+import cft.shift.manasyan.barter.models.responses.DesireResponse;
+import cft.shift.manasyan.barter.models.Product;
+import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.models.dtos.DesireDTO;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Desire extends Deal {
     public Desire(DesireDTO desireDTO, User user)
@@ -13,7 +13,7 @@ public class Desire extends Deal {
     }
 
     @Override
-    public  DesireResponse getDealResponse(String responseId){
+    public DesireResponse getDealResponse(String responseId){
         return (DesireResponse) getResponses().get(responseId);
     }
 

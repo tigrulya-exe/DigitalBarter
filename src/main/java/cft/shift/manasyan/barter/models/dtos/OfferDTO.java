@@ -1,7 +1,6 @@
 package cft.shift.manasyan.barter.models.dtos;
 
-import cft.shift.manasyan.barter.models.Offer;
-import cft.shift.manasyan.barter.models.Product;
+import cft.shift.manasyan.barter.models.deals.Offer;
 
 public class OfferDTO {
     private String description;

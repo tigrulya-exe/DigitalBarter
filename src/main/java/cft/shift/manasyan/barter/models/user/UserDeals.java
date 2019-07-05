@@ -1,4 +1,6 @@
-package cft.shift.manasyan.barter.models;
+package cft.shift.manasyan.barter.models.user;
+
+import cft.shift.manasyan.barter.models.deals.Deal;
 
 import java.util.LinkedList;
 import java.util.List;

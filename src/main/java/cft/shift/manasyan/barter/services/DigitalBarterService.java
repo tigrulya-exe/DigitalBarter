@@ -1,10 +1,16 @@
 package cft.shift.manasyan.barter.services;
 
 import cft.shift.manasyan.barter.models.*;
+import cft.shift.manasyan.barter.models.deals.Deal;
+import cft.shift.manasyan.barter.models.deals.Desire;
+import cft.shift.manasyan.barter.models.deals.Offer;
 import cft.shift.manasyan.barter.models.dtos.DealTO;
 import cft.shift.manasyan.barter.models.dtos.DesireDTO;
 import cft.shift.manasyan.barter.models.dtos.OfferDTO;
 import cft.shift.manasyan.barter.models.dtos.ProductDTO;
+import cft.shift.manasyan.barter.models.responses.DesireResponse;
+import cft.shift.manasyan.barter.models.user.Backpack;
+import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.repositories.BarterDealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

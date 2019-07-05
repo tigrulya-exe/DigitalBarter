@@ -1,6 +1,6 @@
 package cft.shift.manasyan.barter.repositories;
 
-import cft.shift.manasyan.barter.models.Deal;
+import cft.shift.manasyan.barter.models.deals.Deal;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

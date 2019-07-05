@@ -1,7 +1,7 @@
 package cft.shift.manasyan.barter.repositories;
 
 import cft.shift.manasyan.barter.exceptions.NotFoundException;
-import cft.shift.manasyan.barter.models.User;
+import cft.shift.manasyan.barter.models.user.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

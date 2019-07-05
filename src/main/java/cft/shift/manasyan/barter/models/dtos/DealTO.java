@@ -1,9 +1,7 @@
 package cft.shift.manasyan.barter.models.dtos;
 
-import cft.shift.manasyan.barter.models.Deal;
+import cft.shift.manasyan.barter.models.deals.Deal;
 import cft.shift.manasyan.barter.models.Product;
-
-import javax.management.Descriptor;
 
 public class DealTO {
     private String name;

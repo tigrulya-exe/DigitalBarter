@@ -1,5 +1,6 @@
-package cft.shift.manasyan.barter.models;
+package cft.shift.manasyan.barter.models.user;
 
+import cft.shift.manasyan.barter.models.Product;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
