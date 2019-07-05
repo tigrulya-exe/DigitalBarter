@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -111,7 +110,6 @@ public class DigitalBarterService {
         return product;
     }
 
-
     public List<DealTO> getOfferDTOs() {
         return getDTOs(offersRepository);
     }
@@ -131,11 +129,11 @@ public class DigitalBarterService {
     }
 
     private String handleResponse(String dealId, String userId, String productId, BarterDealRepository repository){
-        User owner = users.get(userId);
-        Deal desire = repository.getDeal(dealId);
-        Product product = desire.getDealProduct();
+        User responder = users.get(userId);
+        Deal deal = repository.getDeal(dealId);
+        Product product = responder.getBackpack().getProduct(productId);
 
-        return desire.registerDealResponse(owner , product);
+        return deal.registerDealResponse(responder , product);
     }
 
     private void acceptDeal(String dealId, String responseId, BarterDealRepository barterDealRepository){

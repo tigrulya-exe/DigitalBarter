@@ -22,6 +22,7 @@ public class BarterDealRepository implements DealRepository {
     @Override
     public void addDeal(Deal deal) {
         deals.put(deal.getId(), deal);
+        System.out.println("dealId = [" + deal.getId() + "] was added");
     }
 
     @Override

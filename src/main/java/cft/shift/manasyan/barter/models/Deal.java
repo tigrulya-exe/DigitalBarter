@@ -35,7 +35,7 @@ public class Deal {
         {
             System.out.println("Bad data in Deal constructor");
         }
-        id = own.getUid() + prod.getId();/*unique id - concatenation person id and dealProduct id */
+        id = prod.getId();/*unique id - concatenation person id and dealProduct id */
     }
 
     public Deal(OfferDTO offerDTO, User user)
@@ -44,7 +44,7 @@ public class Deal {
         this.dealHolder = user;
         this.description = offerDTO.getDescription();
         this.type = DealType.OFFER;
-        this.id = user.getUid() + dealProduct.getId();
+        this.id = dealProduct.getId();
 
         dealHolder.getUserDeals().addOffer(this);
     }
@@ -55,7 +55,7 @@ public class Deal {
         this.dealHolder = user;
         this.description = desireDTO.getDescription();
         this.type = DealType.DESIRE;
-        this.id = user.getUid() + dealProduct.getId();
+        this.id = dealProduct.getId();
 
         dealHolder.getUserDeals().addDesire(this);
     }
