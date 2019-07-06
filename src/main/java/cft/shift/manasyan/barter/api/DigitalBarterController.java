@@ -6,6 +6,7 @@ import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.dtos.*;
 import cft.shift.manasyan.barter.services.DigitalBarterService;
+import cft.shift.manasyan.barter.services.LoggingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,8 @@ import java.util.List;
 public class DigitalBarterController {
     private static final String BARTER_PATH = "/api/v001/barter";
 
+    @Autowired
+    private LoggingService loggingService;
     @Autowired
     private DigitalBarterService digitalBarterService;
 
@@ -41,6 +44,7 @@ public class DigitalBarterController {
     public ResponseEntity<LoginTO> registerUser(@RequestHeader("userName") String userName){
 
         User user = digitalBarterService.createUser(userName);
+        loggingService.newUserEvent(user);
         return ResponseEntity.ok(new LoginTO(user.getUid()));
     }
 
@@ -70,6 +74,7 @@ public class DigitalBarterController {
             @RequestBody ProductDTO productDTO){
 
         Product product = digitalBarterService.putProductInBackpack(userId,productDTO);
+        loggingService.newProductEvent(userId,productDTO);
         return ResponseEntity.ok(product);
     }
 
@@ -79,6 +84,7 @@ public class DigitalBarterController {
             @RequestHeader("responseId") String responseId){
 
         digitalBarterService.acceptDesire(dealId,responseId);
+        loggingService.acceptOfferEvent(dealId,responseId);
         return ResponseEntity.ok().build();
     }
 
@@ -88,6 +94,7 @@ public class DigitalBarterController {
             @RequestHeader("responseId") String responseId){
 
         digitalBarterService.acceptOffer(dealId,responseId);
+        loggingService.acceptOfferEvent(dealId,responseId);
         return ResponseEntity.ok().build();
     }
 
@@ -97,6 +104,7 @@ public class DigitalBarterController {
             @RequestBody DesireDTO desireDTO){
 
         Deal desire =  digitalBarterService.createDesire(userId, desireDTO);
+        loggingService.newDesireEvent(desire);
         return ResponseEntity.ok(new DealTO(desire));
     }
 
@@ -106,6 +114,7 @@ public class DigitalBarterController {
             @RequestBody OfferDTO offerDTO){
 
         Deal offer =  digitalBarterService.createOffer(userId, offerDTO);
+        loggingService.newOfferEvent(offer);
         return ResponseEntity.ok(new DealTO(offer));
     }
 
