@@ -1,9 +1,9 @@
 package cft.shift.manasyan.barter.models.dtos;
 
-public class LoginTO {
+public class UserTO {
     private String userId;
 
-    public LoginTO(String userId) {
+    public UserTO(String userId) {
         this.userId = userId;
     }
 

@@ -3,10 +3,10 @@ package cft.shift.manasyan.barter.models.deals;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
-import cft.shift.manasyan.barter.models.dtos.DesireDTO;
+import cft.shift.manasyan.barter.models.dtos.DesireTO;
 
 public class Desire extends Deal {
-    public Desire(DesireDTO desireDTO, User user)
+    public Desire(DesireTO desireDTO, User user)
     {
         super(new Product(desireDTO.getProduct()), user, desireDTO.getDescription());
         getDealHolder().getUserDeals().addDesire(this);

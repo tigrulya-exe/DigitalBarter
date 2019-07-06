@@ -2,20 +2,20 @@ package cft.shift.manasyan.barter.models.dtos;
 
 import cft.shift.manasyan.barter.models.Product;
 
-public class ProductDTO {
+public class ProductTO {
     private String name;
     private String pictureUrl;
     private String type;
 
-    public ProductDTO(){}
+    public ProductTO(){}
 
-    public ProductDTO(String name, String pictureUrl, String type) {
+    public ProductTO(String name, String pictureUrl, String type) {
         this.name = name;
         this.pictureUrl = pictureUrl;
         this.type = type;
     }
 
-    public ProductDTO(Product product)
+    public ProductTO(Product product)
     {
         name = product.getName();
         pictureUrl = product.getPictureURL();

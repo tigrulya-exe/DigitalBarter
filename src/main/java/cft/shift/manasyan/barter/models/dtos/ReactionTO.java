@@ -1,11 +1,11 @@
 package cft.shift.manasyan.barter.models.dtos;
 
-public class ReactionDTO {
+public class ReactionTO {
     private String responseId;
 
-    public ReactionDTO(){}
+    public ReactionTO(){}
 
-    public ReactionDTO(String responseId) {
+    public ReactionTO(String responseId) {
         this.responseId = responseId;
     }
 

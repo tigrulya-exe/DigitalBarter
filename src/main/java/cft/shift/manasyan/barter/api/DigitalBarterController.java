@@ -41,40 +41,40 @@ public class DigitalBarterController {
     }
 
     @PostMapping (BARTER_PATH + "/login")
-    public ResponseEntity<LoginTO> registerUser(@RequestHeader("userName") String userName){
+    public ResponseEntity<UserTO> registerUser(@RequestHeader("userName") String userName){
 
         User user = digitalBarterService.createUser(userName);
         loggingService.newUserEvent(user);
-        return ResponseEntity.ok(new LoginTO(user.getUid()));
+        return ResponseEntity.ok(new UserTO(user.getUid()));
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/desireResponse")
-    public ResponseEntity<ReactionDTO> handleDesireResponse(
+    public ResponseEntity<ReactionTO> handleDesireResponse(
             @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
         String responseId = digitalBarterService.handleDesireResponse(dealId,userId,productId);
-        return ResponseEntity.ok(new ReactionDTO(responseId));
+        return ResponseEntity.ok(new ReactionTO(responseId));
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/offerResponse")
-    public ResponseEntity<ReactionDTO> handleOfferResponse(
+    public ResponseEntity<ReactionTO> handleOfferResponse(
             @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
         String responseId =  digitalBarterService.handleOfferResponse(dealId,userId,productId);
-        return ResponseEntity.ok(new ReactionDTO(responseId));
+        return ResponseEntity.ok(new ReactionTO(responseId));
     }
 
     @PostMapping (BARTER_PATH + "/{userId}/backpack")
     public ResponseEntity<Product> putProductInBackpack(
             @PathVariable String userId,
-            @RequestBody ProductDTO productDTO){
+            @RequestBody ProductTO productTO){
 
-        Product product = digitalBarterService.putProductInBackpack(userId,productDTO);
-        loggingService.newProductEvent(userId,productDTO);
+        Product product = digitalBarterService.putProductInBackpack(userId, productTO);
+        loggingService.newProductEvent(userId, productTO);
         return ResponseEntity.ok(product);
     }
 
@@ -101,7 +101,7 @@ public class DigitalBarterController {
     @PostMapping (BARTER_PATH + "/desires")
     public ResponseEntity<DealTO> createDesire(
             @RequestHeader("userId") String userId,
-            @RequestBody DesireDTO desireDTO){
+            @RequestBody DesireTO desireDTO){
 
         Deal desire =  digitalBarterService.createDesire(userId, desireDTO);
         loggingService.newDesireEvent(desire);
@@ -111,9 +111,9 @@ public class DigitalBarterController {
     @PostMapping (BARTER_PATH + "/offers")
     public ResponseEntity<DealTO> createOffer(
             @RequestHeader("userId") String userId,
-            @RequestBody OfferDTO offerDTO){
+            @RequestBody OfferTO offerTO){
 
-        Deal offer =  digitalBarterService.createOffer(userId, offerDTO);
+        Deal offer =  digitalBarterService.createOffer(userId, offerTO);
         loggingService.newOfferEvent(offer);
         return ResponseEntity.ok(new DealTO(offer));
     }

@@ -1,6 +1,6 @@
 package cft.shift.manasyan.barter.models;
 
-import cft.shift.manasyan.barter.models.dtos.ProductDTO;
+import cft.shift.manasyan.barter.models.dtos.ProductTO;
 
 import java.util.UUID;
 
@@ -28,7 +28,7 @@ public class Product {
         this.pictureURL = pictureURL;
     }
 
-    public Product (ProductDTO root)/*construct product by ProductDTO*/
+    public Product (ProductTO root)/*construct product by ProductTO*/
     {
         this.pictureURL = root.getPictureUrl();
         this.name = root.getName();

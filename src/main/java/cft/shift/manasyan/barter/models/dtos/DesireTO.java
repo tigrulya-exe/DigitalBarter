@@ -2,27 +2,27 @@ package cft.shift.manasyan.barter.models.dtos;
 
 import cft.shift.manasyan.barter.models.deals.Desire;
 
-public class DesireDTO {
+public class DesireTO {
     private String description;
-    private ProductDTO product;
+    private ProductTO product;
 
 
-    public DesireDTO(){}
+    public DesireTO(){}
 
-    public DesireDTO(String description, ProductDTO product) {
+    public DesireTO(String description, ProductTO product) {
         this.description = description;
         this.product = product;
     }
-    public DesireDTO(Desire desire)
+    public DesireTO(Desire desire)
     {
         description = desire.getDescription();
-        product = new ProductDTO(desire.getDealProduct());
+        product = new ProductTO(desire.getDealProduct());
     }
     public String getDescription() {
         return description;
     }
 
-    public ProductDTO getProduct() {
+    public ProductTO getProduct() {
         return product;
     }
 
@@ -30,7 +30,7 @@ public class DesireDTO {
         this.description = description;
     }
 
-    public void setProduct(ProductDTO product) {
+    public void setProduct(ProductTO product) {
         this.product = product;
     }
 }

@@ -2,7 +2,7 @@ package cft.shift.manasyan.barter.services;
 
 import cft.shift.manasyan.barter.api.DigitalBarterController;
 import cft.shift.manasyan.barter.models.deals.Deal;
-import cft.shift.manasyan.barter.models.dtos.ProductDTO;
+import cft.shift.manasyan.barter.models.dtos.ProductTO;
 import cft.shift.manasyan.barter.models.user.User;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +31,8 @@ public class LoggingService {
         logger.info("User " + user.getName() + " with id [" + user.getUid() + "] was created");
     }
 
-    public void newProductEvent(String userId, ProductDTO productDTO){
-        logger.info("User with id [" + userId + "] added " + productDTO.getName());
+    public void newProductEvent(String userId, ProductTO productTO){
+        logger.info("User with id [" + userId + "] added " + productTO.getName());
     }
 
     public void newDesireEvent(Deal desire){

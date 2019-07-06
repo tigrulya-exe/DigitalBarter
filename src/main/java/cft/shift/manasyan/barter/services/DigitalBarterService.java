@@ -5,9 +5,9 @@ import cft.shift.manasyan.barter.models.deals.Deal;
 import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.models.deals.Offer;
 import cft.shift.manasyan.barter.models.dtos.DealTO;
-import cft.shift.manasyan.barter.models.dtos.DesireDTO;
-import cft.shift.manasyan.barter.models.dtos.OfferDTO;
-import cft.shift.manasyan.barter.models.dtos.ProductDTO;
+import cft.shift.manasyan.barter.models.dtos.DesireTO;
+import cft.shift.manasyan.barter.models.dtos.OfferTO;
+import cft.shift.manasyan.barter.models.dtos.ProductTO;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.Backpack;
 import cft.shift.manasyan.barter.models.user.User;
@@ -67,15 +67,15 @@ public class DigitalBarterService {
         offer.closeDeal(responseId);
     }
 
-    public Deal createOffer(String userId, OfferDTO offerDTO){
+    public Deal createOffer(String userId, OfferTO offerTO){
         User user = users.get(userId);
-        Offer offer = new Offer(offerDTO, user);
+        Offer offer = new Offer(offerTO, user);
         offersRepository.addDeal(offer);
 
         return offer;
     }
 
-    public Desire createDesire(String userId, DesireDTO desireDTO) {
+    public Desire createDesire(String userId, DesireTO desireDTO) {
         User user = users.get(userId);
         Desire desire = new Desire(desireDTO,user);
         desiresRepository.addDeal(desire);
@@ -102,8 +102,8 @@ public class DigitalBarterService {
         return handleResponse(dealId,userId,productId,desiresRepository);
     }
 
-    public Product putProductInBackpack(String userId, ProductDTO productDTO){
-        return putProductInBackpack(userId,new Product(productDTO));
+    public Product putProductInBackpack(String userId, ProductTO productTO){
+        return putProductInBackpack(userId,new Product(productTO));
     }
 
     public void handleSecondDesireResponse(String desireId, String responseId, String productId){

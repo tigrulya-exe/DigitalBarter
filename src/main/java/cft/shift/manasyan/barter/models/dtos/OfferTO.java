@@ -2,19 +2,19 @@ package cft.shift.manasyan.barter.models.dtos;
 
 import cft.shift.manasyan.barter.models.deals.Offer;
 
-public class OfferDTO {
+public class OfferTO {
     private String description;
     private String productId;
 
-    public OfferDTO() {
+    public OfferTO() {
     }
 
-    public OfferDTO(String description, String productId) {
+    public OfferTO(String description, String productId) {
         this.description = description;
         this.productId = productId;
     }
 
-    public OfferDTO(Offer offer)
+    public OfferTO(Offer offer)
     {
         description = offer.getDescription();
         productId = offer.getDealProduct().getId();
