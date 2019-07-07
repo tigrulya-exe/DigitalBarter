@@ -12,6 +12,7 @@ import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.Backpack;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.repositories.BarterDealRepository;
+import cft.shift.manasyan.barter.repositories.BarterUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -114,8 +115,18 @@ public class DigitalBarterService {
     }
 
     public Product putProductInBackpack(String userId, Product product){
-        Backpack backpack =  users.get(userId).getBackpack();
-        backpack.putProduct(product);
+        try {
+            if (users.get(userId) != null) {
+                Backpack backpack = users.get(userId).getBackpack();
+                backpack.putProduct(product);
+            }
+            else throw new NullPointerException();
+        }
+        catch(NullPointerException e)
+        {
+            System.out.println("putProductInBackpack user doesn't exist");
+            return null;
+        }
 
         return product;
     }
