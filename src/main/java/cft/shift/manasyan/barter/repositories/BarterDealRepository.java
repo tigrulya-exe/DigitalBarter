@@ -26,7 +26,6 @@ public class BarterDealRepository<T extends Deal> implements DealRepository<T> {
 
     @Override
     public void closeDeal(String dealId) {
-
         if (deals.remove(dealId) == null){
             throw new NotFoundException();
         }

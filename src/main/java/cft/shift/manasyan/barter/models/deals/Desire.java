@@ -1,5 +1,6 @@
 package cft.shift.manasyan.barter.models.deals;
 
+import cft.shift.manasyan.barter.exceptions.NotFoundException;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
@@ -13,7 +14,10 @@ public class Desire extends Deal {
 
     @Override
     public DesireResponse getDealResponse(String responseId){
-        return (DesireResponse) getResponses().get(responseId);
+        DesireResponse desireResponse = (DesireResponse) getResponses().get(responseId);
+        if(desireResponse == null)
+            throw new NotFoundException("Wrong desireId");
+        return desireResponse;
     }
 
     @Override

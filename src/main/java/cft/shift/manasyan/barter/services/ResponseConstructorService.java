@@ -30,16 +30,34 @@ public class ResponseConstructorService {
         return ResponseEntity.ok(digitalBarterService.getOfferTOs());
     }
 
-    public ResponseEntity<List<Product>> getBackpack(String userId){
-
-        Backpack backpack =  digitalBarterService.getPerson(userId).getBackpack();
-        return ResponseEntity.ok(backpack.getProducts());
+    public ResponseEntity<?> getBackpack(String userId){
+        try {
+            Backpack backpack = digitalBarterService.getUser(userId).getBackpack();
+            return ResponseEntity.ok(backpack.getProducts());
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
     }
 
-    public ResponseEntity<List<ResponseTO>> getOfferResponses( String userId){
+    public ResponseEntity<?> getOfferResponses( String userId){
+        try {
+            List<ResponseTO> offerResponses = digitalBarterService.getOfferResponses(userId);
+            return ResponseEntity.ok(offerResponses);
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
+    }
 
-        List<ResponseTO> offerResponses = digitalBarterService.getOfferResponses(userId);
-        return ResponseEntity.ok(offerResponses);
+    public ResponseEntity<?> getDesireResponses( String userId){
+        try {
+            List<ResponseTO> desireResponses = digitalBarterService.getDesireResponses(userId);
+            return ResponseEntity.ok(desireResponses);
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
     }
 
     public ResponseEntity<UserTO> registerUser(String userName){
@@ -49,56 +67,86 @@ public class ResponseConstructorService {
         return ResponseEntity.ok(new UserTO(user));
     }
 
-    public ResponseEntity<ResponseTO> handleDesireResponse(String dealId, String userId, String productId){
-
-        DealResponse response = digitalBarterService.handleDesireResponse(dealId,userId,productId);
-        return ResponseEntity.ok(new ResponseTO(response));
+    public ResponseEntity<?> handleDesireResponse(String dealId, String userId, String productId){
+        try {
+            DealResponse response = digitalBarterService.handleDesireResponse(dealId, userId, productId);
+            return ResponseEntity.ok(new ResponseTO(response));
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
     }
 
-    public ResponseEntity<ResponseTO> handleOfferResponse(String dealId,String userId, String productId){
-
-        DealResponse response =  digitalBarterService.handleOfferResponse(dealId,userId,productId);
-        return ResponseEntity.ok(new ResponseTO(response));
+    public ResponseEntity<?> getUserOffers(String userId) {
+        return getUserDeals(userId,(user)->user.getUserDeals().getOffers());
     }
 
-    public ResponseEntity<Product> putProductInBackpack(String userId, ProductTO productTO){
+    public ResponseEntity<?> getUserDesires(String userId) {
+        return getUserDeals(userId,(user)->user.getUserDeals().getDesires());
+    }
 
-        Product product = digitalBarterService.putProductInBackpack(userId, productTO);
-        loggingService.newProductEvent(userId, productTO);
-        return ResponseEntity.ok(product);
+    public ResponseEntity<?> handleOfferResponse(String dealId,String userId, String productId){
+        try {
+            DealResponse response =  digitalBarterService.handleOfferResponse(dealId,userId,productId);
+            return ResponseEntity.ok(new ResponseTO(response));
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
+    }
+
+    public ResponseEntity<?> putProductInBackpack(String userId, ProductTO productTO){
+        try {
+            Product product = digitalBarterService.putProductInBackpack(userId, productTO);
+            loggingService.newProductEvent(userId, productTO);
+            return ResponseEntity.ok(product);
+        } catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
     }
 
     public ResponseEntity<?> acceptDesire(String dealId, String responseId){
-
-        digitalBarterService.acceptDesire(dealId,responseId);
-        loggingService.acceptOfferEvent(dealId,responseId);
-        return ResponseEntity.ok().build();
+        try {
+            digitalBarterService.acceptDesire(dealId,responseId);
+            loggingService.acceptOfferEvent(dealId,responseId);
+            return ResponseEntity.ok().build();
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
     }
 
-    public ResponseEntity<?> acceptOffer(String dealId, String responseId){
-
-        digitalBarterService.acceptOffer(dealId,responseId);
-        loggingService.acceptOfferEvent(dealId,responseId);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> acceptOffer(String dealId, String responseId) {
+        try {
+            digitalBarterService.acceptOffer(dealId, responseId);
+            loggingService.acceptOfferEvent(dealId, responseId);
+            return ResponseEntity.ok().build();
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
     }
 
-    public ResponseEntity<DealTO> createDesire(String userId, DesireTO desireDTO){
-
-        Deal desire =  digitalBarterService.createDesire(userId, desireDTO);
-        loggingService.newDesireEvent(desire);
-        return ResponseEntity.ok(new DealTO(desire));
+    public ResponseEntity<?> createDesire(String userId, DesireTO desireDTO) {
+        try {
+            Deal desire = digitalBarterService.createDesire(userId, desireDTO);
+            loggingService.newDesireEvent(desire);
+            return ResponseEntity.ok(new DealTO(desire));
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
     }
 
     public ResponseEntity<?> createOffer(String userId,OfferTO offerTO){
-        Deal offer;
         try {
-            offer = digitalBarterService.createOffer(userId, offerTO);
+            Deal offer = digitalBarterService.createOffer(userId, offerTO);
             loggingService.newOfferEvent(offer);
+            return ResponseEntity.ok(new DealTO(offer));
         }
         catch (NotFoundException nfe){
-            return ResponseEntity.ok(nfe.getLocalizedMessage() + " not found");
+            return constructErrorTO(nfe);
         }
-        return ResponseEntity.ok(new DealTO(offer));
     }
 
     public ResponseEntity<?> handleSecondDesireResponse(String productId, String dealId, String responseId){
@@ -107,4 +155,33 @@ public class ResponseConstructorService {
         return ResponseEntity.ok().build();
     }
 
+    public ResponseEntity<?> getProductInfo(String userId, String productId) {
+        try {
+            Product product = digitalBarterService.getProductInfo(userId,productId);
+            return ResponseEntity.ok(product);
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
+    }
+
+    private ResponseEntity<ErrorTO> constructErrorTO(NotFoundException nfe){
+        return ResponseEntity.ok(new ErrorTO(nfe.getLocalizedMessage()));
+    }
+
+    private ResponseEntity<?> getUserDeals(String userId, DealsSupplier dealsSupplier) {
+        try {
+            User user = digitalBarterService.getUser(userId);
+            List<DealTO> offers = digitalBarterService.getDealTOs(dealsSupplier.getDeals(user));
+            return ResponseEntity.ok(offers);
+        }
+        catch (NotFoundException nfe){
+            return constructErrorTO(nfe);
+        }
+    }
+}
+
+@FunctionalInterface
+interface DealsSupplier{
+    List<Deal> getDeals(User user);
 }

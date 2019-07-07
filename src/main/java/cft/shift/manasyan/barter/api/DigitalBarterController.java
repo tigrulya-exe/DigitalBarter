@@ -26,14 +26,36 @@ public class DigitalBarterController {
         return responseConstructorService.getOffers();
     }
 
+    @GetMapping(BARTER_PATH + "/{userId}/offers")
+    public ResponseEntity<?> getUserOffers(@PathVariable String userId){
+        return responseConstructorService.getUserOffers(userId);
+    }
+
+    @GetMapping(BARTER_PATH + "/{userId}/desires")
+    public ResponseEntity<?> getUserDesires(@PathVariable String userId){
+        return responseConstructorService.getUserDesires(userId);
+    }
+
     @GetMapping(BARTER_PATH + "/{userId}/backpack")
-    public ResponseEntity<List<Product>> getBackpack(@PathVariable String userId){
+    public ResponseEntity<?> getBackpack(@PathVariable String userId){
         return responseConstructorService.getBackpack(userId);
     }
 
     @GetMapping(BARTER_PATH + "/{userId}/offerResponses")
-    public ResponseEntity<List<ResponseTO>> getOfferResponses(@PathVariable String userId){
+    public ResponseEntity<?> getOfferResponses(@PathVariable String userId){
         return responseConstructorService.getOfferResponses(userId);
+    }
+
+    @GetMapping(BARTER_PATH + "/{userId}/desireResponses")
+    public ResponseEntity<?> getDesireResponses(@PathVariable String userId){
+        return responseConstructorService.getDesireResponses(userId);
+    }
+
+    @GetMapping(BARTER_PATH + "/{userId}/{productId}")
+    public ResponseEntity<?> getProductInfo(
+            @PathVariable String userId,
+            @PathVariable String productId){
+        return responseConstructorService.getProductInfo(userId, productId);
     }
 
     @PostMapping (BARTER_PATH + "/login")
@@ -42,7 +64,7 @@ public class DigitalBarterController {
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/desireResponse")
-    public ResponseEntity<ResponseTO> handleDesireResponse(
+    public ResponseEntity<?> handleDesireResponse(
             @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
@@ -51,7 +73,7 @@ public class DigitalBarterController {
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/offerResponse")
-    public ResponseEntity<ResponseTO> handleOfferResponse(
+    public ResponseEntity<?> handleOfferResponse(
             @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
@@ -60,7 +82,7 @@ public class DigitalBarterController {
     }
 
     @PostMapping (BARTER_PATH + "/{userId}/backpack")
-    public ResponseEntity<Product> putProductInBackpack(
+    public ResponseEntity<?> putProductInBackpack(
             @PathVariable String userId,
             @RequestBody ProductTO productTO){
 
@@ -84,7 +106,7 @@ public class DigitalBarterController {
     }
 
     @PostMapping (BARTER_PATH + "/desires")
-    public ResponseEntity<DealTO> createDesire(
+    public ResponseEntity<?> createDesire(
             @RequestHeader("userId") String userId,
             @RequestBody DesireTO desireDTO){
 

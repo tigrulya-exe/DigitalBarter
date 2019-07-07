@@ -7,7 +7,7 @@ public class ProductService {
     public Product createProduct(User owner, Product.ProductType type, String name, String  picURL)
     {
         Product prod = new Product(type, name, picURL);
-        owner.getBackpack().addProduct(prod);
+        owner.getBackpack().putProduct(prod);
         return prod;
     }
 }

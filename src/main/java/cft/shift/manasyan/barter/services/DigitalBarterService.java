@@ -11,6 +11,7 @@ import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.Backpack;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.repositories.BarterDealRepository;
+import cft.shift.manasyan.barter.repositories.DealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -50,38 +51,35 @@ public class DigitalBarterService {
         return new ArrayList<>(users.values());
     }
 
-    public User getPerson(String userId){
+    public User getUser(String userId) throws NotFoundException{
+        User user =  users.get(userId);
+        if (user == null)
+            throw new NotFoundException("Wrong userId");
         return users.get(userId);
     }
 
     public void acceptDesire(String dealId, String responseId){
-        Desire desire = desiresRepository.getDeal(dealId);
+        Desire desire = getDeal(desiresRepository,dealId);
         desiresRepository.closeDeal(dealId);
         desire.closeDeal(responseId);
     }
 
     public void acceptOffer(String dealId, String responseId){
-        Offer offer = offersRepository.getDeal(dealId);
+        Offer offer = getDeal(offersRepository, dealId);
         offersRepository.closeDeal(dealId);
         offer.closeDeal(responseId);
     }
 
-    public Deal createOffer(String userId, OfferTO offerTO){
-        Offer offer;
+    public Deal createOffer(String userId, OfferTO offerTO) {
+        User user = getUser(userId);
+        Offer offer = new Offer(offerTO, user);
+        offersRepository.addDeal(offer);
 
-        try {
-            User user = users.get(userId);
-            offer = new Offer(offerTO, user);
-            offersRepository.addDeal(offer);
-        }
-        catch (NullPointerException npe){
-            throw new NotFoundException(npe.getLocalizedMessage().split(" ")[0]);
-        }
         return offer;
     }
 
     public Desire createDesire(String userId, DesireTO desireDTO) {
-        User user = users.get(userId);
+        User user = getUser(userId);
         Desire desire = new Desire(desireDTO,user);
         desiresRepository.addDeal(desire);
 
@@ -102,7 +100,6 @@ public class DigitalBarterService {
         return handleResponse(dealId,userId,productId,offersRepository);
     }
 
-
     public DesireResponse handleDesireResponse(String dealId, String userId, String productId){
         return (DesireResponse) handleResponse(dealId,userId,productId,desiresRepository);
     }
@@ -112,57 +109,75 @@ public class DigitalBarterService {
     }
 
     public void handleSecondDesireResponse(String desireId, String responseId, String productId){
-        Desire desire = desiresRepository.getDeal(desireId);
+        Desire desire = getDeal(desiresRepository, desireId);
         DesireResponse response = desire.getDealResponse(responseId);
-        Product product = desire.getDealHolder().getBackpack().getProduct(productId);
+        Product product = desire.getDealHolder().getBackpack().getAndDeleteProduct(productId);
         response.setDesiredProductResponse(product);
     }
 
     public Product putProductInBackpack(String userId, Product product){
-        Backpack backpack =  users.get(userId).getBackpack();
-        backpack.putProduct(product);
+        User user = getUser(userId);
+        user.getBackpack().putProduct(product);
 
         return product;
     }
 
     public List<DealTO> getOfferTOs() {
-        return getDealTOs(offersRepository);
+        return getDealTOs(offersRepository.getDeals());
     }
 
     public List<DealTO> getDesireTOs() {
-        return getDealTOs(desiresRepository);
+        return getDealTOs(desiresRepository.getDeals());
+    }
+
+    public Product getProductInfo(String userId, String productId) {
+        User user = getUser(userId);
+        return user.getBackpack().getProduct(productId);
     }
 
     public List<ResponseTO> getOfferResponses(String userId){
-        User user = users.get(userId);
-        if(user == null)
-            throw new NotFoundException("User");
+        User user = getUser(userId);
+        List<ResponseTO> responseTOs = new ArrayList<>();
 
-        List<DealResponse> offerResponses = user.getOfferResponses();
-        List<ResponseTO> offerResponseTOs = new ArrayList<>();
-
-        for(DealResponse response : offerResponses){
-            offerResponseTOs.add(new ResponseTO(response));
+        for(DealResponse response : user.getOfferResponses()){
+            responseTOs.add(new ResponseTO(response));
         }
 
-        return offerResponseTOs;
+        return responseTOs;
     }
 
-    private List<DealTO> getDealTOs(BarterDealRepository<?> repository){
-        List<DealTO> desireDTOS = new ArrayList<>();
+    public List<ResponseTO> getDesireResponses(String userId){
+        User user = getUser(userId);
+        List<ResponseTO> responseTOs = new ArrayList<>();
 
-        for(Deal desire : repository.getDeals()){
-            desireDTOS.add(new DealTO(desire));
+        for(DesireResponse response : user.getDesireResponses()){
+            responseTOs.add(new DesireResponseTO(response));
         }
-        return desireDTOS;
+
+        return responseTOs;
+    }
+
+    public  <T extends Deal> List<DealTO> getDealTOs(List<T> deals){
+        List<DealTO> dealTOS = new ArrayList<>();
+
+        for(Deal deal : deals){
+            dealTOS.add(new DealTO(deal));
+        }
+        return dealTOS;
     }
 
     private DealResponse handleResponse(String offerId, String userId, String productId, BarterDealRepository<?> repository){
-        User responder = users.get(userId);
-        Deal deal = repository.getDeal(offerId);
-        Product product = responder.getBackpack().getProduct(productId);
+        User responder = getUser(userId);
+        Deal deal = getDeal(repository, offerId);
+        Product product = responder.getBackpack().getAndDeleteProduct(productId);
 
         return deal.registerResponse(responder , product);
     }
 
+    private <T extends Deal> T getDeal(DealRepository<T> repository, String dealId) throws NotFoundException{
+        T deal = repository.getDeal(dealId);
+        if(deal == null)
+            throw new NotFoundException("Wrong deal id");
+        return deal;
+    }
 }

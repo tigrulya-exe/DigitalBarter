@@ -34,12 +34,12 @@ public class DealResponse {
 
     public void accept(User dealOwner, Product dealOwnerProduct)
     {
-        dealOwner.getBackpack().addProduct(responseProduct);
+        dealOwner.getBackpack().putProduct(responseProduct);
         responseProduct = null;
-        responseHolder.getBackpack().addProduct(dealOwnerProduct);
+        responseHolder.getBackpack().putProduct(dealOwnerProduct);
     }
 
     public void discard(){
-        responseHolder.getBackpack().addProduct(responseProduct);
+        responseHolder.getBackpack().putProduct(responseProduct);
     }
 }

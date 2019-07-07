@@ -6,7 +6,6 @@ public class DesireTO {
     private String description;
     private ProductTO product;
 
-
     public DesireTO(){}
 
     public DesireTO(String description, ProductTO product) {

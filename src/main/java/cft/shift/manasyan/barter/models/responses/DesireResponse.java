@@ -22,11 +22,12 @@ public class DesireResponse extends DealResponse {
     @Override
     public void accept(User dealOwner, Product dealOwnerProduct)
     {
-        dealOwner.getBackpack().addProduct(getResponseProduct());
-        getResponseHolder().getBackpack().addProduct(desiredProductResponse);
+        dealOwner.getBackpack().putProduct(getResponseProduct());
+        getResponseHolder().getBackpack().putProduct(desiredProductResponse);
     }
 
     public Product getDesiredProductResponse() {
         return desiredProductResponse;
     }
+
 }

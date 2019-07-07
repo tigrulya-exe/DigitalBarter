@@ -22,6 +22,8 @@ public class Product {
 
     private String pictureURL;
 
+    private String description = "PLACE FOR CONTEXT";
+
     public Product(ProductType type, String name, String pictureURL) {
         this.type = type;
         this.name = name;
@@ -63,5 +65,12 @@ public class Product {
         this.pictureURL = pictureURL;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
 

@@ -1,7 +1,9 @@
 package cft.shift.manasyan.barter.models.deals;
 
+import cft.shift.manasyan.barter.exceptions.NotFoundException;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.Product;
+import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.User;
 import lombok.NonNull;
 
@@ -20,7 +22,6 @@ public abstract class Deal {
 
     public Deal(@NonNull Product product, @NonNull User user, @NonNull String description) {
         this.dealHolder = user;
-        dealHolder.getBackpack().deleteProduct(product.getId());
         this.dealProduct = product;
         this.description = description;
         this.id = product.getId();/*unique id - concatenation person id and dealProduct id */
@@ -44,8 +45,10 @@ public abstract class Deal {
     }
 
     public DealResponse getDealResponse(String responseId){
-        return responses.get(responseId);
-    }
+        DealResponse dealResponse = getResponses().get(responseId);
+        if(dealResponse == null)
+            throw new NotFoundException("Wrong offerId");
+        return dealResponse;    }
 
     public Map<String, DealResponse> getResponses() {
         return responses;
@@ -71,8 +74,10 @@ public abstract class Deal {
     }
 
     public void closeDeal(String responseId) {
-        for(Map.Entry<String, DealResponse> entry : responses.entrySet())
-        {
+        if(responses.get(responseId) == null)
+            throw new NotFoundException("Wrong responseId");
+
+        for(Map.Entry<String, DealResponse> entry : responses.entrySet()) {
             String key = entry.getKey();
             DealResponse response = entry.getValue();
             if(key.equals(responseId))/*accept response with argument id*/

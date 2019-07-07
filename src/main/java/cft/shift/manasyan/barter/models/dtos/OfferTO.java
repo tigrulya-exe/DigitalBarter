@@ -6,8 +6,7 @@ public class OfferTO {
     private String description;
     private String productId;
 
-    public OfferTO() {
-    }
+    public OfferTO() {}
 
     public OfferTO(String description, String productId) {
         this.description = description;
