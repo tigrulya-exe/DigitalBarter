@@ -1,12 +1,8 @@
 package cft.shift.manasyan.barter.api;
 
-import cft.shift.manasyan.barter.models.user.Backpack;
-import cft.shift.manasyan.barter.models.deals.Deal;
-import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.dtos.*;
-import cft.shift.manasyan.barter.services.DigitalBarterService;
-import cft.shift.manasyan.barter.services.LoggingService;
+import cft.shift.manasyan.barter.services.ResponseConstructorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,54 +14,49 @@ public class DigitalBarterController {
     private static final String BARTER_PATH = "/api/v001/barter";
 
     @Autowired
-    private LoggingService loggingService;
-    @Autowired
-    private DigitalBarterService digitalBarterService;
+    private ResponseConstructorService responseConstructorService;
 
     @GetMapping(BARTER_PATH + "/desires")
     public ResponseEntity<List<DealTO>> getDesires(){
-        return ResponseEntity.ok(digitalBarterService.getDesireDTOs());
+        return responseConstructorService.getDesires();
     }
 
     @GetMapping(BARTER_PATH + "/offers")
     public ResponseEntity<List<DealTO>> getOffers(){
-        digitalBarterService.getOfferDTOs();
-        return ResponseEntity.ok(digitalBarterService.getOfferDTOs());
+        return responseConstructorService.getOffers();
     }
 
     @GetMapping(BARTER_PATH + "/{userId}/backpack")
     public ResponseEntity<List<Product>> getBackpack(@PathVariable String userId){
+        return responseConstructorService.getBackpack(userId);
+    }
 
-        Backpack backpack =  digitalBarterService.getPerson(userId).getBackpack();
-        return ResponseEntity.ok(backpack.getProducts());
+    @GetMapping(BARTER_PATH + "/{userId}/offerResponses")
+    public ResponseEntity<List<ResponseTO>> getOfferResponses(@PathVariable String userId){
+        return responseConstructorService.getOfferResponses(userId);
     }
 
     @PostMapping (BARTER_PATH + "/login")
     public ResponseEntity<UserTO> registerUser(@RequestHeader("userName") String userName){
-
-        User user = digitalBarterService.createUser(userName);
-        loggingService.newUserEvent(user);
-        return ResponseEntity.ok(new UserTO(user.getUid()));
+        return responseConstructorService.registerUser(userName);
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/desireResponse")
-    public ResponseEntity<ReactionTO> handleDesireResponse(
+    public ResponseEntity<ResponseTO> handleDesireResponse(
             @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
-        String responseId = digitalBarterService.handleDesireResponse(dealId,userId,productId);
-        return ResponseEntity.ok(new ReactionTO(responseId));
+        return responseConstructorService.handleDesireResponse(dealId,userId,productId);
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/offerResponse")
-    public ResponseEntity<ReactionTO> handleOfferResponse(
+    public ResponseEntity<ResponseTO> handleOfferResponse(
             @PathVariable String dealId,
             @RequestHeader("userId") String userId,
             @RequestHeader("productId") String productId){
 
-        String responseId =  digitalBarterService.handleOfferResponse(dealId,userId,productId);
-        return ResponseEntity.ok(new ReactionTO(responseId));
+        return responseConstructorService.handleOfferResponse(dealId,userId,productId);
     }
 
     @PostMapping (BARTER_PATH + "/{userId}/backpack")
@@ -73,9 +64,7 @@ public class DigitalBarterController {
             @PathVariable String userId,
             @RequestBody ProductTO productTO){
 
-        Product product = digitalBarterService.putProductInBackpack(userId, productTO);
-        loggingService.newProductEvent(userId, productTO);
-        return ResponseEntity.ok(product);
+        return responseConstructorService.putProductInBackpack(userId,productTO);
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/acceptDesire")
@@ -83,9 +72,7 @@ public class DigitalBarterController {
             @PathVariable String dealId,
             @RequestHeader("responseId") String responseId){
 
-        digitalBarterService.acceptDesire(dealId,responseId);
-        loggingService.acceptOfferEvent(dealId,responseId);
-        return ResponseEntity.ok().build();
+        return responseConstructorService.acceptDesire(dealId,responseId);
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/acceptOffer")
@@ -93,9 +80,7 @@ public class DigitalBarterController {
             @PathVariable String dealId,
             @RequestHeader("responseId") String responseId){
 
-        digitalBarterService.acceptOffer(dealId,responseId);
-        loggingService.acceptOfferEvent(dealId,responseId);
-        return ResponseEntity.ok().build();
+        return responseConstructorService.acceptOffer(dealId,responseId);
     }
 
     @PostMapping (BARTER_PATH + "/desires")
@@ -103,19 +88,15 @@ public class DigitalBarterController {
             @RequestHeader("userId") String userId,
             @RequestBody DesireTO desireDTO){
 
-        Deal desire =  digitalBarterService.createDesire(userId, desireDTO);
-        loggingService.newDesireEvent(desire);
-        return ResponseEntity.ok(new DealTO(desire));
+        return responseConstructorService.createDesire(userId,desireDTO);
     }
 
     @PostMapping (BARTER_PATH + "/offers")
-    public ResponseEntity<DealTO> createOffer(
+    public ResponseEntity<?> createOffer(
             @RequestHeader("userId") String userId,
             @RequestBody OfferTO offerTO){
 
-        Deal offer =  digitalBarterService.createOffer(userId, offerTO);
-        loggingService.newOfferEvent(offer);
-        return ResponseEntity.ok(new DealTO(offer));
+        return responseConstructorService.createOffer(userId,offerTO);
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/{responseId}/desireResponse")
@@ -124,8 +105,7 @@ public class DigitalBarterController {
             @PathVariable String dealId,
             @PathVariable String responseId){
 
-        digitalBarterService.handleSecondDesireResponse(dealId,responseId,productId);
-        return ResponseEntity.ok().build();
+        return responseConstructorService.handleSecondDesireResponse(productId,dealId,responseId);
     }
     //TODO handlers for desire/offer detailed view
 }

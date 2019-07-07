@@ -3,26 +3,27 @@ package cft.shift.manasyan.barter.models.deals;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
+import lombok.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /*class of offer. It could be "I want it" or "I want to change it for something"*/
+
 public abstract class Deal {
-    private Product dealProduct = null;
-    private User dealHolder = null;
-    private String id = null;
-    private String description = null;
+    private Product dealProduct;
+    private User dealHolder;
+    private final String id;
+    private String description;
 
     private Map<String, DealResponse> responses;
 
-    public Deal(Product prod, User own, String description)
-    {
-        this.dealHolder = own;
-        dealHolder.getBackpack().deleteProduct(prod.getId());
-        this.dealProduct = prod;
+    public Deal(@NonNull Product product, @NonNull User user, @NonNull String description) {
+        this.dealHolder = user;
+        dealHolder.getBackpack().deleteProduct(product.getId());
+        this.dealProduct = product;
         this.description = description;
-        this.id = prod.getId();/*unique id - concatenation person id and dealProduct id */
+        this.id = product.getId();/*unique id - concatenation person id and dealProduct id */
         this.responses = new HashMap<>();
     }
 
@@ -50,10 +51,10 @@ public abstract class Deal {
         return responses;
     }
 
-    protected abstract DealResponse createDealResponse(User user, Product product);
+    protected abstract DealResponse createDealResponse(@NonNull User user, @NonNull Product product);
 
 
-    public String registerResponse(User answerer, Product answererProduct) {
+    public DealResponse registerResponse(User answerer, Product answererProduct) {
         try{
             if(answerer == null || answererProduct == null)
                 throw new Exception();
@@ -66,7 +67,7 @@ public abstract class Deal {
 
         DealResponse newResponse = createDealResponse(answerer,answererProduct);
         responses.put(newResponse.getId(), newResponse);/*add new response to list of dtos of this offer*/
-        return newResponse.getId();
+        return newResponse;
     }
 
     public void closeDeal(String responseId) {

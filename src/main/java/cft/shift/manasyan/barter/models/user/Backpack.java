@@ -1,6 +1,7 @@
 package cft.shift.manasyan.barter.models.user;
 
 import cft.shift.manasyan.barter.models.Product;
+import lombok.NonNull;
 import org.springframework.stereotype.Component;
 
 import java.util.*;

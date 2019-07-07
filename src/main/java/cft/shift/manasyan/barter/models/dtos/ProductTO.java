@@ -4,21 +4,21 @@ import cft.shift.manasyan.barter.models.Product;
 
 public class ProductTO {
     private String name;
-    private String pictureUrl;
+    private String pictureURL;
     private String type;
 
     public ProductTO(){}
 
-    public ProductTO(String name, String pictureUrl, String type) {
+    public ProductTO(String name, String pictureURL, String type) {
         this.name = name;
-        this.pictureUrl = pictureUrl;
+        this.pictureURL = pictureURL;
         this.type = type;
     }
 
     public ProductTO(Product product)
     {
         name = product.getName();
-        pictureUrl = product.getPictureURL();
+        pictureURL = product.getPictureURL();
         type = product.getType().toString();
     }
 
@@ -26,8 +26,8 @@ public class ProductTO {
         return name;
     }
 
-    public String getPictureUrl() {
-        return pictureUrl;
+    public String getPictureURL() {
+        return pictureURL;
     }
 
     public String getType() {
@@ -38,8 +38,8 @@ public class ProductTO {
         this.name = name;
     }
 
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
     }
 
     public void setType(String type) {

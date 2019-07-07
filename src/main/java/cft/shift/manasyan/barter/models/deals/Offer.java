@@ -4,14 +4,14 @@ import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.models.dtos.OfferTO;
+import lombok.NonNull;
 
 import java.util.HashMap;
 
 public class Offer extends Deal {
     private HashMap<String, DealResponse> responses = null;/*list of responses to current offer*/
 
-    public Offer(OfferTO offerTO, User user)
-    {
+    public Offer(OfferTO offerTO, @NonNull User user) {
         super(user.getBackpack().getProduct(offerTO.getProductId()), user,  offerTO.getDescription());
         getDealHolder().getUserDeals().addOffer(this);
     }

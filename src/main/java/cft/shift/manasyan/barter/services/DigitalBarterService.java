@@ -1,13 +1,12 @@
 package cft.shift.manasyan.barter.services;
 
+import cft.shift.manasyan.barter.exceptions.NotFoundException;
 import cft.shift.manasyan.barter.models.*;
 import cft.shift.manasyan.barter.models.deals.Deal;
 import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.models.deals.Offer;
-import cft.shift.manasyan.barter.models.dtos.DealTO;
-import cft.shift.manasyan.barter.models.dtos.DesireTO;
-import cft.shift.manasyan.barter.models.dtos.OfferTO;
-import cft.shift.manasyan.barter.models.dtos.ProductTO;
+import cft.shift.manasyan.barter.models.dtos.*;
+import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.Backpack;
 import cft.shift.manasyan.barter.models.user.User;
@@ -68,10 +67,16 @@ public class DigitalBarterService {
     }
 
     public Deal createOffer(String userId, OfferTO offerTO){
-        User user = users.get(userId);
-        Offer offer = new Offer(offerTO, user);
-        offersRepository.addDeal(offer);
+        Offer offer;
 
+        try {
+            User user = users.get(userId);
+            offer = new Offer(offerTO, user);
+            offersRepository.addDeal(offer);
+        }
+        catch (NullPointerException npe){
+            throw new NotFoundException(npe.getLocalizedMessage().split(" ")[0]);
+        }
         return offer;
     }
 
@@ -93,13 +98,13 @@ public class DigitalBarterService {
         users.put(user.getUid(), user);
     }
 
-    public String handleOfferResponse(String dealId, String userId, String productId){
+    public DealResponse handleOfferResponse(String dealId, String userId, String productId){
         return handleResponse(dealId,userId,productId,offersRepository);
     }
 
 
-    public String handleDesireResponse(String dealId, String userId, String productId){
-        return handleResponse(dealId,userId,productId,desiresRepository);
+    public DesireResponse handleDesireResponse(String dealId, String userId, String productId){
+        return (DesireResponse) handleResponse(dealId,userId,productId,desiresRepository);
     }
 
     public Product putProductInBackpack(String userId, ProductTO productTO){
@@ -120,15 +125,30 @@ public class DigitalBarterService {
         return product;
     }
 
-    public List<DealTO> getOfferDTOs() {
-        return getDTOs(offersRepository);
+    public List<DealTO> getOfferTOs() {
+        return getDealTOs(offersRepository);
     }
 
-    public List<DealTO> getDesireDTOs() {
-        return getDTOs(desiresRepository);
+    public List<DealTO> getDesireTOs() {
+        return getDealTOs(desiresRepository);
     }
 
-    private List<DealTO> getDTOs(BarterDealRepository<?> repository){
+    public List<ResponseTO> getOfferResponses(String userId){
+        User user = users.get(userId);
+        if(user == null)
+            throw new NotFoundException("User");
+
+        List<DealResponse> offerResponses = user.getOfferResponses();
+        List<ResponseTO> offerResponseTOs = new ArrayList<>();
+
+        for(DealResponse response : offerResponses){
+            offerResponseTOs.add(new ResponseTO(response));
+        }
+
+        return offerResponseTOs;
+    }
+
+    private List<DealTO> getDealTOs(BarterDealRepository<?> repository){
         List<DealTO> desireDTOS = new ArrayList<>();
 
         for(Deal desire : repository.getDeals()){
@@ -137,7 +157,7 @@ public class DigitalBarterService {
         return desireDTOS;
     }
 
-    private String handleResponse(String offerId, String userId, String productId, BarterDealRepository<?> repository){
+    private DealResponse handleResponse(String offerId, String userId, String productId, BarterDealRepository<?> repository){
         User responder = users.get(userId);
         Deal deal = repository.getDeal(offerId);
         Product product = responder.getBackpack().getProduct(productId);

@@ -30,7 +30,7 @@ public class Product {
 
     public Product (ProductTO root)/*construct product by ProductTO*/
     {
-        this.pictureURL = root.getPictureUrl();
+        this.pictureURL = root.getPictureURL();
         this.name = root.getName();
         this.type = ProductType.valueOf(root.getType());
     }

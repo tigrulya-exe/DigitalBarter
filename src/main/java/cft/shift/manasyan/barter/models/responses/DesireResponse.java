@@ -10,6 +10,11 @@ public class DesireResponse extends DealResponse {
         super(responseHolder, desiredProduct);
     }
 
+    @Override
+    protected void registerResponse(){
+        getResponseHolder().getUserResponses().addDesireResponse(this);
+    }
+
     public void setDesiredProductResponse(Product desiredProductResponse) {
         this.desiredProductResponse = desiredProductResponse;
     }

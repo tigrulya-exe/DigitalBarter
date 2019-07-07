@@ -12,6 +12,12 @@ public class DealResponse {
         this.responseHolder = responseHolder;
         this.responseProduct = responseProduct;
         this.id = responseHolder.getUid();
+
+        registerResponse();
+    }
+
+    protected void registerResponse(){
+        responseHolder.getUserResponses().addOfferResponse(this);
     }
 
     public User getResponseHolder() {
