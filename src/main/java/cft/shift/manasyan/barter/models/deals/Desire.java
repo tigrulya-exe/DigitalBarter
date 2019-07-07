@@ -11,6 +11,11 @@ public class Desire extends Deal {
         super(new Product(desireDTO.getProduct()), user, desireDTO.getDescription());
         getDealHolder().getUserDeals().addDesire(this);
     }
+    public Desire(Product product, User holder, String description)
+    {
+        super(product, holder, description);
+        holder.getUserDeals().addDesire(this);
+    }
 
     @Override
     public DesireResponse getDealResponse(String responseId){

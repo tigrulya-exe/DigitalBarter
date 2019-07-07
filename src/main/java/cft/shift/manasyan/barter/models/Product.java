@@ -22,6 +22,15 @@ public class Product {
 
     private String pictureURL;
 
+    private String description = "It is dead nice product.";
+
+    public Product(ProductType type, String name, String pictureURL, String descript) {
+        this.type = type;
+        this.name = name;
+        this.pictureURL = pictureURL;
+        this.description = descript;
+    }
+
     public Product(ProductType type, String name, String pictureURL) {
         this.type = type;
         this.name = name;
@@ -45,6 +54,10 @@ public class Product {
 
     public String getId() {
         return id;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {
