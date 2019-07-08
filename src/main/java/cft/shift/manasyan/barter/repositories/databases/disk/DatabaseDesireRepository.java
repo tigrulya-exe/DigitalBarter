@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 @Repository
 @ConditionalOnProperty(name = "use.database", havingValue = "true")
@@ -19,20 +20,45 @@ public class DatabaseDesireRepository implements DealRepository {
 
     @Autowired
     private DesireExtractor desireExtractor;
-
+/*
+    @PostConstruct
+    public void initialize()
+    {
+        String createUserTableSql = "create table BARTER_DESIRES (" +
+                "DESIRE_AND_PRODUCT_ID  VARCHAR(128),"+
+                "HOLDER_ID     VARCHAR(128)," +
+                "DESCRIPTION     VARCHAR(512)" +
+                ");";
+        jdbcTemplate.update(createUserTableSql, new MapSqlParameterSource());
+    }
+*/
     @Override
     public void addDeal(Deal deal) {
-
+        Desire desire = (Desire)deal;
+        String insertProductSql = "insert into BARTER_DESIRES (DESIRE_AND_PRODUCT_ID, HOLDER_ID, DESCRIPTION) values (:desireId, :holderId, :description)";
+        MapSqlParameterSource desireParams = new MapSqlParameterSource()
+                .addValue("desireId", desire.getId())
+                .addValue("holderId", desire.getDealHolder())
+                .addValue("description", desire.getDescription());
+        jdbcTemplate.update(insertProductSql, desireParams);
     }
 
     @Override
     public void closeDeal(String dealId) {
+        String deleteDesireSql = "delete from BARTER_DESIRES where DESIRE_AND_PRODUCT_ID=:desireId";
 
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("desireId", dealId);
+
+        jdbcTemplate.update(deleteDesireSql, params);
     }
 
     @Override
     public List<Desire> getDeals() {
-        return null;
+        String sql = "select BARTER_DESIRES.DESIRE_AND_PRODUCT_ID, HOLDER_ID, DESCRIPTION " +
+                "from BARTER_DESIRES";
+
+        return jdbcTemplate.query(sql, desireExtractor);
     }
 
     @Override
