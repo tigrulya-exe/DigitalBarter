@@ -10,35 +10,33 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class BarterUserRepository
-{
+public class BarterUserRepository {
     private Map<String, User> users;
-    public BarterUserRepository()
-    {
+
+    public BarterUserRepository() {
         this.users = new HashMap<>();
     }
-    public BarterUserRepository(Map<String, User>users)
-    {
+
+    public BarterUserRepository(Map<String, User> users) {
         this.users = users;
     }
-    public void addUser(User user)
-    {
+
+    public void addUser(User user) {
         users.put(user.getUid(), user);
     }
-    public void deleteUser(String userId)
-    {
 
+    public void deleteUser(String userId) {
         if (users.remove(userId) == null)
-        {
-            throw new NotFoundException();
-        }
+            throw new NotFoundException("Wrong userId");
     }
     public List<User> getUsers()
     {
         return (new ArrayList<>(users.values()));
     }
-    public User getUser(String userId)
-    {
+    public User getUser(String userId) {
+        User user = users.get(userId);
+        if (user == null)
+            throw new NotFoundException("Wrong userId");
         return users.get(userId);
     }
 

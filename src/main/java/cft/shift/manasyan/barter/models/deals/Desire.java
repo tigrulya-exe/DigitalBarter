@@ -9,7 +9,7 @@ import cft.shift.manasyan.barter.models.dtos.DesireTO;
 public class Desire extends Deal {
     public Desire(DesireTO desireDTO, User user) {
         super(new Product(desireDTO.getProduct()), user, desireDTO.getDescription());
-        getDealHolder().getUserDeals().addDesire(this);
+//        getDealHolder().getUserDeals().addDesire(this);
     }
 
     @Override

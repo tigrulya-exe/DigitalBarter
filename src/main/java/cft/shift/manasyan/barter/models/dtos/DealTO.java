@@ -1,7 +1,7 @@
 package cft.shift.manasyan.barter.models.dtos;
 
-import cft.shift.manasyan.barter.models.deals.Deal;
 import cft.shift.manasyan.barter.models.Product;
+import cft.shift.manasyan.barter.models.deals.Deal;
 
 public class DealTO {
     private String name;
@@ -16,13 +16,6 @@ public class DealTO {
         this.description = deal.getDescription();
         this.product = deal.getDealProduct();
         this.id = deal.getId();
-    }
-
-    public DealTO(String name, String description ,Product product, String id) {
-        this.name = name;
-        this.description = description;
-        this.product = product;
-        this.id = id;
     }
 
     public String getName() {
@@ -54,6 +47,6 @@ public class DealTO {
     }
 
     public void setProduct(Product product) {
-        this.product = product;
+        this.product = this.product;
     }
 }

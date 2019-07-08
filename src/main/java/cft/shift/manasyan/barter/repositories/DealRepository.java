@@ -9,7 +9,7 @@ import java.util.List;
 public interface DealRepository<T extends Deal> {
     void addDeal(T deal);
 
-    void closeDeal(String dealId);
+    void removeDeal(String dealId);
 
     List<T> getDeals();
 

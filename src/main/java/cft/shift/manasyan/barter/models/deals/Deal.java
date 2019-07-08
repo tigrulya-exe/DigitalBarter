@@ -3,7 +3,6 @@ package cft.shift.manasyan.barter.models.deals;
 import cft.shift.manasyan.barter.exceptions.NotFoundException;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.Product;
-import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.User;
 import lombok.NonNull;
 
@@ -58,16 +57,6 @@ public abstract class Deal {
 
 
     public DealResponse registerResponse(User answerer, Product answererProduct) {
-        try{
-            if(answerer == null || answererProduct == null)
-                throw new Exception();
-        }
-        catch(Exception e)
-        {
-            System.out.println("registerDealResponse had incorrect data");
-            return null;
-        }
-
         DealResponse newResponse = createDealResponse(answerer,answererProduct);
         responses.put(newResponse.getId(), newResponse);/*add new response to list of dtos of this offer*/
         return newResponse;

@@ -1,8 +1,8 @@
 package cft.shift.manasyan.barter.services;
 
-import cft.shift.manasyan.barter.api.DigitalBarterController;
+import cft.shift.manasyan.barter.api.UserController;
+import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.deals.Deal;
-import cft.shift.manasyan.barter.models.dtos.ProductTO;
 import cft.shift.manasyan.barter.models.user.User;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,11 @@ public class LoggingService {
     private static final String PROPERTIES_PATH = "logging.properties";
 
     public LoggingService(){
-        InputStream stream = DigitalBarterController.class.getClassLoader().
+        InputStream stream = UserController.class.getClassLoader().
                 getResourceAsStream(PROPERTIES_PATH);
         try {
             LogManager.getLogManager().readConfiguration(stream);
-            logger = Logger.getLogger(DigitalBarterController.class.getName());
+            logger = Logger.getLogger(UserController.class.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,8 +31,8 @@ public class LoggingService {
         logger.info("User " + user.getName() + " with id [" + user.getUid() + "] was created");
     }
 
-    public void newProductEvent(String userId, ProductTO productTO){
-        logger.info("User with id [" + userId + "] added " + productTO.getName());
+    public void newProductEvent(String userId, Product product){
+        logger.info("User with id [" + userId + "] added " + product.getName());
     }
 
     public void newDesireEvent(Deal desire){

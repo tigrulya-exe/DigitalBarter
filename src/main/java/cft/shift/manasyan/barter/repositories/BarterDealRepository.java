@@ -25,9 +25,9 @@ public class BarterDealRepository<T extends Deal> implements DealRepository<T> {
     }
 
     @Override
-    public void closeDeal(String dealId) {
+    public void removeDeal(String dealId) {
         if (deals.remove(dealId) == null){
-            throw new NotFoundException();
+            throw new NotFoundException("Wrong dealId");
         }
     }
 
@@ -38,6 +38,9 @@ public class BarterDealRepository<T extends Deal> implements DealRepository<T> {
 
     @Override
     public T getDeal(String dealId) {
+        Deal deal = deals.get(dealId);
+        if(deal == null)
+            throw new NotFoundException("Wrong dealId");
         return deals.get(dealId);
     }
 

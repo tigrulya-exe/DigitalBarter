@@ -3,6 +3,7 @@ package cft.shift.manasyan.barter.models.dtos;
 import cft.shift.manasyan.barter.models.Product;
 
 public class ProductTO {
+    private String id;
     private String name;
     private String pictureURL;
     private String type;
@@ -17,6 +18,7 @@ public class ProductTO {
 
     public ProductTO(Product product)
     {
+        id = product.getId();
         name = product.getName();
         pictureURL = product.getPictureURL();
         type = product.getType().toString();
@@ -46,5 +48,11 @@ public class ProductTO {
         this.type = type;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 }

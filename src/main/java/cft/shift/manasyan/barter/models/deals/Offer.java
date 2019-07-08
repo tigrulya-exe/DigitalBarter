@@ -13,8 +13,8 @@ public class Offer extends Deal {
 
     public Offer(OfferTO offerTO, @NonNull User user) {
         super(user.getBackpack().getProduct(offerTO.getProductId()), user,  offerTO.getDescription());
-        getDealHolder().getBackpack().deleteProduct(getDealProduct().getId());
-        getDealHolder().getUserDeals().addOffer(this);
+//        getDealHolder().getBackpack().deleteProduct(getDealProduct().getId());
+//        getDealHolder().getUserDeals().addOffer(this);
     }
 
     @Override

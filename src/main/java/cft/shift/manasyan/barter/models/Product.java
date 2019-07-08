@@ -30,8 +30,10 @@ public class Product {
         this.pictureURL = pictureURL;
     }
 
-    public Product (ProductTO root)/*construct product by ProductTO*/
-    {
+    //for Json
+    public Product(){}
+
+    public Product (ProductTO root)/*construct product by ProductTO*/ {
         this.pictureURL = root.getPictureURL();
         this.name = root.getName();
         this.type = ProductType.valueOf(root.getType());
