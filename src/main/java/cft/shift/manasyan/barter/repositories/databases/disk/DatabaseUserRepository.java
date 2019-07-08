@@ -1,16 +1,17 @@
-package cft.shift.manasyan.barter.repositories;
+package cft.shift.manasyan.barter.repositories.databases.disk;
 
 import cft.shift.manasyan.barter.models.user.User;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.UserRepository;
+import cft.shift.manasyan.barter.repositories.extractors.UserExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.List;
+
 @Repository
 @ConditionalOnProperty(name = "use.database", havingValue = "true")
 public class DatabaseUserRepository implements UserRepository {
@@ -70,6 +71,7 @@ public class DatabaseUserRepository implements UserRepository {
        return users.get(0);
     }
 
+
     @Override
     public User updateUser(String userId, String name, User user) {
         //update information about user
@@ -102,19 +104,39 @@ public class DatabaseUserRepository implements UserRepository {
     public User createUser(String name, User user) {
         //add user by name
         String insertUserSql = "insert into BARTER_USERS (USER_ID, NAME) values (:userId, :name)";
-        //there are no USER_ID because database will generate it
         MapSqlParameterSource userParams = new MapSqlParameterSource()
                 .addValue("name", name)
                 .addValue("userId", user.getUid());
 
-        //this class will give generated user_id
-        GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-
-        jdbcTemplate.update(insertUserSql, userParams, generatedKeyHolder);
-
-        /*String userId = generatedKeyHolder.getKeys().get("USER_ID").toString();
-        user.setUid(userId);*/
-
+        jdbcTemplate.update(insertUserSql, userParams);
         return user;
+    }
+
+    @Override
+    public User fetchUserByName(String name) {
+        String sql = "select USER_ID, NAME "+
+                "from BARTER_USERS "+
+                "where NAME=:name";
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("NAME", name);
+
+        List<User> users = jdbcTemplate.query(sql, params, userExtractor);
+
+        if(users.isEmpty())
+        {
+            return null;
+        }
+        return users.get(0);
+        /*Collection<User> users = this.getAllUsers();
+        for(Iterator<User> iter = users.iterator(); iter.hasNext(); )
+        {
+            User user = iter.next();
+            if(user.getName().equals(name))
+            {
+                return user;
+            }
+        }
+        return null;*/
     }
 }

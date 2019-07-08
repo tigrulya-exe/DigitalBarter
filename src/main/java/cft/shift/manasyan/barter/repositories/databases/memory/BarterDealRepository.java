@@ -1,7 +1,8 @@
-package cft.shift.manasyan.barter.repositories;
+package cft.shift.manasyan.barter.repositories.databases.memory;
 
 import cft.shift.manasyan.barter.exceptions.NotFoundException;
 import cft.shift.manasyan.barter.models.deals.Deal;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.DealRepository;
 
 import java.util.*;
 

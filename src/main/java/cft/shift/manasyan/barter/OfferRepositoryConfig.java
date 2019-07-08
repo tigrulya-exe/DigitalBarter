@@ -2,7 +2,7 @@ package cft.shift.manasyan.barter;
 
 import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.models.deals.Offer;
-import cft.shift.manasyan.barter.repositories.BarterDealRepository;
+import cft.shift.manasyan.barter.repositories.databases.memory.BarterDealRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

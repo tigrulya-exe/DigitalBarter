@@ -1,4 +1,4 @@
-package cft.shift.manasyan.barter.repositories;
+package cft.shift.manasyan.barter.repositories.extractors;
 
 import cft.shift.manasyan.barter.models.user.User;
 import org.springframework.dao.DataAccessException;
@@ -22,7 +22,6 @@ public class UserExtractor implements ResultSetExtractor<List<User>> {
         while(rs.next())
         {
             String userId = rs.getString("USER_ID");
-            /*TODO I need choose how to save things in database*/
             User user;
             if(users.containsKey(userId))
             {
@@ -32,6 +31,7 @@ public class UserExtractor implements ResultSetExtractor<List<User>> {
             {
                 user = new User(rs.getString("NAME"), rs.getString("USER_ID"));
             }
+            users.put(user.getUid(), user);
         }
         return new ArrayList<>(users.values());
     }

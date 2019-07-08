@@ -1,4 +1,4 @@
-package cft.shift.manasyan.barter.repositories;
+package cft.shift.manasyan.barter.repositories.databases.interfaces;
 
 import cft.shift.manasyan.barter.models.user.User;
 
@@ -14,4 +14,6 @@ public interface UserRepository {
     void deleteUser(String userId);
 
     User createUser(String name, User user);
+
+    User fetchUserByName(String name);
 }
