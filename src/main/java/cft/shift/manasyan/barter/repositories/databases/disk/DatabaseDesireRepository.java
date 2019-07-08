@@ -50,6 +50,7 @@ public class DatabaseDesireRepository implements DealRepository {
         {
             return null;
         }
+
         return desires.get(0);
     }
 }
