@@ -1,6 +1,7 @@
 package cft.shift.manasyan.barter.repositories.extractors;
 
 import cft.shift.manasyan.barter.models.deals.Desire;
+import cft.shift.manasyan.barter.models.dtos.DesireTO;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseProductRepository;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
