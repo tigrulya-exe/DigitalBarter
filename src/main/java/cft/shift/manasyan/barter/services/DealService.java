@@ -6,6 +6,8 @@ import cft.shift.manasyan.barter.models.dtos.*;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.repositories.BarterDealRepository;
 import cft.shift.manasyan.barter.repositories.BarterUserRepository;
+import cft.shift.manasyan.barter.repositories.DealRepository;
+import cft.shift.manasyan.barter.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +21,18 @@ import java.util.List;
 public class DealService {
 
     @Autowired
-    private BarterUserRepository users;
+    private UserRepository users;
 
     @Autowired
     private LoggingService loggingService;
 
     @Autowired
     @Qualifier(value = "desires")
-    private BarterDealRepository<Desire> desiresRepository;
+    private DealRepository<Desire> desiresRepository;
 
     @Autowired
     @Qualifier(value = "offers")
-    private BarterDealRepository<Offer> offersRepository;
+    private DealRepository<Offer> offersRepository;
 
     public ResponseEntity<List<DealTO>> getDesires(){
         return ResponseEntity.ok(getDealTOs(desiresRepository.getDeals()));

@@ -9,7 +9,7 @@ import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.Backpack;
 import cft.shift.manasyan.barter.models.user.User;
-import cft.shift.manasyan.barter.repositories.BarterUserRepository;
+import cft.shift.manasyan.barter.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private BarterUserRepository users;
+    private UserRepository users;
 
     @Autowired
     private LoggingService loggingService;

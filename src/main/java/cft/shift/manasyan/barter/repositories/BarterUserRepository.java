@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class BarterUserRepository {
+public class BarterUserRepository implements UserRepository{
     private Map<String, User> users;
 
     public BarterUserRepository() {

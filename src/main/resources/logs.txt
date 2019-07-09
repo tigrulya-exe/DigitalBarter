@@ -1,0 +1,48 @@
+[2019-07-08 17:31:38] [INFO   ] User firstUser with id [49a9bc17-7a3d-414c-978e-ba21949645b3] was created 
+[2019-07-08 17:31:41] [INFO   ] User [firstUser] added desire firstDesiredProduct with id[cf7fe747-6348-4ee2-b315-63fc70ddb89d] 
+[2019-07-08 17:34:47] [INFO   ] User secondUser with id [5457d4cd-b0d9-4135-a03a-5f319fe334be] was created 
+[2019-07-08 17:34:55] [INFO   ] User with id [5457d4cd-b0d9-4135-a03a-5f319fe334be] added secondProduct 
+[2019-07-08 17:35:42] [INFO   ] User with id [5457d4cd-b0d9-4135-a03a-5f319fe334be] added desireResponse 
+[2019-07-08 17:36:36] [INFO   ] User with id [49a9bc17-7a3d-414c-978e-ba21949645b3] added firstProductOffer 
+[2019-07-08 17:39:38] [INFO   ] User  with id [25b54f10-f376-48a2-bfad-c76918467734] was created 
+[2019-07-08 17:46:01] [INFO   ] User Kate with id [c42647bb-45bf-4518-ac71-d11e74f9b291] was created 
+[2019-07-08 17:46:57] [INFO   ] User kate with id [5a770b73-8bd1-48e5-bdba-9bd8cb44f402] was created 
+[2019-07-08 17:56:41] [INFO   ] User daniil with id [c182992f-6fa5-45fb-9cc8-c4786f51d3f3] was created 
+[2019-07-08 17:57:01] [INFO   ] Starting ProtocolHandler ["http-nio-8080"] 
+[2019-07-08 17:57:01] [INFO   ] Using a shared selector for servlet write/read 
+[2019-07-08 17:57:16] [INFO   ] Initializing Spring FrameworkServlet 'dispatcherServlet' 
+[2019-07-08 17:57:16] [INFO   ] User daniil with id [57e60b38-12f9-4838-9203-e5191b9a5c93] was created 
+[2019-07-08 17:57:20] [INFO   ] User firstUser with id [d5ee3dc3-6e88-4864-85ed-dedf0b8fca6c] was created 
+[2019-07-08 17:57:25] [INFO   ] User [firstUser] added desire firstDesiredProduct with id[ede1ada1-858c-48f3-b6ce-8e0e2461b233] 
+[2019-07-08 17:59:07] [INFO   ] User kate with id [bc63434a-260a-4c5c-aa9f-e4a1922e3bea] was created 
+[2019-07-08 18:00:45] [SEVERE ] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.IllegalArgumentException: No enum constant cft.shift.manasyan.barter.models.Product.ProductType.еда] with root cause 
+[2019-07-08 18:02:15] [INFO   ] User [daniil] added desire банан with id[91bf6590-d4f6-4cfb-99bb-591d6837f246] 
+[2019-07-08 18:02:25] [INFO   ] User [firstUser] added desire firstDesiredProduct with id[64fc0a95-7f22-4d35-ad8d-058975c846bc] 
+[2019-07-08 18:05:06] [INFO   ] User daniel with id [19fa0945-6ffc-457f-8eda-21cd70847d38] was created 
+[2019-07-08 18:06:32] [INFO   ] User daniel with id [66f2486a-ad97-4a1e-9450-d2df4881d810] was created 
+[2019-07-08 18:08:02] [INFO   ] User [firstUser] added desire firstDesiredProduct with id[269ed3c9-beb1-440f-a0bc-c89855708127] 
+[2019-07-08 18:08:03] [INFO   ] User [firstUser] added desire firstDesiredProduct with id[66a024d8-3e42-43d4-bf40-5b8e569660b0] 
+[2019-07-08 18:08:03] [INFO   ] User [firstUser] added desire firstDesiredProduct with id[ab5b6f01-417e-4576-a6b2-5c59ba22cfa6] 
+[2019-07-08 18:08:04] [INFO   ] User [firstUser] added desire firstDesiredProduct with id[14a5406a-e79b-4b89-9a88-7240999bc18f] 
+[2019-07-08 18:09:03] [INFO   ] User daniel with id [231f1ace-e123-45f0-a4f4-51d5102d9345] was created 
+[2019-07-09 01:06:40] [INFO   ] Starting ProtocolHandler ["http-nio-8080"] 
+[2019-07-09 01:06:40] [INFO   ] Using a shared selector for servlet write/read 
+[2019-07-09 01:06:58] [INFO   ] Initializing Spring FrameworkServlet 'dispatcherServlet' 
+[2019-07-09 01:07:04] [INFO   ] User with id [551b37b6-f604-48a3-bcc2-3290233f2b69] added firstProductOffer 
+[2019-07-09 01:07:36] [INFO   ] User with id [551b37b6-f604-48a3-bcc2-3290233f2b69] added firstProductOffer 
+[2019-07-09 01:08:05] [INFO   ] User [firstUser] added offer firstProductOffer with id[9dc18400-592b-46be-9155-58ddff1179a7] 
+[2019-07-09 01:08:18] [INFO   ] User [firstUser] added desire firstDesiredProduct with id[171a8cba-aeb0-4799-9bc1-63ebbb1e4e83] 
+[2019-07-09 01:08:39] [SEVERE ] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is cft.shift.manasyan.barter.exceptions.NotFoundException: Wrong userId] with root cause 
+[2019-07-09 01:09:00] [INFO   ] User with id [0b90a23a-5222-4bd4-85be-6f633b0f6d72] added secondProduct 
+[2019-07-09 01:09:04] [SEVERE ] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is cft.shift.manasyan.barter.exceptions.NotFoundException: Wrong dealId] with root cause 
+[2019-07-09 01:09:11] [INFO   ] User with id [0b90a23a-5222-4bd4-85be-6f633b0f6d72] added secondProduct 
+[2019-07-09 01:09:15] [SEVERE ] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is cft.shift.manasyan.barter.exceptions.NotFoundException: Wrong dealId] with root cause 
+[2019-07-09 01:17:38] [INFO   ] Starting ProtocolHandler ["http-nio-8080"] 
+[2019-07-09 01:17:38] [INFO   ] Using a shared selector for servlet write/read 
+[2019-07-09 01:17:45] [INFO   ] Initializing Spring FrameworkServlet 'dispatcherServlet' 
+[2019-07-09 01:17:48] [INFO   ] User with id [2cc330e8-5603-48e0-aee2-826cde1fcf49] added firstProductOffer 
+[2019-07-09 02:09:44] [INFO   ] User with id [f94bb9d1-c4bb-491a-af7f-a144e980b77a] added firstProductOffer 
+[2019-07-09 21:59:44] [INFO   ] Starting ProtocolHandler ["http-nio-8080"] 
+[2019-07-09 21:59:44] [INFO   ] Using a shared selector for servlet write/read 
+[2019-07-09 21:59:44] [INFO   ] Initializing Spring FrameworkServlet 'dispatcherServlet' 
+[2019-07-09 21:59:49] [INFO   ] User with id [e2f85e1b-db52-457c-b4c5-31300d3b2682] added firstProductOffer 

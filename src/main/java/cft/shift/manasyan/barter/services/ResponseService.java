@@ -10,6 +10,8 @@ import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.repositories.BarterDealRepository;
 import cft.shift.manasyan.barter.repositories.BarterUserRepository;
+import cft.shift.manasyan.barter.repositories.DealRepository;
+import cft.shift.manasyan.barter.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +21,15 @@ import org.springframework.stereotype.Service;
 public class ResponseService {
 
     @Autowired
-    private BarterUserRepository users;
+    private UserRepository users;
 
     @Autowired
     @Qualifier(value = "desires")
-    private BarterDealRepository<Desire> desiresRepository;
+    private DealRepository<Desire> desiresRepository;
 
     @Autowired
     @Qualifier(value = "offers")
-    private BarterDealRepository<Offer> offersRepository;
+    private DealRepository<Offer> offersRepository;
 
     @Autowired
     private LoggingService loggingService;
@@ -68,7 +70,7 @@ public class ResponseService {
         return ResponseEntity.ok().build();
     }
 
-    private <T extends Deal> ResponseEntity<ResponseTO> addDealResponse(String desireId, String userId, String productId, BarterDealRepository<T> repository ){
+    private <T extends Deal> ResponseEntity<ResponseTO> addDealResponse(String desireId, String userId, String productId, DealRepository<T> repository ){
         User user = users.getUser(userId);
         T deal = repository.getDeal(desireId);
         Product product = user.getBackpack().getAndDeleteProduct(productId);
