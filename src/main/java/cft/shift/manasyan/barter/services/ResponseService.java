@@ -8,8 +8,6 @@ import cft.shift.manasyan.barter.models.dtos.ResponseTO;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.User;
-import cft.shift.manasyan.barter.repositories.BarterDealRepository;
-import cft.shift.manasyan.barter.repositories.BarterUserRepository;
 import cft.shift.manasyan.barter.repositories.DealRepository;
 import cft.shift.manasyan.barter.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,6 @@
 package cft.shift.manasyan.barter.services;
 
+import cft.shift.manasyan.barter.exceptions.WrongUserNameException;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.dtos.DealTO;
 import cft.shift.manasyan.barter.models.dtos.DesireResponseTO;
@@ -34,6 +35,9 @@ public class UserService {
     }
 
     public ResponseEntity<UserTO> registerUser(String userName){
+        if(users.contains(userName))
+            throw new WrongUserNameException("User with this name already exists");
+
         User user = new User(userName);
         users.addUser(user);
         return ResponseEntity.ok(new UserTO(user));
@@ -45,7 +49,7 @@ public class UserService {
         return ResponseEntity.ok(offers);
     }
 
-    public ResponseEntity<?> getUserDesires(String userId) {
+    public ResponseEntity<List<DealTO>> getUserDesires(String userId) {
         User user = users.getUser(userId);
         List<DealTO> offers = getDealTOs(user.getUserDeals().getDesires());
         return ResponseEntity.ok(offers);

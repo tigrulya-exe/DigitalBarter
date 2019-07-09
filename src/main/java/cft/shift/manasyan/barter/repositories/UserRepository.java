@@ -12,4 +12,5 @@ public interface UserRepository {
 
     User getUser(String userId);
 
+    boolean contains(String userName);
 }

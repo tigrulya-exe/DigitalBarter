@@ -22,12 +22,13 @@ public class Product {
 
     private String pictureURL;
 
-    private String description = "PLACE FOR CONTEXT";
+    private String description;
 
-    public Product(ProductType type, String name, String pictureURL) {
+    public Product(ProductType type, String name, String pictureURL, String description) {
         this.type = type;
         this.name = name;
         this.pictureURL = pictureURL;
+        this.description = description;
     }
 
     //for Json
