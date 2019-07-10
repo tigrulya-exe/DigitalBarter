@@ -10,7 +10,7 @@ public class UserTO {
     UserTO(){}
 
     public UserTO(@NonNull User user) {
-        this.userId = user.getUid();
+        this.userId = user.getId();
         this.name = user.getName();
     }
 

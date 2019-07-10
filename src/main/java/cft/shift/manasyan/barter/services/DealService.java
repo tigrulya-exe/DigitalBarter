@@ -4,10 +4,9 @@ import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.models.deals.Offer;
 import cft.shift.manasyan.barter.models.dtos.*;
 import cft.shift.manasyan.barter.models.user.User;
-import cft.shift.manasyan.barter.repositories.BarterDealRepository;
-import cft.shift.manasyan.barter.repositories.BarterUserRepository;
-import cft.shift.manasyan.barter.repositories.DealRepository;
-import cft.shift.manasyan.barter.repositories.UserRepository;
+import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseDesireRepository;
+import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseOfferRepository;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -21,18 +20,25 @@ import java.util.List;
 public class DealService {
 
     @Autowired
+    @Qualifier("sql")
     private UserRepository users;
 
     @Autowired
     private LoggingService loggingService;
 
-    @Autowired
-    @Qualifier(value = "desires")
-    private DealRepository<Desire> desiresRepository;
+//    @Autowired
+//    @Qualifier(value = "desires")
+//    private DealRepository<Desire> desiresRepository;
+//
+//    @Autowired
+//    @Qualifier(value = "offers")
+//    private DealRepository<Offer> offersRepository;
 
     @Autowired
-    @Qualifier(value = "offers")
-    private DealRepository<Offer> offersRepository;
+    private DatabaseDesireRepository desiresRepository;
+
+    @Autowired
+    private DatabaseOfferRepository offersRepository;
 
     public ResponseEntity<List<DealTO>> getDesires(){
         return ResponseEntity.ok(getDealTOs(desiresRepository.getDeals()));

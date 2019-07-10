@@ -106,5 +106,9 @@ public class Product {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
 }
 

@@ -38,9 +38,9 @@ public class DesireResponseExtractor implements ResultSetExtractor<List<DesireRe
             }
             else
             {
-                response = new DesireResponse(databaseUserRepository.fetchUser(rs.getString("HOLDER_ID")),
-                                    databaseProductRepository.fetchProduct(responseId),
-                                    databaseProductRepository.fetchProduct("DESIRED_PRODUCT_ID"));
+                response = new DesireResponse(databaseUserRepository.getUser(rs.getString("HOLDER_ID")),
+                                    databaseProductRepository.getProduct(responseId),
+                                    databaseProductRepository.getProduct("DESIRED_PRODUCT_ID"));
             }
             responses.put(responseId, response);
         }

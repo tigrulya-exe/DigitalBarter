@@ -38,8 +38,8 @@ public class OfferResponseExtractor implements ResultSetExtractor<List<DealRespo
             }
             else
             {
-                response = new DealResponse(databaseUserRepository.fetchUser(rs.getString("HOLDER_ID")),
-                        databaseProductRepository.fetchProduct(responseId));
+                response = new DealResponse(databaseUserRepository.getUser(rs.getString("HOLDER_ID")),
+                        databaseProductRepository.getProduct(responseId));
             }
             responses.put(responseId, response);
         }

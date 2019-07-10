@@ -1,19 +1,24 @@
 package cft.shift.manasyan.barter.repositories.databases.interfaces;
 
 import cft.shift.manasyan.barter.models.user.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 
+@Repository
 public interface UserRepository {
-    User fetchUser(String userId);
+    User getUser(String userId);
 
-    Collection<User> getAllUsers();
+    List<User> getUsers();
 
-    User updateUser(String userId, String name, User user);
+    User updateUser(User user);
 
     void deleteUser(String userId);
 
-    User createUser(String name, User user);
+    void addUser(User user);
 
-    User fetchUserByName(String name);
+    User getUserByName(String name);
+
+    //boolean contains(String userName);
 }

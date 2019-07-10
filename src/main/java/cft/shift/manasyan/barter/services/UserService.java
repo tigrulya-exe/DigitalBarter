@@ -1,6 +1,5 @@
 package cft.shift.manasyan.barter.services;
 
-import cft.shift.manasyan.barter.exceptions.WrongUserNameException;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.dtos.DealTO;
 import cft.shift.manasyan.barter.models.dtos.DesireResponseTO;
@@ -8,10 +7,11 @@ import cft.shift.manasyan.barter.models.dtos.ResponseTO;
 import cft.shift.manasyan.barter.models.dtos.UserTO;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
-import cft.shift.manasyan.barter.models.user.Backpack;
 import cft.shift.manasyan.barter.models.user.User;
-import cft.shift.manasyan.barter.repositories.UserRepository;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.ProductRepository;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,19 +24,26 @@ import java.util.List;
 public class UserService {
 
     @Autowired
+    @Qualifier("sql")
     private UserRepository users;
 
     @Autowired
     private LoggingService loggingService;
 
+    @Autowired
+    @Qualifier("sqlProducts")
+    private ProductRepository products;
+
     public ResponseEntity<List<Product>> getBackpack(String userId){
-        Backpack backpack = users.getUser(userId).getBackpack();
-        return ResponseEntity.ok(backpack.getProducts());
+//        Backpack backpack = users.getUser(userId).getBackpack();
+
+        List<Product> backpack = products.getUserProducts(userId);
+        return ResponseEntity.ok(backpack);
     }
 
     public ResponseEntity<UserTO> registerUser(String userName){
-        if(users.contains(userName))
-            throw new WrongUserNameException("User with this name already exists");
+        //if(users.contains(userName))
+        //    throw new WrongUserNameException("User with this name already exists");
 
         User user = new User(userName);
         users.addUser(user);
@@ -77,8 +84,8 @@ public class UserService {
     }
 
     public ResponseEntity<Product> putProductInBackpack(String userId, Product product) {
-        User user = users.getUser(userId);
-        user.getBackpack().putProduct(product);
+        product.setUserID(userId);
+        products.putProduct(product);
 
         loggingService.newProductEvent(userId,product);
         return ResponseEntity.ok(product);

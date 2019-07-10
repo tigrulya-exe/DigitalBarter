@@ -19,6 +19,14 @@ public class Backpack {
         this.products = products;
     }
 
+    public Backpack(List<Product> productsIn){
+        this.products = new HashMap<>();
+
+        for(Product product: productsIn){
+            products.put(product.getId(), product);
+        }
+    }
+
     public void putProduct(@NonNull Product product){
         products.put(product.getId() , product);
     }

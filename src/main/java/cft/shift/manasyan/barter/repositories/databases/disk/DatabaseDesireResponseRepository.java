@@ -1,21 +1,21 @@
 package cft.shift.manasyan.barter.repositories.databases.disk;
 
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
-import cft.shift.manasyan.barter.repositories.databases.interfaces.DesireResponseRepository;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.ResponseRepository;
 import cft.shift.manasyan.barter.repositories.extractors.DesireResponseExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
-import java.util.Collection;
 import java.util.List;
 
 @Repository
+@Qualifier("desireResponses")
 @ConditionalOnProperty(name = "use.database", havingValue = "true")
-public class DatabaseDesireResponseRepository implements DesireResponseRepository {
+public class DatabaseDesireResponseRepository implements ResponseRepository<DesireResponse> {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -53,7 +53,7 @@ public class DatabaseDesireResponseRepository implements DesireResponseRepositor
     }
 
     @Override
-    public Collection<DesireResponse> getAllResponses() {
+    public List<DesireResponse> getAllResponses() {
         String sql = "select BARTER_DESIRE_RESPONSES.RESPONSE_AND_PRODUCT_ID, HOLDER_ID, DESIRE_ID, DESIRE_PRODUCT_ID "+
                 "from BARTER_DESIRE_RESPONSES";
 
@@ -75,7 +75,7 @@ public class DatabaseDesireResponseRepository implements DesireResponseRepositor
         String insertResponseSql = "insert into BARTER_DESIRE_RESPONSES (RESPONSE_AND_PRODUCT_ID, HOLDER_ID, DESIRE_ID, DESIRE_PRODUCT_ID) values (:responseId, :holderId, :desierId, :desireProductId)";
         MapSqlParameterSource responseParams = new MapSqlParameterSource()
                 .addValue("responseId", response.getId())
-                .addValue("holderId", response.getResponseHolder().getUid())
+                .addValue("holderId", response.getResponseHolder().getId())
                 .addValue("offerId", desireId)
                 .addValue("desireProductId", response.getDesiredProductResponse().getId());
         jdbcTemplate.update(insertResponseSql, responseParams);
@@ -83,7 +83,7 @@ public class DatabaseDesireResponseRepository implements DesireResponseRepositor
     }
 
     @Override
-    public Collection<DesireResponse> getAllUserResponses(String userId) {
+    public List<DesireResponse> getAllUserResponses(String userId) {
         String sql = "select RESPONSE_AND_PRODUCT_ID, BARTER_DESIRE_RESPONSES.HOLDER_ID, DESIRE_ID, DESIRE_PRODUCT_ID "+
                 "from BARTER_DESIRE_RESPONSES "+
                 "where HOLDER_ID=:userId";
@@ -99,8 +99,7 @@ public class DatabaseDesireResponseRepository implements DesireResponseRepositor
         return responses;
     }
 
-    @Override
-    public Collection<DesireResponse> getAllDesireResponses(String desireId) {
+    public List<DesireResponse> getAllDealResponses(String desireId) {
         String sql = "select RESPONSE_AND_PRODUCT_ID, HOLDER_ID, BARTER_DESIRE_RESPONSES.DESIRE_ID, DESIRE_PRODUCT_ID "+
                 "from BARTER_DESIRE_RESPONSES "+
                 "where DESIRE_ID=:desireId";

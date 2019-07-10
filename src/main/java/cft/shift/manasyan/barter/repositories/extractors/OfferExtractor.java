@@ -36,7 +36,7 @@ public class OfferExtractor implements ResultSetExtractor<List<Offer>> {
             else
             {
                 offer = new Offer(new OfferTO(rs.getString("DESCRIPTION"), offerId),
-                        databaseUserRepository.fetchUser(rs.getString("HOLDER_ID")));
+                        databaseUserRepository.getUser(rs.getString("HOLDER_ID")));
             }
             offers.put(offerId, offer);
         }
