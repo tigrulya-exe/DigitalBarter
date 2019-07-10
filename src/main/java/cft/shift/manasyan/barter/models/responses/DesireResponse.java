@@ -17,7 +17,7 @@ public class DesireResponse extends DealResponse {
 
     @Override
     protected void registerResponse(){
-        getResponseHolder().getUserResponses().addDesireResponse(this);
+        getResponseHolder().getUserResponses().addDesireResponse(this, this.getId());
     }
 
     public void setDesiredProductResponse(Product desiredProductResponse) {
@@ -27,8 +27,8 @@ public class DesireResponse extends DealResponse {
     @Override
     public void accept(User dealOwner, Product dealOwnerProduct)
     {
-        dealOwner.getBackpack().putProduct(getResponseProduct());
-        getResponseHolder().getBackpack().putProduct(desiredProductResponse);
+        dealOwner.getBackpack().putProduct(getResponseProduct(), dealOwner.getId());
+        getResponseHolder().getBackpack().putProduct(desiredProductResponse, getResponseHolder().getId());
     }
 
     public Product getDesiredProductResponse() {

@@ -14,4 +14,6 @@ public interface DealRepository<T extends Deal> {
     List<T> getDeals();
 
     T getDeal(String dealId);
+
+    List<T> getUserDeals(String userId);
 }

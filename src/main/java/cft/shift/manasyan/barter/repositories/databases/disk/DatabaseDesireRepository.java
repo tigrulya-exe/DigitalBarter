@@ -81,4 +81,23 @@ public class DatabaseDesireRepository implements DealRepository {
 
         return desires.get(0);
     }
+
+    @Override
+    public List<Desire> getUserDeals(String userId) {
+        String sql = "select DESIRE_AND_PRODUCT_ID, BARTER_DESIRES.HOLDER_ID, DESCRIPTION "+
+                "from BARTER_DESIRES "+
+                "where BARTER_DESIRES.HOLDER_ID=:userId";
+
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("userId", userId);
+
+        List<Desire> desires = jdbcTemplate.query(sql, params, desireExtractor);
+
+        /*if(desires.isEmpty())
+        {
+            return null;
+        }*/
+
+        return desires;
+    }
 }

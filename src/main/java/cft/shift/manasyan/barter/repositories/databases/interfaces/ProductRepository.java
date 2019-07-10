@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface ProductRepository {
@@ -19,4 +20,6 @@ public interface ProductRepository {
     void deleteProduct(String productId);
 
     Product putProduct(Product product);
+
+    void setNewProductsToUser(Map<String, Product> products);
 }

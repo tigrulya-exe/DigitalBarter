@@ -17,7 +17,7 @@ public class DealResponse {
     }
 
     protected void registerResponse(){
-        responseHolder.getUserResponses().addOfferResponse(this);
+        responseHolder.getUserResponses().addOfferResponse(this, id);
     }
 
     public User getResponseHolder() {
@@ -34,12 +34,12 @@ public class DealResponse {
 
     public void accept(User dealOwner, Product dealOwnerProduct)
     {
-        dealOwner.getBackpack().putProduct(responseProduct);
+        dealOwner.getBackpack().putProduct(responseProduct, dealOwner.getId());
         responseProduct = null;
-        responseHolder.getBackpack().putProduct(dealOwnerProduct);
+        responseHolder.getBackpack().putProduct(dealOwnerProduct, responseHolder.getId());
     }
 
     public void discard(){
-        responseHolder.getBackpack().putProduct(responseProduct);
+        responseHolder.getBackpack().putProduct(responseProduct, responseHolder.getId());
     }
 }

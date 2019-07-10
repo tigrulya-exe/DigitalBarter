@@ -45,5 +45,10 @@ public class BarterDealRepository<T extends Deal> implements DealRepository<T> {
         return deals.get(dealId);
     }
 
+    @Override
+    public List<T> getUserDeals(String userId) {
+        return null;
+    }
+
 
 }

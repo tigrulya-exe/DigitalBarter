@@ -44,7 +44,7 @@ public class ResponseController {
             @PathVariable String dealId,
             @RequestHeader("responseId") String responseId){
 
-        return responseService.acceptDesire(dealId,responseId);
+        return responseService.acceptDesire(dealId, responseId);
     }
 
     @PostMapping (BARTER_PATH + "/{dealId}/acceptOffer")

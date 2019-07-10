@@ -1,5 +1,6 @@
 package cft.shift.manasyan.barter.repositories.databases.disk;
 
+import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.repositories.databases.interfaces.ResponseRepository;
 import cft.shift.manasyan.barter.repositories.extractors.DesireResponseExtractor;
@@ -92,10 +93,10 @@ public class DatabaseDesireResponseRepository implements ResponseRepository<Desi
 
         List<DesireResponse> responses = jdbcTemplate.query(sql, params, desireResponseExtractor);
 
-        if(responses.isEmpty())
+        /*if(responses.isEmpty())
         {
             return null;
-        }
+        }*/
         return responses;
     }
 
@@ -108,10 +109,27 @@ public class DatabaseDesireResponseRepository implements ResponseRepository<Desi
 
         List<DesireResponse> responses = jdbcTemplate.query(sql, params, desireResponseExtractor);
 
-        if(responses.isEmpty())
+        /*if(responses.isEmpty())
         {
             return null;
-        }
+        }*/
         return responses;
+    }
+
+    public DesireResponse updateDesireResponse(DesireResponse desireResponse, String desireId) {
+        String updateDesireResponseSql = "update BARTER_DESIRE_RESPONSES "+
+                "set HOLDER_ID=:userId, "+
+                "DESIRE_ID=:desireId, "+
+                "DESIRE_PRODUCT_ID=:desireProductId "+
+                "where RESPONSE_AND_PRODUCT_ID=:responseId";
+        MapSqlParameterSource productParams = new MapSqlParameterSource()
+                .addValue("userId", desireResponse.getResponseHolder().getId())
+                .addValue("desireId", desireId)
+                .addValue("desireProductId", desireResponse.getDesiredProductResponse().getId())
+                .addValue("responseId", desireResponse.getId());
+
+        jdbcTemplate.update(updateDesireResponseSql, productParams);
+
+        return desireResponse;
     }
 }

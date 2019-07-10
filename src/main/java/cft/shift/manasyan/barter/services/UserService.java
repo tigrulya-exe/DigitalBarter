@@ -7,6 +7,7 @@ import cft.shift.manasyan.barter.models.dtos.ResponseTO;
 import cft.shift.manasyan.barter.models.dtos.UserTO;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
+import cft.shift.manasyan.barter.models.user.Backpack;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.repositories.databases.interfaces.ProductRepository;
 import cft.shift.manasyan.barter.repositories.databases.interfaces.UserRepository;
@@ -20,6 +21,8 @@ import static cft.shift.manasyan.barter.services.TOConstructorService.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/*OK*/
 @Service
 public class UserService {
 
@@ -33,14 +36,14 @@ public class UserService {
     @Autowired
     @Qualifier("sqlProducts")
     private ProductRepository products;
-
+     
     public ResponseEntity<List<Product>> getBackpack(String userId){
-//        Backpack backpack = users.getUser(userId).getBackpack();
+        Backpack backpack = users.getUser(userId).getBackpack();
 
-        List<Product> backpack = products.getUserProducts(userId);
-        return ResponseEntity.ok(backpack);
+        //List<Product> backpack = products.getUserProducts(userId);
+        return ResponseEntity.ok(backpack.getProducts());
     }
-
+     
     public ResponseEntity<UserTO> registerUser(String userName){
         //if(users.contains(userName))
         //    throw new WrongUserNameException("User with this name already exists");
@@ -49,19 +52,19 @@ public class UserService {
         users.addUser(user);
         return ResponseEntity.ok(new UserTO(user));
     }
-
+     
     public ResponseEntity<List<DealTO>> getUserOffers(String userId) {
         User user = users.getUser(userId);
         List<DealTO> offers = getDealTOs(user.getUserDeals().getOffers());
         return ResponseEntity.ok(offers);
     }
-
+     
     public ResponseEntity<List<DealTO>> getUserDesires(String userId) {
         User user = users.getUser(userId);
         List<DealTO> offers = getDealTOs(user.getUserDeals().getDesires());
         return ResponseEntity.ok(offers);
     }
-
+     
     public ResponseEntity<List<ResponseTO>> getOfferResponses( String userId) {
         User user = users.getUser(userId);
         List<ResponseTO> responseTOs = new ArrayList<>();
@@ -72,7 +75,7 @@ public class UserService {
 
         return ResponseEntity.ok(responseTOs);
     }
-
+     
     public ResponseEntity<List<ResponseTO>> getDesireResponses( String userId) {
         User user = users.getUser(userId);
         List<ResponseTO> responseTOs = new ArrayList<>();
@@ -82,10 +85,11 @@ public class UserService {
         }
         return ResponseEntity.ok(responseTOs);
     }
-
+    
     public ResponseEntity<Product> putProductInBackpack(String userId, Product product) {
+        User user = users.getUser(userId);
         product.setUserID(userId);
-        products.putProduct(product);
+        user.getBackpack().putProduct(product);
 
         loggingService.newProductEvent(userId,product);
         return ResponseEntity.ok(product);

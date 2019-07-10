@@ -53,9 +53,7 @@ public class DealService {
         Desire desire = new Desire(desireDTO,user);
         user.getUserDeals().addDesire(desire);
 
-        desiresRepository.addDeal(desire);
         loggingService.newDesireEvent(desire);
-
         return ResponseEntity.ok(new DealTO(desire));
     }
 
@@ -64,11 +62,9 @@ public class DealService {
         Offer offer = new Offer(offerTO,user);
 
         user.getUserDeals().addOffer(offer);
-        user.getBackpack().deleteProduct(offerTO.getProductId());
+        user.getBackpack().getAndDeleteProduct(offerTO.getProductId());
 
-        offersRepository.addDeal(offer);
         loggingService.newOfferEvent(offer);
-
         return ResponseEntity.ok(new DealTO(offer));
     }
 

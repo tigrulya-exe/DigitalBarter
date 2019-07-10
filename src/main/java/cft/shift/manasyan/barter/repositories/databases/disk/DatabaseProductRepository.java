@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Qualifier("sqlProducts")
@@ -62,9 +63,9 @@ public class DatabaseProductRepository  implements ProductRepository {
 
         List<Product> products = jdbcTemplate.query(sql, params, productExtractor);
 
-        if (products.isEmpty()) {
+        /*if (products.isEmpty()) {
             return null;
-        }
+        }*/
         return products;
     }
 
@@ -120,5 +121,11 @@ public class DatabaseProductRepository  implements ProductRepository {
                 .addValue("pic_url", product.getPictureURL());
         jdbcTemplate.update(insertProductSql, productParams);
         return product;
+    }
+
+    @Override
+    public void setNewProductsToUser(Map<String, Product> products)
+    {
+
     }
 }

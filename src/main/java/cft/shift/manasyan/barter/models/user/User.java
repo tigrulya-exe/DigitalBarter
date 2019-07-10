@@ -6,6 +6,7 @@ import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import java.util.List;
 import java.util.UUID;
 
+/*OK*/
 public class User {
     private String name;
     private Backpack backpack;
@@ -18,14 +19,15 @@ public class User {
 
     public User(String name) {
         this.name = name;
-        this.backpack = new Backpack();
-        this.userDeals = new UserDeals();
-        this.userResponses = new UserResponses();
+        this.backpack = new Backpack(this.id);
+        this.userDeals = new UserDeals(this.id);
+        this.userResponses = new UserResponses(this.id);
     }
     public User(String name, String userId) {
         this.name = name;
-        this.backpack = new Backpack();
-        this.userDeals = new UserDeals();
+        this.backpack = new Backpack(userId);
+        this.userDeals = new UserDeals(userId);
+        this.userResponses = new UserResponses(userId);
         this.id = userId;
     }
 

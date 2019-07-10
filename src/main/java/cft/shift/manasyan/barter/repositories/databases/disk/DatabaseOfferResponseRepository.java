@@ -89,10 +89,10 @@ public class DatabaseOfferResponseRepository implements ResponseRepository<DealR
 
         List<DealResponse> responses = jdbcTemplate.query(sql, params, offerResponseExtractor);
 
-        if(responses.isEmpty())
+        /*if(responses.isEmpty())
         {
             return null;
-        }
+        }*/
         return responses;
     }
 
@@ -106,10 +106,10 @@ public class DatabaseOfferResponseRepository implements ResponseRepository<DealR
 
         List<DealResponse> responses = jdbcTemplate.query(sql, params, offerResponseExtractor);
 
-        if(responses.isEmpty())
+        /*if(responses.isEmpty())
         {
             return null;
-        }
+        }*/
         return responses;
     }
 }
