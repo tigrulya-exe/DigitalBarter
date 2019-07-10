@@ -1,19 +1,22 @@
 package cft.shift.manasyan.barter.repositories.databases.interfaces;
 
 import cft.shift.manasyan.barter.models.Product;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 
+@Repository
 public interface ProductRepository {
-    Product fetchProduct(String productId);
+    Product getProduct(String productId);
 
-    Collection<Product> fetchUserProducts(String userId);
+    List<Product> getUserProducts(String userId);
 
-    Collection<Product> getAllProducts();
+    List<Product> getAllProducts();
 
-    Product updateProduct(String productId, Product product);
+    Product updateProduct(Product product);
 
     void deleteProduct(String productId);
 
-    Product createProduct(Product product);
+    Product putProduct(Product product);
 }

@@ -5,6 +5,7 @@ import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.repositories.databases.interfaces.DealRepository;
 import cft.shift.manasyan.barter.repositories.extractors.DesireExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.PostConstruct;
 import java.util.List;
 @Repository
+@Qualifier("sqlDesires")
 @ConditionalOnProperty(name = "use.database", havingValue = "true")
 public class DatabaseDesireRepository implements DealRepository {
     @Autowired
@@ -44,7 +46,7 @@ public class DatabaseDesireRepository implements DealRepository {
     }
 
     @Override
-    public void closeDeal(String dealId) {
+    public void removeDeal(String dealId) {
         String deleteDesireSql = "delete from BARTER_DESIRES where DESIRE_AND_PRODUCT_ID=:desireId";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
@@ -62,7 +64,7 @@ public class DatabaseDesireRepository implements DealRepository {
     }
 
     @Override
-    public Deal getDeal(String dealId) {
+    public Desire getDeal(String dealId) {
         String sql = "select BARTER_DESIRES.DESIRE_AND_PRODUCT_ID, HOLDER_ID, DESCRIPTION "+
                 "from BARTER_DESIRES "+
                 "where BARTER_DESIRES.DESIRE_AND_PRODUCT_ID=:desireId";

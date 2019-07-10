@@ -31,7 +31,7 @@ public class UserExtractor implements ResultSetExtractor<List<User>> {
             {
                 user = new User(rs.getString("NAME"), rs.getString("USER_ID"));
             }
-            users.put(user.getUid(), user);
+            users.put(user.getId(), user);
         }
         return new ArrayList<>(users.values());
     }

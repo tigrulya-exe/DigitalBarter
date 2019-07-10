@@ -7,6 +7,7 @@ import cft.shift.manasyan.barter.repositories.databases.interfaces.DealRepositor
 import cft.shift.manasyan.barter.repositories.extractors.DesireExtractor;
 import cft.shift.manasyan.barter.repositories.extractors.OfferExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Repository
+@Qualifier("sqlOffers")
 @ConditionalOnProperty(name = "use.database", havingValue = "true")
 public class DatabaseOfferRepository implements DealRepository {
     @Autowired
@@ -47,7 +49,7 @@ public class DatabaseOfferRepository implements DealRepository {
     }
 
     @Override
-    public void closeDeal(String dealId) {
+    public void removeDeal(String dealId) {
         String deleteOfferSql = "delete from BARTER_OFFERS where OFFER_AND_PRODUCT_ID=:offerId";
 
         MapSqlParameterSource params = new MapSqlParameterSource()
@@ -65,7 +67,7 @@ public class DatabaseOfferRepository implements DealRepository {
     }
 
     @Override
-    public Deal getDeal(String dealId) {
+    public Offer getDeal(String dealId) {
         String sql = "select BARTER_OFFERS.OFFER_AND_PRODUCT_ID, HOLDER_ID, DESCRIPTION "+
                 "from BARTER_OFFERS "+
                 "where BARTER_OFFERS.OFFER_AND_PRODUCT_ID=:offerId";

@@ -10,7 +10,7 @@ public class User {
     private String name;
     private Backpack backpack;
 
-    private String uid = UUID.randomUUID().toString();
+    private String id = UUID.randomUUID().toString();
 
     private UserDeals userDeals;
 
@@ -26,7 +26,7 @@ public class User {
         this.name = name;
         this.backpack = new Backpack();
         this.userDeals = new UserDeals();
-        this.uid = userId;
+        this.id = userId;
     }
 
     public String getName() {
@@ -49,8 +49,8 @@ public class User {
         return userResponses.getDesireResponses();
     }
 
-    public String getUid(){
-        return uid;
+    public String getId(){
+        return id;
     }
 
     public Backpack getBackpack(){
@@ -61,7 +61,11 @@ public class User {
         this.name = name;
     }
 
-    public void setUid(String uid) {
-        this.uid = uid;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setBackpack(Backpack backpack) {
+        this.backpack = backpack;
     }
 }

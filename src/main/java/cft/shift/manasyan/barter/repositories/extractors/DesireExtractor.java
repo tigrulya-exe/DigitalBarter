@@ -1,7 +1,6 @@
 package cft.shift.manasyan.barter.repositories.extractors;
 
 import cft.shift.manasyan.barter.models.deals.Desire;
-import cft.shift.manasyan.barter.models.dtos.DesireTO;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseProductRepository;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +37,8 @@ public class DesireExtractor implements ResultSetExtractor<List<Desire>> {
             }
             else
             {
-                desire = new Desire(databaseProductRepository.fetchProduct(rs.getString("DESIRE_AND_PRODUCT_ID")),
-                                    databaseUserRepository.fetchUser(rs.getString("HOLDER_ID")),
+                desire = new Desire(databaseProductRepository.getProduct(rs.getString("DESIRE_AND_PRODUCT_ID")),
+                                    databaseUserRepository.getUser(rs.getString("HOLDER_ID")),
                                     rs.getString("DESCRIPTION"));
             }
             desires.put(desireId, desire);

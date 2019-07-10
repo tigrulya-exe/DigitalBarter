@@ -5,6 +5,7 @@ import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.repositories.databases.interfaces.ProductRepository;
 import cft.shift.manasyan.barter.repositories.extractors.ProductExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Repository
+@Qualifier("sqlProducts")
 @ConditionalOnProperty(name = "use.database", havingValue = "true")
 public class DatabaseProductRepository  implements ProductRepository {
     @Autowired
@@ -32,7 +34,7 @@ public class DatabaseProductRepository  implements ProductRepository {
     }*/
 
     @Override
-    public Product fetchProduct(String productId) {
+    public Product getProduct(String productId) {
         String sql = "select BARTER_PRODUCTS.PRODUCT_ID, USER_ID, NAME, DESCRIPTION, TYPE, PIC_URL " +
                 "from BARTER_PRODUCTS " +
                 "where BARTER_PRODUCTS.PRODUCT_ID=:productId";
@@ -49,7 +51,7 @@ public class DatabaseProductRepository  implements ProductRepository {
     }
 
     @Override
-    public Collection<Product> fetchUserProducts(String userId) {
+    public List<Product> getUserProducts(String userId) {
         /*TODO test it please*/
         String sql = "select PRODUCT_ID, BARTER_PRODUCTS.USER_ID, NAME, DESCRIPTION, TYPE, PIC_URL " +
                 "from BARTER_PRODUCTS " +
@@ -67,7 +69,7 @@ public class DatabaseProductRepository  implements ProductRepository {
     }
 
     @Override
-    public Collection<Product> getAllProducts() {
+    public List<Product> getAllProducts() {
         String sql = "select BARTER_PRODUCTS.PRODUCT_ID, USER_ID, NAME, DESCRIPTION, TYPE, PIC_URL " +
         "from BARTER_PRODUCTS";
 
@@ -75,7 +77,7 @@ public class DatabaseProductRepository  implements ProductRepository {
     }
 
     @Override
-    public Product updateProduct(String productId, Product product) {
+    public Product updateProduct(Product product) {
         String updateProductSql = "update BARTER_PRODUCTS "+
                 "set USER_ID=:userId, "+
                 "NAME=:name, "+
@@ -89,7 +91,7 @@ public class DatabaseProductRepository  implements ProductRepository {
                 .addValue("description", product.getDescription())
                 .addValue("type", product.getType().toString())
                 .addValue("pic_url", product.getPictureURL())
-                .addValue("productId", productId);
+                .addValue("productId", product.getId());
 
         jdbcTemplate.update(updateProductSql, productParams);
 
@@ -107,7 +109,7 @@ public class DatabaseProductRepository  implements ProductRepository {
     }
 
     @Override
-    public Product createProduct(Product product) {
+    public Product putProduct(Product product) {
         String insertProductSql = "insert into BARTER_PRODUCTS (PRODUCT_ID, USER_ID, NAME, DESCRIPTION, TYPE, PIC_URL) values (:productId, :userId, :name, :description, :type, :pic_url)";
         MapSqlParameterSource productParams = new MapSqlParameterSource()
                 .addValue("productId", product.getId())

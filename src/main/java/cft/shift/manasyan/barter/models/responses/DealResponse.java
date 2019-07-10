@@ -12,7 +12,7 @@ public class DealResponse {
     public DealResponse(User responseHolder, Product responseProduct) {
         this.responseHolder = responseHolder;
         this.responseProduct = responseProduct;
-        this.id = responseHolder.getUid();
+        this.id = responseHolder.getId();
 
         registerResponse();
     }
