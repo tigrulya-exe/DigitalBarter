@@ -11,11 +11,9 @@ public interface OfferResponseRepository {
 
     Collection<DealResponse> getAllResponses();
 
-    DealResponse updateResponse(String holderId, String productId);
-
     void deleteResponse(String responseId);
 
-    DealResponse createResponse(String holderId, String productId);
+    DealResponse createResponse(DealResponse response, String offerId);
 
     Collection<DealResponse> getAllUserResponses(String userId);
 

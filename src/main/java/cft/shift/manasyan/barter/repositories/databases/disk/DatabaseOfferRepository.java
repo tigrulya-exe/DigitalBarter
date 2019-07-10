@@ -23,7 +23,7 @@ public class DatabaseOfferRepository implements DealRepository {
 
     @Autowired
     private OfferExtractor offerExtractor;
-
+/*
         @PostConstruct
         public void initialize()
         {
@@ -33,7 +33,7 @@ public class DatabaseOfferRepository implements DealRepository {
                     "DESCRIPTION     VARCHAR(512)" +
                     ");";
             jdbcTemplate.update(createUserTableSql, new MapSqlParameterSource());
-        }
+        }*/
 
     @Override
     public void addDeal(Deal deal) {
