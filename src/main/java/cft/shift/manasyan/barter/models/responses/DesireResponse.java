@@ -10,6 +10,11 @@ public class DesireResponse extends DealResponse {
         super(responseHolder, desiredProduct);
     }
 
+    public DesireResponse(User responseHolder, Product responseProduct, Product desiredProductResponse) {
+        super(responseHolder, responseProduct);
+        this.desiredProductResponse = desiredProductResponse;
+    }
+
     public void setDesiredProductResponse(Product desiredProductResponse) {
         this.desiredProductResponse = desiredProductResponse;
     }

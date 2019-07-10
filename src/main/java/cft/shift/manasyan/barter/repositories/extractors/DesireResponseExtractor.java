@@ -1,6 +1,6 @@
 package cft.shift.manasyan.barter.repositories.extractors;
 
-import cft.shift.manasyan.barter.models.responses.DealResponse;
+import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseProductRepository;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class OfferResponseExtractor implements ResultSetExtractor<List<DealResponse>> {
+public class DesireResponseExtractor implements ResultSetExtractor<List<DesireResponse>> {
     @Autowired
     private DatabaseUserRepository databaseUserRepository;
 
@@ -24,22 +24,23 @@ public class OfferResponseExtractor implements ResultSetExtractor<List<DealRespo
     private DatabaseProductRepository databaseProductRepository;
 
     @Override
-    public List<DealResponse> extractData(ResultSet rs) throws SQLException, DataAccessException {
-        Map<String, DealResponse> responses = new HashMap<>();
+    public List<DesireResponse> extractData(ResultSet rs) throws SQLException, DataAccessException {
+        Map<String, DesireResponse> responses = new HashMap<>();
 
         while(rs.next())
         {
             String responseId = rs.getString("RESPONSE_AND_PRODUCT_ID");
 
-            DealResponse response;
+            DesireResponse response;
             if(responses.containsKey(responseId))
             {
                 response = responses.get(responseId);
             }
             else
             {
-                response = new DealResponse(databaseUserRepository.fetchUser(rs.getString("HOLDER_ID")),
-                        databaseProductRepository.fetchProduct(responseId));
+                response = new DesireResponse(databaseUserRepository.fetchUser(rs.getString("HOLDER_ID")),
+                                    databaseProductRepository.fetchProduct(responseId),
+                                    databaseProductRepository.fetchProduct("DESIRED_PRODUCT_ID"));
             }
             responses.put(responseId, response);
         }
