@@ -1,9 +1,7 @@
 package cft.shift.manasyan.barter.api;
-import cft.shift.manasyan.barter.exceptions.NotFoundException;
 import cft.shift.manasyan.barter.models.dtos.*;
 import cft.shift.manasyan.barter.services.DealService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,14 +17,16 @@ public class DealController {
 
     @GetMapping(BARTER_PATH + "/desires")
     @ApiOperation(value = "Получение всех желаний")
-    public ResponseEntity<List<DealTO>> getDesires(){
-        return dealService.getDesires();
+    public ResponseEntity<List<DealTO>> getDesires(
+            @RequestHeader("userId") String userId){
+        return dealService.getDesires(userId);
     }
 
     @GetMapping(BARTER_PATH + "/offers")
     @ApiOperation(value = "Получение всех предложений")
-    public ResponseEntity<List<DealTO>> getOffers(){
-        return dealService.getOffers();
+    public ResponseEntity<List<DealTO>> getOffers(
+            @RequestHeader("userId") String userId){
+        return dealService.getOffers(userId);
     }
 
     @PostMapping(BARTER_PATH + "/desires")
@@ -61,5 +61,21 @@ public class DealController {
             @PathVariable String desireId) {
 
         return dealService.getDetailedDesire(desireId);
+    }
+
+    @DeleteMapping (BARTER_PATH + "/desires/{desireId}")
+    @ApiOperation(value = "Удаление желания")
+    public ResponseEntity<?> deleteDesire(
+            @PathVariable String desireId) {
+
+        return dealService.deleteDesire(desireId);
+    }
+
+    @DeleteMapping(BARTER_PATH + "/offers/{offerId}")
+    @ApiOperation(value = "Удаление предложения")
+    public ResponseEntity<?> deleteOffer(
+            @PathVariable String offerId) {
+
+        return dealService.deleteOffer(offerId);
     }
 }

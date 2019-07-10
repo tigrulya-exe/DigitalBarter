@@ -49,6 +49,13 @@ public class UserService {
         return ResponseEntity.ok(offers);
     }
 
+    public ResponseEntity<?> deleteProduct(String userId, String productId) {
+        User user = users.getUser(userId);
+        user.getBackpack().deleteProduct(productId);
+
+        return ResponseEntity.ok().build();
+    }
+
     public ResponseEntity<List<DealTO>> getUserDesires(String userId) {
         User user = users.getUser(userId);
         List<DealTO> offers = getDealTOs(user.getUserDeals().getDesires());

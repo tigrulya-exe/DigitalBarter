@@ -6,6 +6,8 @@ import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
 import lombok.NonNull;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +64,7 @@ public abstract class Deal {
         return newResponse;
     }
 
-    public void closeDeal(String responseId) {
+    public void accept(String responseId) {
         if(responses.get(responseId) == null)
             throw new NotFoundException("Wrong responseId");
 
@@ -74,6 +76,12 @@ public abstract class Deal {
             else
                 response.discard();
             responses.remove(key);/*delete response after accepting or discarding*/
+        }
+    }
+
+    public void close() {
+        for(DealResponse response : responses.values()) {
+            response.discard();
         }
     }
 }
