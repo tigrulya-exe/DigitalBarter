@@ -37,6 +37,9 @@ public class DealService {
     @Qualifier(value = "offers")
     private DealRepository<Offer> offersRepository;
 
+    @Autowired
+    private ResponseService responseService;
+
     public ResponseEntity<List<DealTO>> getDesires(String userId) {
         List<Desire> desires = constructRelevantList(desiresRepository.getDeals(), userId, this::isDesireRelevant);
         return ResponseEntity.ok(getDealTOs(desires));
@@ -50,13 +53,15 @@ public class DealService {
     public ResponseEntity<DealTO> createDesire(String userId, DesireTO desireDTO) {
         User user = users.getUser(userId);
         Desire desire = new Desire(desireDTO,user);
-        user.getUserDeals().addDesire(desire);
 
+        user.getUserDeals().addDesire(desire);
         desiresRepository.addDeal(desire);
+
         loggingService.newDesireEvent(desire);
 
         return ResponseEntity.ok(new DealTO(desire));
     }
+
 
     public ResponseEntity<DealTO> createOffer(String userId, OfferTO offerTO) {
         User user = users.getUser(userId);
@@ -99,7 +104,7 @@ public class DealService {
         User user = deal.getDealHolder();
         offersRepository.removeDeal(dealId);
 
-        closeDeal(deal.getResponsesAsList());
+        closeDeal(deal.getResponsesAsList(), user);
 
         deleter.delete(user,deal);
 
@@ -109,12 +114,7 @@ public class DealService {
     private <T extends Deal> List<T> constructRelevantList(List<T> deals, String userId , DealPredicate predicate){
         User user = users.getUser(userId);
         List<Product> products = user.getBackpack().getProducts();
-        products.forEach(product -> deals.sort((d1, d2) -> {
-            if(predicate.isRelevant(d1,product))
-                return -1;
-            else
-                return 1;
-        }));
+        products.forEach(product -> deals.sort((d1, d2) -> (predicate.isRelevant(d1,product)) ? -1: 1));
 
         return deals;
     }
@@ -127,9 +127,9 @@ public class DealService {
         return offer.getDescription().contains(product.getName());
     }
 
-    private void closeDeal(List<DealResponse> responses){
+    private void closeDeal(List<DealResponse> responses, User dealHolder){
         for(DealResponse response : responses) {
-            response.discard();
+            response.discard(dealHolder);
         }
     }
 }

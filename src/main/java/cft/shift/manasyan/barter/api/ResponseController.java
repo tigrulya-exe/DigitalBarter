@@ -4,10 +4,7 @@ import cft.shift.manasyan.barter.services.ResponseService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ResponseController {
@@ -64,5 +61,23 @@ public class ResponseController {
             @PathVariable String responseId){
 
         return responseService.handleSecondDesireResponse(productId,dealId,responseId);
+    }
+
+    @DeleteMapping (BARTER_PATH + "/{dealId}/discardOfferResponse")
+    @ApiOperation(value = "Отклонение реакции на предложение")
+    public ResponseEntity<?> discardOfferResponse(
+            @PathVariable String dealId,
+            @RequestHeader("responseId") String responseId){
+
+        return responseService.discardOfferResponse(dealId,responseId);
+    }
+
+    @DeleteMapping (BARTER_PATH + "/{dealId}/discardDesireResponse")
+    @ApiOperation(value = "Отклонение реакции на желание")
+    public ResponseEntity<?> discardDesireResponse(
+            @PathVariable String dealId,
+            @RequestHeader("responseId") String responseId){
+
+        return responseService.discardDesireResponse(dealId,responseId);
     }
 }

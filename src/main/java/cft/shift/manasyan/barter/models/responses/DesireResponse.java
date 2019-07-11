@@ -20,14 +20,19 @@ public class DesireResponse extends DealResponse {
     }
 
     @Override
-    public void accept(User dealOwner, Product dealOwnerProduct)
-    {
+    public void accept(User dealOwner, Product dealOwnerProduct) {
         dealOwner.getBackpack().putProduct(getResponseProduct());
         getResponseHolder().getBackpack().putProduct(desiredProductResponse);
     }
 
     public Product getDesiredProductResponse() {
         return desiredProductResponse;
+    }
+
+    public void discard(User dealOwner){
+        super.discard(dealOwner);
+        if (desiredProductResponse != null)
+            dealOwner.getBackpack().putProduct(desiredProductResponse);
     }
 
 }

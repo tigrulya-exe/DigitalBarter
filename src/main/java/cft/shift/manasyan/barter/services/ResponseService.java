@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.ExecutorService;
+
 @Service
 public class ResponseService {
 
@@ -44,6 +46,7 @@ public class ResponseService {
         Desire desire = desiresRepository.getDeal(desireId);
         desiresRepository.removeDeal(desireId);
         desire.accept(responseId);
+        desire.getDealHolder().getUserDeals().deleteOffer(desire);
 
         for(DealResponse response :  desire.getResponses().values()){
             User user = response.getResponseHolder();
@@ -55,10 +58,19 @@ public class ResponseService {
     }
 
 
+    public ResponseEntity<?> discardOfferResponse(String dealId, String responseId) {
+        return discardDealResponse(dealId,responseId,offersRepository);
+    }
+
+    public ResponseEntity<?> discardDesireResponse(String dealId, String responseId) {
+        return discardDealResponse(dealId,responseId,desiresRepository);
+    }
+
     public ResponseEntity<?> acceptOffer(String offerId, String responseId) {
         Offer offer = offersRepository.getDeal(offerId);
         offersRepository.removeDeal(offerId);
         offer.accept(responseId);
+        offer.getDealHolder().getUserDeals().deleteOffer(offer);
 
         for(DealResponse response :  offer.getResponses().values()){
             User user = response.getResponseHolder();
@@ -78,6 +90,13 @@ public class ResponseService {
         return ResponseEntity.ok().build();
     }
 
+    private  <T extends Deal> ResponseEntity<?> discardDealResponse(String dealId, String responseId, DealRepository<T> repository) {
+        T deal = repository.getDeal(dealId);
+        deal.getDealResponse(responseId).discard(deal.getDealHolder());
+        deal.getResponses().remove(responseId);
+
+        return ResponseEntity.ok().build();
+    }
 
     private <T extends Deal> ResponseEntity<ResponseTO> addDealResponse(String desireId, String userId, String productId, DealRepository<T> repository ){
         User user = users.getUser(userId);
@@ -87,5 +106,4 @@ public class ResponseService {
         DealResponse dealResponse = deal.registerResponse(user,product);
         return ResponseEntity.ok(new ResponseTO(dealResponse));
     }
-
 }

@@ -75,7 +75,7 @@ public abstract class Deal {
             if(key.equals(responseId))/*accept response with argument id*/
                 response.accept(dealHolder, dealProduct);
             else
-                response.discard();
+                response.discard(dealHolder);
             responses.remove(key);/*delete response after accepting or discarding*/
         }
     }
