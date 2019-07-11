@@ -6,6 +6,8 @@ import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
 import lombok.NonNull;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

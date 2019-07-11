@@ -67,4 +67,13 @@ public class UserController {
         return userService.putProductInBackpack(userId,product);
     }
 
+    @DeleteMapping(BARTER_PATH + "/{userId}/{productId}")
+    @ApiOperation(value = "Удаление предмета из рюкзака")
+    public ResponseEntity<?> deleteProduct(
+            @PathVariable String userId,
+            @PathVariable String  productId){
+
+        return userService.deleteProduct(userId,productId);
+    }
+
 }

@@ -65,6 +65,7 @@ public class Product {
         this.pictureURL = root.getPictureURL();
         this.name = root.getName();
         this.type = ProductType.valueOf(root.getType());
+        this.description = description;
     }
 
     public String getUserID() {

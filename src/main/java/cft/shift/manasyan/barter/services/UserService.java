@@ -21,8 +21,6 @@ import static cft.shift.manasyan.barter.services.TOConstructorService.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/*OK*/
 @Service
 public class UserService {
 
@@ -36,14 +34,14 @@ public class UserService {
     @Autowired
     @Qualifier("sqlProducts")
     private ProductRepository products;
-     
+
     public ResponseEntity<List<Product>> getBackpack(String userId){
         Backpack backpack = users.getUser(userId).getBackpack();
 
         //List<Product> backpack = products.getUserProducts(userId);
         return ResponseEntity.ok(backpack.getProducts());
     }
-     
+
     public ResponseEntity<UserTO> registerUser(String userName){
         //if(users.contains(userName))
         //    throw new WrongUserNameException("User with this name already exists");
@@ -52,19 +50,26 @@ public class UserService {
         users.addUser(user);
         return ResponseEntity.ok(new UserTO(user));
     }
-     
+
     public ResponseEntity<List<DealTO>> getUserOffers(String userId) {
         User user = users.getUser(userId);
         List<DealTO> offers = getDealTOs(user.getUserDeals().getOffers());
         return ResponseEntity.ok(offers);
     }
-     
+
+    public ResponseEntity<?> deleteProduct(String userId, String productId) {
+        User user = users.getUser(userId);
+        user.getBackpack().deleteProduct(productId);
+
+        return ResponseEntity.ok().build();
+    }
+
     public ResponseEntity<List<DealTO>> getUserDesires(String userId) {
         User user = users.getUser(userId);
         List<DealTO> offers = getDealTOs(user.getUserDeals().getDesires());
         return ResponseEntity.ok(offers);
     }
-     
+
     public ResponseEntity<List<ResponseTO>> getOfferResponses( String userId) {
         User user = users.getUser(userId);
         List<ResponseTO> responseTOs = new ArrayList<>();
@@ -75,7 +80,7 @@ public class UserService {
 
         return ResponseEntity.ok(responseTOs);
     }
-     
+
     public ResponseEntity<List<ResponseTO>> getDesireResponses( String userId) {
         User user = users.getUser(userId);
         List<ResponseTO> responseTOs = new ArrayList<>();
@@ -85,7 +90,7 @@ public class UserService {
         }
         return ResponseEntity.ok(responseTOs);
     }
-    
+
     public ResponseEntity<Product> putProductInBackpack(String userId, Product product) {
         User user = users.getUser(userId);
         product.setUserID(userId);

@@ -47,6 +47,6 @@ public class DealTO {
     }
 
     public void setProduct(Product product) {
-        this.product = this.product;
+        this.product = product;
     }
 }

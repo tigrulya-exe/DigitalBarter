@@ -42,4 +42,5 @@ public class DealResponse {
     public void discard(){
         responseHolder.getBackpack().putProduct(responseProduct, responseHolder.getId());
     }
+
 }
