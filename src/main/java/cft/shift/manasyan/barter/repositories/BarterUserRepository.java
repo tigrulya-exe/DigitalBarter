@@ -43,6 +43,16 @@ public class BarterUserRepository implements UserRepository{
     }
 
     @Override
+    public User getUserByName(String userName) {
+        for(User user : users.values()){
+            if(userName.equals(user.getName()))
+                return user;
+        }
+
+        return null;
+    }
+
+    @Override
     public boolean contains(@NonNull String userName) {
 
         for(User user : users.values()){

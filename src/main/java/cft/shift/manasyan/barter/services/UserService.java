@@ -34,12 +34,16 @@ public class UserService {
         return ResponseEntity.ok(backpack.getProducts());
     }
 
-    public ResponseEntity<UserTO> registerUser(String userName){
-        if(users.contains(userName))
-            throw new WrongUserNameException("User with this name already exists");
+    public ResponseEntity<UserTO> loginUser(String userName){
+        User user;
 
-        User user = new User(userName);
-        users.addUser(user);
+        if(users.contains(userName)){
+            user = users.getUserByName(userName);
+        }
+        else {
+            user = new User(userName);
+            users.addUser(user);
+        }
         return ResponseEntity.ok(new UserTO(user));
     }
 
@@ -90,4 +94,5 @@ public class UserService {
         loggingService.newProductEvent(userId,product);
         return ResponseEntity.ok(product);
     }
+
 }
