@@ -29,18 +29,17 @@ public class UserService {
     @Autowired
     private LoggingService loggingService;
 
-    public ResponseEntity<List<Product>> getBackpack(String userId){
+    public ResponseEntity<List<Product>> getBackpack(String userId) {
         Backpack backpack = users.getUser(userId).getBackpack();
         return ResponseEntity.ok(backpack.getProducts());
     }
 
-    public ResponseEntity<UserTO> loginUser(String userName){
+    public ResponseEntity<UserTO> loginUser(String userName) {
         User user;
 
-        if(users.contains(userName)){
+        if (users.contains(userName)) {
             user = users.getUserByName(userName);
-        }
-        else {
+        } else {
             user = new User(userName);
             users.addUser(user);
         }
@@ -66,22 +65,22 @@ public class UserService {
         return ResponseEntity.ok(offers);
     }
 
-    public ResponseEntity<List<ResponseTO>> getOfferResponses( String userId) {
+    public ResponseEntity<List<ResponseTO>> getOfferResponses(String userId) {
         User user = users.getUser(userId);
         List<ResponseTO> responseTOs = new ArrayList<>();
 
-        for(DealResponse response : user.getOfferResponses()){
+        for (DealResponse response : user.getOfferResponses()) {
             responseTOs.add(new ResponseTO(response));
         }
 
         return ResponseEntity.ok(responseTOs);
     }
 
-    public ResponseEntity<List<ResponseTO>> getDesireResponses( String userId) {
+    public ResponseEntity<List<ResponseTO>> getDesireResponses(String userId) {
         User user = users.getUser(userId);
         List<ResponseTO> responseTOs = new ArrayList<>();
 
-        for(DesireResponse response : user.getDesireResponses()){
+        for (DesireResponse response : user.getDesireResponses()) {
             responseTOs.add(new DesireResponseTO(response));
         }
         return ResponseEntity.ok(responseTOs);
@@ -91,7 +90,7 @@ public class UserService {
         User user = users.getUser(userId);
         user.getBackpack().putProduct(product);
 
-        loggingService.newProductEvent(userId,product);
+        loggingService.newProductEvent(userId, product);
         return ResponseEntity.ok(product);
     }
 

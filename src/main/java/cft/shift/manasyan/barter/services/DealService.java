@@ -106,17 +106,13 @@ public class DealService {
 
     private <T extends Deal> List<T> constructRelevantList(List<T> deals, String userId , DealPredicate predicate){
         User user = users.getUser(userId);
-        Deal deal;
-
-        for (Product product : user.getBackpack().getProducts()) {
-            for (int i = 0; i < deals.size(); ++i) {
-                deal = deals.get(i);
-                if (predicate.isRelevant(deal,product)) {
-                    deals.remove(i);
-                    deals.add(0, (T) deal);
-                }
-            }
-        }
+        List<Product> products = user.getBackpack().getProducts();
+        products.forEach(product -> deals.sort((d1, d2) -> {
+            if(predicate.isRelevant(d1,product))
+                return -1;
+            else
+                return 1;
+        }));
 
         return deals;
     }
