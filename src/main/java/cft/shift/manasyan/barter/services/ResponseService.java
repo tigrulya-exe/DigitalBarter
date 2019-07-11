@@ -45,7 +45,6 @@ public class ResponseService {
     public ResponseEntity<?> acceptDesire(String desireId, String responseId) {
         Desire desire = desiresRepository.getDeal(desireId);
         desiresRepository.removeDeal(desireId);
-        desire.accept(responseId);
         desire.getDealHolder().getUserDeals().deleteOffer(desire);
 
         for(DealResponse response :  desire.getResponses().values()){
@@ -53,6 +52,7 @@ public class ResponseService {
             user.getUserResponses().deleteDesireResponse((DesireResponse) response);
         }
 
+        desire.accept(responseId);
         loggingService.acceptDesireEvent(desireId, responseId);
         return ResponseEntity.ok().build();
     }
@@ -69,7 +69,6 @@ public class ResponseService {
     public ResponseEntity<?> acceptOffer(String offerId, String responseId) {
         Offer offer = offersRepository.getDeal(offerId);
         offersRepository.removeDeal(offerId);
-        offer.accept(responseId);
         offer.getDealHolder().getUserDeals().deleteOffer(offer);
 
         for(DealResponse response :  offer.getResponses().values()){
@@ -77,6 +76,7 @@ public class ResponseService {
             user.getUserResponses().deleteOfferResponse(response);
         }
 
+        offer.accept(responseId);
         loggingService.acceptOfferEvent(offerId, responseId);
         return ResponseEntity.ok().build();
     }

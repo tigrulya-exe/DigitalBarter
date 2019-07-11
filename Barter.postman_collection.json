@@ -6,15 +6,15 @@
 	},
 	"item": [
 		{
-			"name": "Login",
+			"name": "Login first user",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "f8a6c52e-0716-4075-875b-7c1cb9eaa5f9",
+						"id": "cff4a810-79d5-49c5-8648-13cfe2fefb27",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.globals.set(\"userId\", jsonData.userId);"
+							"pm.globals.set(\"firstUserId\", jsonData.userId);"
 						],
 						"type": "text/javascript"
 					}
@@ -25,7 +25,7 @@
 				"header": [
 					{
 						"key": "userName",
-						"value": "Vova",
+						"value": "firstUser",
 						"type": "text"
 					}
 				],
@@ -47,7 +47,20 @@
 			"response": []
 		},
 		{
-			"name": "Add product to backpack",
+			"name": "Add product to first backpack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "67405484-bea5-4bb9-b801-044f2a9dfa38",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"firstProductId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -60,10 +73,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n\"type\":\"FOOD\",\r\n\"name\":\"Малина\",\r\n\"pictureUrl\":\"server/img/001.png\"\r\n}"
+					"raw": "{\r\n\"type\":\"FOOD\",\r\n\"name\":\"firstProductOffer\",\r\n\"pictureURL\":\"server/img/001.png\"\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v001/barter/74771d28-23dd-448b-89e1-c887a5e5928c/backpack",
+					"raw": "http://localhost:8080/api/v001/barter/{{firstUserId}}/backpack",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -73,7 +86,7 @@
 						"api",
 						"v001",
 						"barter",
-						"74771d28-23dd-448b-89e1-c887a5e5928c",
+						"{{firstUserId}}",
 						"backpack"
 					]
 				}
@@ -81,12 +94,24 @@
 			"response": []
 		},
 		{
-			"name": "Get backpack",
+			"name": "Get first backpack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "66410295-bbe3-46a0-b59e-8657cc9a81c5",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v001/barter/daaecdce-a0f3-473d-845f-2483fae430a3/backpack",
+					"raw": "http://localhost:8080/api/v001/barter/{{firstUserId}}/backpack",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -96,7 +121,7 @@
 						"api",
 						"v001",
 						"barter",
-						"daaecdce-a0f3-473d-845f-2483fae430a3",
+						"{{firstUserId}}",
 						"backpack"
 					]
 				}
@@ -104,7 +129,7 @@
 			"response": []
 		},
 		{
-			"name": "Post offer",
+			"name": "Post first offer",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -122,7 +147,7 @@
 				"header": [
 					{
 						"key": "userId",
-						"value": "{{userId}}",
+						"value": "{{firstUserId}}",
 						"type": "text"
 					},
 					{
@@ -134,7 +159,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"productId\": \"1f715338-64ab-4b45-b85c-f59a4ed1ce1f\",\n    \"description\": \"as\"\n}"
+					"raw": "{\n    \"productId\": \"ad95ebd0-fdce-4ddd-8861-a9a091739fce\",\n    \"description\": \"as\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/v001/barter/offers",
@@ -148,28 +173,6 @@
 						"v001",
 						"barter",
 						"offers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get desires",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/v001/barter/desires",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"v001",
-						"barter",
-						"desires"
 					]
 				}
 			},
@@ -198,13 +201,36 @@
 			"response": []
 		},
 		{
+			"name": "GetFirstUserOffers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/{{firstUserId}}/offers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"{{firstUserId}}",
+						"offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Add desire",
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "userId",
-						"value": "{{userId}}",
+						"value": "{{firstUserId}}",
 						"type": "text"
 					},
 					{
@@ -216,7 +242,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"product\": {\n        \"type\": \"FOOD\",\n        \"name\": \"homyachok\",\n        \"pictureUrl\": \"https://cdn.trinixy.ru/pics5/20180420/thousand_words_03.jpg\"\n    },\n    \"description\": \"ОТДАМ <JHO И ГАРАЖ ЗА МАЛИНУ ЕСЛИ НЕ ГЕЙ СОГЛАШАЙСЯ\"\n}"
+					"raw": "{\n    \"product\": {\n        \"type\": \"FOOD\",\n        \"name\": \"firstDesiredProduct\",\n        \"pictureUrl\": \"https://cdn.trinixy.ru/pics5/20180420/thousand_words_03.jpg\"\n    },\n    \"description\": \"ОТДАМ <JHO И ГАРАЖ ЗА МАЛИНУ ЕСЛИ НЕ ГЕЙ СОГЛАШАЙСЯ\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/api/v001/barter/desires",
@@ -236,26 +262,59 @@
 			"response": []
 		},
 		{
-			"name": "OfferResponse",
+			"name": "Get desires",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:8080/api/v001/barter/desires",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"desires"
+					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Login Copy",
+			"name": "GetFirstUserDesires",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/offers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"offers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login second user",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "f8a6c52e-0716-4075-875b-7c1cb9eaa5f9",
+						"id": "c6cc2efd-0d95-4e58-9ea6-a21fbcb0a4a5",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.globals.set(\"userId\", jsonData.userId);"
+							"pm.globals.set(\"secondUserId\", jsonData.userId);"
 						],
 						"type": "text/javascript"
 					}
@@ -266,8 +325,8 @@
 				"header": [
 					{
 						"key": "userName",
-						"value": "Vova",
-						"type": "text"
+						"type": "text",
+						"value": "secondUser"
 					}
 				],
 				"url": {
@@ -288,12 +347,382 @@
 			"response": []
 		},
 		{
+			"name": "Add product to second backpack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5066e3e4-9636-4fa7-85ee-56b7dc43c20b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"secondProductId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"type\":\"FOOD\",\r\n\"name\":\"secondProduct\",\r\n\"pictureUrl\":\"server/img/001.png\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/{{secondUserId}}/backpack",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"{{secondUserId}}",
+						"backpack"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get second backpack",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/{{secondUserId}}/backpack",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"{{secondUserId}}",
+						"backpack"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OfferResponse",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "60f4418f-ee22-44d8-b81e-c70da64a3f02",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "546b8a4b-30d5-40aa-89f6-0cbac00daaf9",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"offerResponseId\", jsonData.responseId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "{{secondUserId}}",
+						"type": "text"
+					},
+					{
+						"key": "productId",
+						"value": "{{secondProductId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/{{firstProductId}}/offerResponse",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"{{firstProductId}}",
+						"offerResponse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserOfferResponses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/{{secondUserId}}/offerResponses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"{{secondUserId}}",
+						"offerResponses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "AcceptOffer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "responseId",
+						"value": "{{offerResponseId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/{{firstProductId}}/acceptOffer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"{{firstProductId}}",
+						"acceptOffer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetDetailedOffer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/offers/{{firstProductId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"offers",
+						"{{firstProductId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add desire reponse product to second backpack",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1923db22-8107-4c65-8386-839830152900",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"desireResponseProductId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"type\":\"FOOD\",\r\n\"name\":\"desireResponse\",\r\n\"pictureUrl\":\"server/img/001.png\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/{{secondUserId}}/backpack",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"{{secondUserId}}",
+						"backpack"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DesireResponse",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "userId",
+						"value": "{{secondUserId}}",
+						"type": "text"
+					},
+					{
+						"key": "productId",
+						"value": "{{desireResponseProductId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/a1673930-d401-46a0-b8f6-afb2295b1aae/desireResponse",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"a1673930-d401-46a0-b8f6-afb2295b1aae",
+						"desireResponse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetUserDesireResponses",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
 					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DesireResponseResponse",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "productId",
+						"value": "d2db8f5b-748c-435f-b823-a51fe3adfaf7",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/a1673930-d401-46a0-b8f6-afb2295b1aae/704b9ac3-144d-4e3c-a03a-d62e9123eed9/desireResponse",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"a1673930-d401-46a0-b8f6-afb2295b1aae",
+						"704b9ac3-144d-4e3c-a03a-d62e9123eed9",
+						"desireResponse"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AcceptDesire",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetDetailedDesire",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/offers/{{firstProductId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"offers",
+						"{{firstProductId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOffer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v001/barter/offers/{{firstProductId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v001",
+						"barter",
+						"offers",
+						"{{firstProductId}}"
+					]
 				}
 			},
 			"response": []
