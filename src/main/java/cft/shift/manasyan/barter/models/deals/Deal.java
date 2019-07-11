@@ -6,10 +6,7 @@ import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
 import lombok.NonNull;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /*class of offer. It could be "I want it" or "I want to change it for something"*/
 
@@ -46,13 +43,17 @@ public abstract class Deal {
     }
 
     public DealResponse getDealResponse(String responseId){
-        DealResponse dealResponse = getResponses().get(responseId);
+        DealResponse dealResponse = responses.get(responseId);
         if(dealResponse == null)
             throw new NotFoundException("Wrong offerId");
         return dealResponse;    }
 
     public Map<String, DealResponse> getResponses() {
         return responses;
+    }
+
+    public List<DealResponse> getResponsesAsList(){
+        return  new ArrayList<>(responses.values());
     }
 
     protected abstract DealResponse createDealResponse(@NonNull User user, @NonNull Product product);
@@ -79,9 +80,4 @@ public abstract class Deal {
         }
     }
 
-    public void close() {
-        for(DealResponse response : responses.values()) {
-            response.discard();
-        }
-    }
 }

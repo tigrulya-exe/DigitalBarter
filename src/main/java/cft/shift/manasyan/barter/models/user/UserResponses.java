@@ -1,6 +1,6 @@
+
 package cft.shift.manasyan.barter.models.user;
 
-import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 

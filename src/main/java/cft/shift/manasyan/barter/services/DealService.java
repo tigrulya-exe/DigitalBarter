@@ -5,6 +5,7 @@ import cft.shift.manasyan.barter.models.deals.Deal;
 import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.models.deals.Offer;
 import cft.shift.manasyan.barter.models.dtos.*;
+import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.repositories.DealRepository;
 import cft.shift.manasyan.barter.repositories.UserRepository;
@@ -97,7 +98,8 @@ public class DealService {
         Product product = deal.getDealProduct();
         User user = deal.getDealHolder();
         offersRepository.removeDeal(dealId);
-        deal.close();
+
+        closeDeal(deal.getResponsesAsList());
 
         deleter.delete(user,deal);
 
@@ -125,4 +127,9 @@ public class DealService {
         return offer.getDescription().contains(product.getName());
     }
 
+    private void closeDeal(List<DealResponse> responses){
+        for(DealResponse response : responses) {
+            response.discard();
+        }
+    }
 }
