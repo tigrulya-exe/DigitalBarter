@@ -79,7 +79,7 @@ public class ResponseService {
         user.getUserResponses().addOfferResponse(dealResponse, offerId);
         return ResponseEntity.ok(new ResponseTO(dealResponse));
     }
-
+/*this except that*/
     public ResponseEntity<?> acceptDesire(String desireId, String responseId) {
         Desire desire = desiresRepository.getDeal(desireId);
         User user = desire.getDealHolder();

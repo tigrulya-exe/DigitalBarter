@@ -8,7 +8,10 @@ import cft.shift.manasyan.barter.models.dtos.*;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseDesireRepository;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseOfferRepository;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.DealRepository;
 import cft.shift.manasyan.barter.repositories.databases.interfaces.UserRepository;
+import cft.shift.manasyan.barter.services.helpers.DealPredicate;
+import cft.shift.manasyan.barter.services.helpers.UserDealDeleter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -85,25 +88,26 @@ public class DealService {
     }
 
     public ResponseEntity<DetailedDesireTO> deleteOffer(String offerId){
-        deleteDeal(offerId,offersRepository, (user, deal) -> user.getUserDeals().deleteOffer(deal));
+        deleteDeal(offerId, offersRepository, (user, deal) -> user.getUserDeals().deleteOffer((Offer)deal));
         return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<DetailedDesireTO> deleteDesire(String offerId){
-        deleteDeal(offerId,offersRepository, (user, deal) -> user.getUserDeals().deleteDesire(deal));
+        deleteDeal(offerId, desiresRepository, (user, deal) -> user.getUserDeals().deleteDesire((Desire)deal));
         return ResponseEntity.ok().build();
     }
-
+/*this change by that*/
     private <T extends Deal> void deleteDeal(String dealId, DealRepository<T> repository, UserDealDeleter deleter){
         T deal = repository.getDeal(dealId);
         Product product = deal.getDealProduct();
         User user = deal.getDealHolder();
-        offersRepository.removeDeal(dealId);
-        deal.close();
+        /*offersRepository.removeDeal(dealId);
+        user.getUserDeals().
+        deal.close();*/
 
         deleter.delete(user,deal);
 
-        user.getBackpack().putProduct(product);
+        user.getBackpack().putProduct(product, user.getId());
     }
 
     private <T extends Deal> List<T> constructRelevantList(List<T> deals, String userId , DealPredicate predicate){

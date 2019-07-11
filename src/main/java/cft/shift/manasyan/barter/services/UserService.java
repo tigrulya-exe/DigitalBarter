@@ -37,14 +37,12 @@ public class UserService {
 
     public ResponseEntity<List<Product>> getBackpack(String userId){
         Backpack backpack = users.getUser(userId).getBackpack();
-
-        //List<Product> backpack = products.getUserProducts(userId);
         return ResponseEntity.ok(backpack.getProducts());
     }
 
     public ResponseEntity<UserTO> registerUser(String userName){
-        //if(users.contains(userName))
-        //    throw new WrongUserNameException("User with this name already exists");
+        /*if(users.contains(userName))
+            throw new WrongUserNameException("User with this name already exists");*/
 
         User user = new User(userName);
         users.addUser(user);
