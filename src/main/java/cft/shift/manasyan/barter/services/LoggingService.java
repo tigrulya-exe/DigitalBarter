@@ -28,7 +28,7 @@ public class LoggingService {
     }
 
     public void newUserEvent(User user){
-        logger.info("User " + user.getName() + " with id [" + user.getId() + "] was created");
+        logger.info("User " + user.getName() + " with id [" + user.getUid() + "] was created");
     }
 
     public void newProductEvent(String userId, Product product){

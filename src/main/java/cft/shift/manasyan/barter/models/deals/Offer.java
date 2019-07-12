@@ -9,15 +9,17 @@ import lombok.NonNull;
 import java.util.HashMap;
 
 public class Offer extends Deal {
-//    private HashMap<String, DealResponse> responses = null;/*list of responses to current offer*/
+    private HashMap<String, DealResponse> responses = null;/*list of responses to current offer*/
 
     public Offer(OfferTO offerTO, @NonNull User user) {
         super(user.getBackpack().getProduct(offerTO.getProductId()), user,  offerTO.getDescription());
+//        getDealHolder().getBackpack().deleteProduct(getDealProduct().getId());
+//        getDealHolder().getUserDeals().addOffer(this);
     }
 
-//    @Override
-//    protected DealResponse createDealResponse(User user, Product product) {
-//        return new DealResponse(user,product);
-//    }
+    @Override
+    protected DealResponse createDealResponse(User user, Product product) {
+        return new DealResponse(user,product);
+    }
 
 }
