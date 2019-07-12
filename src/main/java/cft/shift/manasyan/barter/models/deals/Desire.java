@@ -11,18 +11,22 @@ public class Desire extends Deal {
         super(desireDTO.getProduct(), user, desireDTO.getDescription());
 //        getDealHolder().getUserDeals().addDesire(this);
     }
-
-    @Override
-    public DesireResponse getDealResponse(String responseId){
-        DesireResponse desireResponse = (DesireResponse) getResponses().get(responseId);
-        if(desireResponse == null)
-            throw new NotFoundException("Wrong desireId");
-        return desireResponse;
+    public Desire(Product product, User holder, String description) {
+        super(product, holder, description);
+        holder.getUserDeals().addDesire(this);
     }
 
-    @Override
-    protected DesireResponse createDealResponse(User user, Product product) {
-        return new DesireResponse(user,product);
-    }
+//    @Override
+//    public DesireResponse getDealResponse(String responseId){
+//        DesireResponse desireResponse = (DesireResponse) getResponses().get(responseId);
+//        if(desireResponse == null)
+//            throw new NotFoundException("Wrong desireId");
+//        return desireResponse;
+//    }
+//
+//    @Override
+//    protected DesireResponse createDealResponse(User user, Product product) {
+//        return new DesireResponse(user,product);
+//    }
 
 }

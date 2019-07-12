@@ -16,7 +16,9 @@ public class Product {
 
     private ProductType type;
 
-    private final String id = UUID.randomUUID().toString();
+    private String userID;
+
+    private String id = UUID.randomUUID().toString();
 
     private String name;
 
@@ -24,7 +26,32 @@ public class Product {
 
     private String description;
 
-    public Product(ProductType type, String name, String pictureURL, String description) {
+
+    public Product(ProductType type, String name, String pictureURL, String descript) {
+        this.type = type;
+        this.name = name;
+        this.pictureURL = pictureURL;
+        this.description = descript;
+    }
+
+    public Product(String type, String userID, String name, String pictureURL, String description, String id) {
+        this.type = ProductType.valueOf(type);
+        this.userID = userID;
+        this.name = name;
+        this.pictureURL = pictureURL;
+        this.description = description;
+        this.id = id;
+    }
+    public Product(String type, String userID, String name, String pictureURL, String description) {
+        this.type = ProductType.valueOf(type);
+        this.userID = userID;
+        this.name = name;
+        this.pictureURL = pictureURL;
+        this.description = description;
+        this.id = id;
+    }
+
+    public Product(ProductType type, String name, String pictureURL) {
         this.type = type;
         this.name = name;
         this.pictureURL = pictureURL;
@@ -39,6 +66,10 @@ public class Product {
         this.name = root.getName();
         this.type = ProductType.valueOf(root.getType());
         this.description = description;
+    }
+
+    public String getUserID() {
+        return userID;
     }
 
     public ProductType getType() {
@@ -75,6 +106,10 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 }
 
