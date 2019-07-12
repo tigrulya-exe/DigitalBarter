@@ -2,6 +2,7 @@ package cft.shift.manasyan.barter.models.responses;
 
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 public class DealResponse {
     private User responseHolder;
@@ -11,13 +12,13 @@ public class DealResponse {
     public DealResponse(User responseHolder, Product responseProduct) {
         this.responseHolder = responseHolder;
         this.responseProduct = responseProduct;
-        this.id = responseHolder.getId();
+        this.id = responseHolder.getUid();
 
         registerResponse();
     }
 
     protected void registerResponse(){
-        responseHolder.getUserResponses().addOfferResponse(this, id);
+        responseHolder.getUserResponses().addOfferResponse(this);
     }
 
     public User getResponseHolder() {
@@ -32,15 +33,13 @@ public class DealResponse {
         return id;
     }
 
-    public void accept(User dealOwner, Product dealOwnerProduct)
-    {
-        dealOwner.getBackpack().putProduct(responseProduct, dealOwner.getId());
-        responseProduct = null;
-        responseHolder.getBackpack().putProduct(dealOwnerProduct, responseHolder.getId());
+    public void accept(User dealOwner, Product dealOwnerProduct) {
+        dealOwner.getBackpack().putProduct(responseProduct);
+        responseHolder.getBackpack().putProduct(dealOwnerProduct);
     }
 
-    public void discard(){
-        responseHolder.getBackpack().putProduct(responseProduct, responseHolder.getId());
+    public void discard(User dealOwner){
+        responseHolder.getBackpack().putProduct(responseProduct);
     }
 
 }

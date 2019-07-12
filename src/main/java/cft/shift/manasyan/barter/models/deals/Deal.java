@@ -6,10 +6,7 @@ import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
 import lombok.NonNull;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /*class of offer. It could be "I want it" or "I want to change it for something"*/
 
@@ -19,14 +16,14 @@ public abstract class Deal {
     private final String id;
     private String description;
 
-//    private Map<String, DealResponse> responses;
+    private Map<String, DealResponse> responses;
 
     public Deal(@NonNull Product product, @NonNull User user, @NonNull String description) {
         this.dealHolder = user;
         this.dealProduct = product;
         this.description = description;
         this.id = product.getId();/*unique id - concatenation person id and dealProduct id */
-//        this.responses = new HashMap<>();
+        this.responses = new HashMap<>();
     }
 
     public String getId() {
@@ -45,41 +42,42 @@ public abstract class Deal {
         return dealProduct;
     }
 
-//    public DealResponse getDealResponse(String responseId){
-//        DealResponse dealResponse = getResponses().get(responseId);
-//        if(dealResponse == null)
-//            throw new NotFoundException("Wrong offerId");
-//        return dealResponse;    }
+    public DealResponse getDealResponse(String responseId){
+        DealResponse dealResponse = responses.get(responseId);
+        if(dealResponse == null)
+            throw new NotFoundException("Wrong offerId");
+        return dealResponse;    }
 
-//    public Map<String, DealResponse> getResponses() {
-//        return responses;
-//    }
+    public Map<String, DealResponse> getResponses() {
+        return responses;
+    }
 
-//    protected abstract DealResponse createDealResponse(@NonNull User user, @NonNull Product product);
+    public List<DealResponse> getResponsesAsList(){
+        return  new ArrayList<>(responses.values());
+    }
+
+    protected abstract DealResponse createDealResponse(@NonNull User user, @NonNull Product product);
 
 
-//    public DealResponse registerResponse(User answerer, Product answererProduct) {
-//        DealResponse newResponse = createDealResponse(answerer,answererProduct);
-//        responses.put(newResponse.getId(), newResponse);/*add new response to list of dtos of this offer*/
-//        return newResponse;
-//    }
-//
-//
+    public DealResponse registerResponse(User answerer, Product answererProduct) {
+        DealResponse newResponse = createDealResponse(answerer,answererProduct);
+        responses.put(newResponse.getId(), newResponse);/*add new response to list of dtos of this offer*/
+        return newResponse;
+    }
 
-// TODO вынести в логику
+    public void accept(String responseId) {
+        if(responses.get(responseId) == null)
+            throw new NotFoundException("Wrong responseId");
 
-//    public void closeDeal(String responseId) {
-//        if(responses.get(responseId) == null)
-//            throw new NotFoundException("Wrong responseId");
-//
-//        for(Map.Entry<String, DealResponse> entry : responses.entrySet()) {
-//            String key = entry.getKey();
-//            DealResponse response = entry.getValue();
-//            if(key.equals(responseId))/*accept response with argument id*/
-//                response.accept(dealHolder, dealProduct);
-//            else
-//                response.discard();
-//            responses.remove(key);/*delete response after accepting or discarding*/
-//        }
-//    }
+        for(Map.Entry<String, DealResponse> entry : responses.entrySet()) {
+            String key = entry.getKey();
+            DealResponse response = entry.getValue();
+            if(key.equals(responseId))/*accept response with argument id*/
+                response.accept(dealHolder, dealProduct);
+            else
+                response.discard(dealHolder);
+            responses.remove(key);/*delete response after accepting or discarding*/
+        }
+    }
+
 }

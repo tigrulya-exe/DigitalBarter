@@ -22,10 +22,10 @@ public class UserController {
 
     @PostMapping (BARTER_PATH + "/login")
     @ApiOperation(value = "Добавление нового пользователя")
-    public ResponseEntity<UserTO> registerUser(
+    public ResponseEntity<UserTO> loginUser(
             @ApiParam(value = "Имя пользователя")
             @RequestHeader("userName") String userName){
-        return userService.registerUser(userName);
+        return userService.loginUser(userName);
     }
 
     @GetMapping(BARTER_PATH + "/{userId}/offers")

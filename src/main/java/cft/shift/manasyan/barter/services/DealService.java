@@ -5,11 +5,10 @@ import cft.shift.manasyan.barter.models.deals.Deal;
 import cft.shift.manasyan.barter.models.deals.Desire;
 import cft.shift.manasyan.barter.models.deals.Offer;
 import cft.shift.manasyan.barter.models.dtos.*;
+import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.user.User;
-import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseDesireRepository;
-import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseOfferRepository;
-import cft.shift.manasyan.barter.repositories.databases.interfaces.DealRepository;
-import cft.shift.manasyan.barter.repositories.databases.interfaces.UserRepository;
+import cft.shift.manasyan.barter.repositories.DealRepository;
+import cft.shift.manasyan.barter.repositories.UserRepository;
 import cft.shift.manasyan.barter.services.helpers.DealPredicate;
 import cft.shift.manasyan.barter.services.helpers.UserDealDeleter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,25 +24,21 @@ import java.util.List;
 public class DealService {
 
     @Autowired
-    @Qualifier("sql")
     private UserRepository users;
 
     @Autowired
     private LoggingService loggingService;
 
-//    @Autowired
-//    @Qualifier(value = "desires")
-//    private DealRepository<Desire> desiresRepository;
-//
-//    @Autowired
-//    @Qualifier(value = "offers")
-//    private DealRepository<Offer> offersRepository;
+    @Autowired
+    @Qualifier(value = "desires")
+    private DealRepository<Desire> desiresRepository;
 
     @Autowired
-    private DatabaseDesireRepository desiresRepository;
+    @Qualifier(value = "offers")
+    private DealRepository<Offer> offersRepository;
 
     @Autowired
-    private DatabaseOfferRepository offersRepository;
+    private ResponseService responseService;
 
     public ResponseEntity<List<DealTO>> getDesires(String userId) {
         List<Desire> desires = constructRelevantList(desiresRepository.getDeals(), userId, this::isDesireRelevant);
@@ -58,20 +53,26 @@ public class DealService {
     public ResponseEntity<DealTO> createDesire(String userId, DesireTO desireDTO) {
         User user = users.getUser(userId);
         Desire desire = new Desire(desireDTO,user);
+
         user.getUserDeals().addDesire(desire);
+        desiresRepository.addDeal(desire);
 
         loggingService.newDesireEvent(desire);
+
         return ResponseEntity.ok(new DealTO(desire));
     }
+
 
     public ResponseEntity<DealTO> createOffer(String userId, OfferTO offerTO) {
         User user = users.getUser(userId);
         Offer offer = new Offer(offerTO,user);
 
         user.getUserDeals().addOffer(offer);
-        user.getBackpack().getAndDeleteProduct(offerTO.getProductId());
+        user.getBackpack().deleteProduct(offerTO.getProductId());
 
+        offersRepository.addDeal(offer);
         loggingService.newOfferEvent(offer);
+
         return ResponseEntity.ok(new DealTO(offer));
     }
 
@@ -88,41 +89,32 @@ public class DealService {
     }
 
     public ResponseEntity<DetailedDesireTO> deleteOffer(String offerId){
-        deleteDeal(offerId, offersRepository, (user, deal) -> user.getUserDeals().deleteOffer((Offer)deal));
+        deleteDeal(offerId,offersRepository, (user, deal) -> user.getUserDeals().deleteOffer(deal));
         return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<DetailedDesireTO> deleteDesire(String offerId){
-        deleteDeal(offerId, desiresRepository, (user, deal) -> user.getUserDeals().deleteDesire((Desire)deal));
+        deleteDeal(offerId,offersRepository, (user, deal) -> user.getUserDeals().deleteDesire(deal));
         return ResponseEntity.ok().build();
     }
-/*this change by that*/
+
     private <T extends Deal> void deleteDeal(String dealId, DealRepository<T> repository, UserDealDeleter deleter){
         T deal = repository.getDeal(dealId);
         Product product = deal.getDealProduct();
         User user = deal.getDealHolder();
-        /*offersRepository.removeDeal(dealId);
-        user.getUserDeals().
-        deal.close();*/
+        offersRepository.removeDeal(dealId);
+
+        closeDeal(deal.getResponsesAsList(), user);
 
         deleter.delete(user,deal);
 
-        user.getBackpack().putProduct(product, user.getId());
+        user.getBackpack().putProduct(product);
     }
 
     private <T extends Deal> List<T> constructRelevantList(List<T> deals, String userId , DealPredicate predicate){
         User user = users.getUser(userId);
-        Deal deal;
-
-        for (Product product : user.getBackpack().getProducts()) {
-            for (int i = 0; i < deals.size(); ++i) {
-                deal = deals.get(i);
-                if (predicate.isRelevant(deal,product)) {
-                    deals.remove(i);
-                    deals.add(0, (T) deal);
-                }
-            }
-        }
+        List<Product> products = user.getBackpack().getProducts();
+        products.forEach(product -> deals.sort((d1, d2) -> (predicate.isRelevant(d1,product)) ? -1: 1));
 
         return deals;
     }
@@ -135,4 +127,9 @@ public class DealService {
         return offer.getDescription().contains(product.getName());
     }
 
+    private void closeDeal(List<DealResponse> responses, User dealHolder){
+        for(DealResponse response : responses) {
+            response.discard(dealHolder);
+        }
+    }
 }
