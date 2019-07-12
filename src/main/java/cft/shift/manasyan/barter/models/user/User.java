@@ -21,13 +21,13 @@ public class User {
         this.name = name;
         this.backpack = new Backpack(this.id);
         this.userDeals = new UserDeals(this.id);
-        this.userResponses = new UserResponses(this.id);
+        this.userResponses = new UserResponses();
     }
     public User(String name, String userId) {
         this.name = name;
         this.backpack = new Backpack(userId);
         this.userDeals = new UserDeals(userId);
-        this.userResponses = new UserResponses(userId);
+        this.userResponses = new UserResponses();
         this.id = userId;
     }
 

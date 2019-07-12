@@ -5,12 +5,14 @@ import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.repositories.databases.disk.DatabaseProductRepository;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-//@Component
+/*@Component
+@Configurable*/
 public class Backpack {
 
     @Autowired

@@ -7,8 +7,9 @@ import cft.shift.manasyan.barter.models.deals.Offer;
 import cft.shift.manasyan.barter.models.dtos.*;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.user.User;
-import cft.shift.manasyan.barter.repositories.DealRepository;
-import cft.shift.manasyan.barter.repositories.UserRepository;
+
+import cft.shift.manasyan.barter.repositories.databases.interfaces.DealRepository;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.UserRepository;
 import cft.shift.manasyan.barter.services.helpers.DealPredicate;
 import cft.shift.manasyan.barter.services.helpers.UserDealDeleter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.List;
 public class DealService {
 
     @Autowired
+    @Qualifier("sql")
     private UserRepository users;
 
     @Autowired
@@ -89,12 +91,12 @@ public class DealService {
     }
 
     public ResponseEntity<DetailedDesireTO> deleteOffer(String offerId){
-        deleteDeal(offerId,offersRepository, (user, deal) -> user.getUserDeals().deleteOffer(deal));
+        deleteDeal(offerId,offersRepository, (user, deal) -> user.getUserDeals().deleteOffer((Offer)deal));
         return ResponseEntity.ok().build();
     }
 
     public ResponseEntity<DetailedDesireTO> deleteDesire(String offerId){
-        deleteDeal(offerId,offersRepository, (user, deal) -> user.getUserDeals().deleteDesire(deal));
+        deleteDeal(offerId,offersRepository, (user, deal) -> user.getUserDeals().deleteDesire((Desire)deal));
         return ResponseEntity.ok().build();
     }
 
@@ -108,7 +110,7 @@ public class DealService {
 
         deleter.delete(user,deal);
 
-        user.getBackpack().putProduct(product);
+        user.getBackpack().putProduct(product, user.getId());
     }
 
     private <T extends Deal> List<T> constructRelevantList(List<T> deals, String userId , DealPredicate predicate){

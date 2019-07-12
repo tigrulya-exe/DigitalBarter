@@ -88,7 +88,7 @@ public class UserService {
 
     public ResponseEntity<Product> putProductInBackpack(String userId, Product product) {
         User user = users.getUser(userId);
-        user.getBackpack().putProduct(product);
+        user.getBackpack().putProduct(product, userId);
 
         loggingService.newProductEvent(userId, product);
         return ResponseEntity.ok(product);

@@ -8,14 +8,12 @@ import cft.shift.manasyan.barter.models.dtos.ResponseTO;
 import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.user.User;
-import cft.shift.manasyan.barter.repositories.DealRepository;
 import cft.shift.manasyan.barter.repositories.UserRepository;
+import cft.shift.manasyan.barter.repositories.databases.interfaces.DealRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.ExecutorService;
 
 @Service
 public class ResponseService {
@@ -45,7 +43,7 @@ public class ResponseService {
     public ResponseEntity<?> acceptDesire(String desireId, String responseId) {
         Desire desire = desiresRepository.getDeal(desireId);
         desiresRepository.removeDeal(desireId);
-        desire.getDealHolder().getUserDeals().deleteOffer(desire);
+        desire.getDealHolder().getUserDeals().deleteDesire(desire);
 
         for(DealResponse response :  desire.getResponses().values()){
             User user = response.getResponseHolder();
@@ -83,7 +81,7 @@ public class ResponseService {
 
     public ResponseEntity<?> handleSecondDesireResponse(String productId, String desireId, String responseId){
         Desire desire = desiresRepository.getDeal(desireId);
-        DesireResponse response = desire.getDealResponse(responseId);
+        DesireResponse response = (DesireResponse) desire.getDealResponse(responseId);
         Product product = desire.getDealHolder().getBackpack().getAndDeleteProduct(productId);
         response.setDesiredProductResponse(product);
 

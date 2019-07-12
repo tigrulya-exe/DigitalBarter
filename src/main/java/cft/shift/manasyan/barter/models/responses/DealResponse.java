@@ -12,7 +12,7 @@ public class DealResponse {
     public DealResponse(User responseHolder, Product responseProduct) {
         this.responseHolder = responseHolder;
         this.responseProduct = responseProduct;
-        this.id = responseHolder.getUid();
+        this.id = responseHolder.getId();
 
         registerResponse();
     }
@@ -34,12 +34,12 @@ public class DealResponse {
     }
 
     public void accept(User dealOwner, Product dealOwnerProduct) {
-        dealOwner.getBackpack().putProduct(responseProduct);
-        responseHolder.getBackpack().putProduct(dealOwnerProduct);
+        dealOwner.getBackpack().putProduct(responseProduct, dealOwner.getId());
+        responseHolder.getBackpack().putProduct(dealOwnerProduct, responseHolder.getId());
     }
 
     public void discard(User dealOwner){
-        responseHolder.getBackpack().putProduct(responseProduct);
+        responseHolder.getBackpack().putProduct(responseProduct, responseHolder.getId());
     }
 
 }

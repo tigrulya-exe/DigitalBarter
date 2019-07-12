@@ -10,6 +10,11 @@ public class DesireResponse extends DealResponse {
         super(responseHolder, desiredProduct);
     }
 
+    public DesireResponse(User responseHolder, Product responseProduct, Product desiredProductResponse) {
+        super(responseHolder, responseProduct);
+        this.desiredProductResponse = desiredProductResponse;
+    }
+
     @Override
     protected void registerResponse(){
         getResponseHolder().getUserResponses().addDesireResponse(this);
@@ -21,8 +26,8 @@ public class DesireResponse extends DealResponse {
 
     @Override
     public void accept(User dealOwner, Product dealOwnerProduct) {
-        dealOwner.getBackpack().putProduct(getResponseProduct());
-        getResponseHolder().getBackpack().putProduct(desiredProductResponse);
+        dealOwner.getBackpack().putProduct(getResponseProduct(), dealOwner.getId());
+        getResponseHolder().getBackpack().putProduct(desiredProductResponse, getResponseHolder().getId());
     }
 
     public Product getDesiredProductResponse() {
@@ -32,7 +37,7 @@ public class DesireResponse extends DealResponse {
     public void discard(User dealOwner){
         super.discard(dealOwner);
         if (desiredProductResponse != null)
-            dealOwner.getBackpack().putProduct(desiredProductResponse);
+            dealOwner.getBackpack().putProduct(desiredProductResponse, getResponseHolder().getId());
     }
 
 }

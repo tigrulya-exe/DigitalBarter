@@ -1,10 +1,12 @@
 package cft.shift.manasyan.barter.models.deals;
 
 import cft.shift.manasyan.barter.exceptions.NotFoundException;
+import cft.shift.manasyan.barter.models.responses.DealResponse;
 import cft.shift.manasyan.barter.models.responses.DesireResponse;
 import cft.shift.manasyan.barter.models.Product;
 import cft.shift.manasyan.barter.models.user.User;
 import cft.shift.manasyan.barter.models.dtos.DesireTO;
+import lombok.NonNull;
 
 public class Desire extends Deal {
     public Desire(DesireTO desireDTO, User user) {
@@ -16,7 +18,12 @@ public class Desire extends Deal {
         holder.getUserDeals().addDesire(this);
     }
 
-//    @Override
+    @Override
+    protected DesireResponse createDealResponse(@NonNull User user, @NonNull Product product) {
+        return new DesireResponse(user, product);
+    }
+
+    //    @Override
 //    public DesireResponse getDealResponse(String responseId){
 //        DesireResponse desireResponse = (DesireResponse) getResponses().get(responseId);
 //        if(desireResponse == null)

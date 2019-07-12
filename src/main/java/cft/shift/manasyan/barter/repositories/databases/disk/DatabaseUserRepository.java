@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Repository
@@ -23,8 +24,8 @@ public class DatabaseUserRepository implements UserRepository {
     @Autowired
     private UserExtractor userExtractor;
 
-    /*
-    @PostConstruct
+
+    /*@PostConstruct
     public void initialize()
     {
         String createGenerateUserIdSequenceSql = "create sequence USER_ID_GENERATOR";
@@ -42,6 +43,8 @@ public class DatabaseUserRepository implements UserRepository {
         addUser("Alina", new User("Alina"));
         addUser("Natasha", new User("Natasha"));
         addUser("Sveta", new User("Sveta"));
+        if(getUser("6546546545")==null)
+        System.out.println("it's null");
 
     }*/
 

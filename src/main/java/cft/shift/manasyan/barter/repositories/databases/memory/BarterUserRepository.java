@@ -1,7 +1,8 @@
-package cft.shift.manasyan.barter.repositories;
+package cft.shift.manasyan.barter.repositories.databases.memory;
 
 import cft.shift.manasyan.barter.exceptions.NotFoundException;
 import cft.shift.manasyan.barter.models.user.User;
+import cft.shift.manasyan.barter.repositories.UserRepository;
 import lombok.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class BarterUserRepository implements UserRepository{
+public class BarterUserRepository implements UserRepository {
     private Map<String, User> users;
 
     public BarterUserRepository() {
@@ -23,7 +24,7 @@ public class BarterUserRepository implements UserRepository{
     }
 
     public void addUser(@NonNull User user) {
-        users.put(user.getUid(), user);
+        users.put(user.getId(), user);
     }
 
     public void deleteUser(String userId) {

@@ -15,6 +15,11 @@ public class Offer extends Deal {
         super(user.getBackpack().getProduct(offerTO.getProductId()), user,  offerTO.getDescription());
     }
 
+    @Override
+    protected DealResponse createDealResponse(@NonNull User user, @NonNull Product product) {
+        return new DealResponse(user, product);
+    }
+
 //    @Override
 //    protected DealResponse createDealResponse(User user, Product product) {
 //        return new DealResponse(user,product);
